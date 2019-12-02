@@ -1,0 +1,43 @@
+Add Success, ID generated for added page is a9d22eb2d49a07cb6b9430538802e18b
+Add Success, ID generated for added page is d0b75300ade9ea73cf45f29c7aac6ffa
+Add Success, ID generated for added page is 15fc19f3766fd7edf1f129018faa29cc
+
+IPSC -Command "Help" -HelpType "QuickHelp"
+
+IPSC -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC" -OutputFolder "F:\SiteOutputFolder"
+
+IPSC -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site 1" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC"
+
+IPSC -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site " -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "Test Site for IPSC"
+
+IPSC -Command "GetSiteProperty" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+
+IPSC -Command "ListSourcePages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+
+IPSC -Command "ListOutputPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+
+IPSC -Command "ListPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "d0b75300ade9ea73cf45f29c7aac6ffa"
+
+IPSC -Command "CreateMarkdown" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.md" -MarkdownType "News"
+
+IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" 
+
+IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.html" -PageType "Html" -PageTitle "Test Html Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop
+
+IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop
+
+IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185" -PagePath "F:\MarkdownWorkspace\A1.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "F:\MarkdownWorkspace\CNUK.png" -IsTop
+
+IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "15fc19f3766fd7edf1f129018faa29cc" -LinkUrl "https://www.microsoft.com"
+
+IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"  -PageTitle "Test Page Title 2"
+
+IPSC -Command "DeletePage"  -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185" -RestorePage
+
+IPSC -Command "ListRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+
+IPSC -Command "RestoreRecycledPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"
+
+IPSC -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+
+IPSC -Command "Complie" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
