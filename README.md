@@ -1,23 +1,7 @@
 # ipsc
 IPSC(Inter Planet Site Creator) is a tool to create static html site with index pages from md,html and hyperlink
 
-
-## Table of Contents
-
-- [Background](#background)
-- [Install](#install)
-- [Usage](#usage)
-	- [Generator](#generator)
-- [Badge](#badge)
-- [Example Readmes](#example-readmes)
-- [Related Efforts](#related-efforts)
-- [Maintainers](#maintainers)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Background
-
-IPSC (Inter Planet Site Creator ) is a tool to create static html site with index pages from md,html and hyperlink.
 
 IPFS (Inter Planet File System [IPFS](https://ipfs.io)) is a peer-to-peer hyperlink protocol which is used to publish content. We can publish a web site  on IPFS as we publish a site on http.
 
