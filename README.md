@@ -19,7 +19,7 @@ The site created by IPCS looks as follows:
     - A1_xxxxxx.html
     - A2_xxxxxx.html
 
-![Output Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/OutputFolder.png)
+![Output Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/outputfolder.png)
 
 index.html is the entry point of the site, it looks like:
 
@@ -33,11 +33,11 @@ And the More... links to more1.html which contains links that index.html cannot 
 
 Download the release for your platform from Release folder
 
-![Release Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/Release1.png)
+![Release Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/release1.png)
 
 
 
-![Release Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/Release2.png)
+![Release Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/release2.png)
 
 
 ## Build
