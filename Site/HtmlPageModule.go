@@ -246,8 +246,8 @@ func (hpmp *HtmlPageModule) UpdateHtmlInformation(title, description, author, fi
 	return true, nil
 }
 
-//Complie Html, just copy html from Src to Output folder, change sourceinformation and add PageOutputFile
-func (hpmp *HtmlPageModule) Complie(ID string) (int, error) {
+//Compile Html, just copy html from Src to Output folder, change sourceinformation and add PageOutputFile
+func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 	iFind := hpmp.spp.GetPageSourceFile(ID)
 	if iFind == -1 {
 		var errMsg string
@@ -265,7 +265,7 @@ func (hpmp *HtmlPageModule) Complie(ID string) (int, error) {
 
 	if psf.Status == Page.RECYCLED {
 		var errMsg string
-		errMsg = "Page Source File is in Recycled status, cannot complie"
+		errMsg = "Page Source File is in Recycled status, cannot Compile"
 		return -1, errors.New(errMsg)
 	}
 

@@ -12,7 +12,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 
 
 *Create New Empty Site
-		IPSC -Command NewSite -SiteFolder  -SiteFolder -SiteTitle  -SiteAuthor  -SiteDescription  -OutputFolder
+		IPSC -Command “NewSite” -SiteFolder  -SiteFolder -SiteTitle  -SiteAuthor  -SiteDescription  -OutputFolder
 
 	Create a new empty site project
 
@@ -165,13 +165,13 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 		*PageDescription not used now, so the index page created will only contains page title and page title image
 		*PageType
 			-Markdown
-				Add md file to the site project folder, when you complie the site project, IPSC will call pandoc to convert md to html,output the html file to output folder
+				Add md file to the site project folder, when you Compile the site project, IPSC will call pandoc to convert md to html,output the html file to output folder
 			-Html
-				Add html file to the site proejct folder, when you complie the site project, IPSC will copy html from src to output folder directly.
+				Add html file to the site proejct folder, when you Compile the site project, IPSC will copy html from src to output folder directly.
 			-Link
 				Add link information to site project file. Link used to add external resources
 
-		*When you complie the site project, IPSC will use information stored in siteproject file to created index md file and complie it to index.html. For more information, read description of Complie command .
+		*When you Compile the site project, IPSC will use information stored in siteproject file to created index md file and Compile it to index.html. For more information, read description of Compile command .
 
 	Example
 		IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop false
@@ -267,15 +267,15 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 	Example
 		IPSC -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
-* Complie the site
-		IPSC -Command "Complie" -SiteFolder -SiteTitle -IndexPageSize
+* Compile the site
+		IPSC -Command "Compile" -SiteFolder -SiteTitle -IndexPageSize
 
-	Complie the site, change md to html and save it to output, copy html to output, create index page and more pages, then covert them to html,and save to output
+	Compile the site, change md to html and save it to output, copy html to output, create index page and more pages, then covert them to html,and save to output
 
 	Example
-		IPSC -Command "Complie" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
+		IPSC -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
 
-	This command will complie site "Test Site", create index page and more Pages
+	This command will Compile site "Test Site", create index page and more Pages
 	Note:
 		IndexPage is the entry page of the site, will contain the site title, site description and a list of hyperlinks, which point to the pages complied from source page.
 		IndexPageSize means how many items an index page or more page  will contains
@@ -287,14 +287,14 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 			*VerySmall 5
 			*Big 30
 	You can find index.html more1.html more2.html at root folder of output folder, and other htmls in outputfolder/Pages/
-	Complie will return complie summary as follows:
+	Compile will return Compile summary as follows:
 	---
-	Complie Summary:
+	Compile Summary:
 		Index 1
 		More: 2
 		Markdown: 2
 		Html: 2
 		Link: 6
-	
+
 You can find other general information in ReadMe.txt
 You can run IPSC -h to get descriptions of each parameter

@@ -462,7 +462,7 @@ func (smp *SiteModule) CleanRecycledPageSourceFiles() (bool, error) {
 	return smp.spp.SaveToFile(siteProjectFilePath)
 }
 
-func (smp *SiteModule) Complie(indexPageSize string) (bool, error) {
+func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 	var mdCount, htmlCount, linkCount int
 	mdCount = 0
 	htmlCount = 0
@@ -475,19 +475,19 @@ func (smp *SiteModule) Complie(indexPageSize string) (bool, error) {
 			//Complied, but source file changed
 			if (sp.LastComplied == "" && sp.OutputFile == -1) || (sp.OutputFile != -1 && sp.LastComplied != "" && sp.LastModified != "" && sp.LastComplied < sp.LastModified) {
 				if sp.Type == Page.MARKDOWN {
-					_, errComplieMd := smp.mpp.Complie(sp.ID)
+					_, errComplieMd := smp.mpp.Compile(sp.ID)
 					if errComplieMd != nil {
 						return false, errComplieMd
 					}
 					mdCount++
 				} else if sp.Type == Page.HTML {
-					_, errComplieHtml := smp.hpp.Complie(sp.ID)
+					_, errComplieHtml := smp.hpp.Compile(sp.ID)
 					if errComplieHtml != nil {
 						return false, errComplieHtml
 					}
 					htmlCount++
 				} else if sp.Type == Page.LINK {
-					_, errComplieLink := smp.lp.Complie(sp.ID)
+					_, errComplieLink := smp.lp.Compile(sp.ID)
 					if errComplieLink != nil {
 						return false, errComplieLink
 					}
@@ -511,7 +511,7 @@ func (smp *SiteModule) Complie(indexPageSize string) (bool, error) {
 	moreCount = 0
 	//Create more pages when the count of output files is bigger than index page size
 	if nIndexPageSize < nOutputFileLength {
-		//Delete More Pages created last complie
+		//Delete More Pages created last Compile
 		var deletedSourceIndexs []Page.PageSourceFile
 		for _, oldIndexSource := range smp.spp.MorePageSourceFiles {
 			if oldIndexSource.Type == Page.INDEX {
@@ -574,16 +574,16 @@ func (smp *SiteModule) Complie(indexPageSize string) (bool, error) {
 		}
 	}
 
-	//Complie Index Page and More Pages
+	//Compile Index Page and More Pages
 
-	_, errComplieIndex := smp.mpp.Complie_Psf(smp.spp.IndexPageSourceFile)
+	_, errComplieIndex := smp.mpp.Compile_Psf(smp.spp.IndexPageSourceFile)
 
 	if errComplieIndex != nil {
 		return false, errComplieIndex
 	}
 
 	for _, morePsf := range smp.spp.MorePageSourceFiles {
-		_, errComplieMore := smp.mpp.Complie_Psf(morePsf)
+		_, errComplieMore := smp.mpp.Compile_Psf(morePsf)
 		if errComplieMore != nil {
 			return false, errComplieMore
 		}

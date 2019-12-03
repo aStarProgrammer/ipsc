@@ -76,7 +76,7 @@ func (lmp *LinkModule) GetLink(ID string) int {
 	return lmp.spp.GetPageSourceFile(ID)
 }
 
-func (lmp *LinkModule) Complie(ID string) (int, error) {
+func (lmp *LinkModule) Compile(ID string) (int, error) {
 	iFind := lmp.spp.GetPageSourceFile(ID)
 	if iFind == -1 {
 		var errMsg string
@@ -94,7 +94,7 @@ func (lmp *LinkModule) Complie(ID string) (int, error) {
 
 	if psf.Status == Page.RECYCLED {
 		var errMsg string
-		errMsg = "Page Source File is in Recycled status, cannot complie"
+		errMsg = "Page Source File is in Recycled status, cannot Compile"
 		return -1, errors.New(errMsg)
 	}
 

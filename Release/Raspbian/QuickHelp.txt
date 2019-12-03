@@ -124,12 +124,12 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 	Example
 		IPSC -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
-* Complie the site
-		IPSC -Command "Complie" -SiteFolder -SiteTitle -IndexPageSize
+* Compile the site
+		IPSC -Command "Compile" -SiteFolder -SiteTitle -IndexPageSize
 
-	Complie the site, change md to html and save it to output, copy html to output, create index page and more pages, then covert them to html,and save to output
+	Compile the site, change md to html and save it to output, copy html to output, create index page and more pages, then covert them to html,and save to output
 
 	Example
-		IPSC -Command "Complie" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
+		IPSC -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
 
 For full help, run ipsc -Help FullHelp

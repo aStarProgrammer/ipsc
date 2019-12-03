@@ -166,7 +166,7 @@ func (cpp *CommandParser) ParseCommand() bool {
 			fmt.Fprintln(os.Stderr, "Page ID is empty,don't know which page to restore")
 			ret = false
 		}
-	case COMMAND_COMPLIE:
+	case COMMAND_COMPILE:
 	case COMMAND_LISTRECYCLEDPAGES:
 	case COMMAND_RESTORERECYCLEDPAGE:
 		if cpp.PageID == "" {

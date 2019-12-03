@@ -126,11 +126,11 @@ func Dispatch(cp CommandParser) (bool, error) {
 		case COMMAND_LISTPAGE:
 			DisplayPage(smp, cp.PageID)
 
-		case COMMAND_COMPLIE:
+		case COMMAND_COMPILE:
 			var sitePageSize = IndexPageSizeConvert(cp.IndexPageSize)
-			bComplie, errComplie := smp.Complie(sitePageSize)
+			bComplie, errComplie := smp.Compile(sitePageSize)
 			if errComplie == nil {
-				fmt.Println("Complie Summary:")
+				fmt.Println("COMPILE Summary:")
 				DisplayComplieSummary("    ", smp.GetSiteProject().LastComplieSummary)
 			}
 			return bComplie, errComplie

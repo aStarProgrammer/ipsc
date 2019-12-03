@@ -282,7 +282,7 @@ func (mpmp *MarkdownPageModule) UpdateMarkdownInformation(title, description, au
 	return true, nil
 }
 
-func (mpmp *MarkdownPageModule) Complie_Psf(psf Page.PageSourceFile) (int, error) {
+func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error) {
 	if psf.SourceFilePath == "" {
 		var errMsg string
 		errMsg = "Page Source File FilePath is emtpy"
@@ -343,7 +343,7 @@ func (mpmp *MarkdownPageModule) Complie_Psf(psf Page.PageSourceFile) (int, error
 		pandocCmd = exec.Command("bash", "-c", strPandocCmd)
 	} else { //Not support other platforms now
 		var errMsg string
-		errMsg = "Complie Markdown, not supported platform " + sysType
+		errMsg = "Compile Markdown, not supported platform " + sysType
 		return -1, errors.New(errMsg)
 	}
 
@@ -385,9 +385,9 @@ func (mpmp *MarkdownPageModule) Complie_Psf(psf Page.PageSourceFile) (int, error
 	return _pofID, nil
 }
 
-//Complie Markdown, call pandoc to convert md to html to Output folder
+//Compile Markdown, call pandoc to convert md to html to Output folder
 //change sourceinformation and add PageOutputFile
-func (mpmp *MarkdownPageModule) Complie(ID string) (int, error) {
+func (mpmp *MarkdownPageModule) Compile(ID string) (int, error) {
 	iFind := mpmp.spp.GetPageSourceFile(ID)
 	if iFind == -1 {
 		var errMsg string
@@ -396,7 +396,7 @@ func (mpmp *MarkdownPageModule) Complie(ID string) (int, error) {
 	}
 
 	psf := mpmp.spp.SourceFiles[iFind]
-	return mpmp.Complie_Psf(psf)
+	return mpmp.Compile_Psf(psf)
 }
 
 func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, error) {
