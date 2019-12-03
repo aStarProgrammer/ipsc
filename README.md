@@ -35,11 +35,11 @@ The site created by IPCS looks as follows:
     - A1_xxxxxx.html
     - A2_xxxxxx.html
 
-![image-20191203101729807](C:\Users\chxia\AppData\Roaming\Typora\typora-user-images\image-20191203101729807.png)
+![Output Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/OutputFolder.png)
 
 index.html is the entry point of the site, it looks like:
 
-![image-20191203101753808](C:\Users\chxia\AppData\Roaming\Typora\typora-user-images\image-20191203101753808.png)
+![index.html](https://github.com/aStarProgrammer/ipsc/blob/master/Images/index.png)
 
 
 
@@ -49,11 +49,11 @@ And the More... links to more1.html which contains links that index.html cannot 
 
 Download the release for your platform from Release folder
 
-![image-20191203102039890](C:\Users\chxia\AppData\Roaming\Typora\typora-user-images\image-20191203102039890.png)
+![Release Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/Release1.png)
 
 
 
-![image-20191203102125830](C:\Users\chxia\AppData\Roaming\Typora\typora-user-images\image-20191203102125830.png)
+![Release Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/Release2.png)
 
 
 ## Build
@@ -146,7 +146,7 @@ IPSC -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAu
 
 The site looks lite
 
-![image-20191203101628875](C:\Users\chxia\AppData\Roaming\Typora\typora-user-images\image-20191203101628875.png)
+![Empty Site Folder](https://github.com/aStarProgrammer/ipsc/blob/master/Images/sitefolder.png)
 
 ```bash
 IPSC -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC"
