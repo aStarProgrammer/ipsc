@@ -1,7 +1,7 @@
 package main
 
 import (
-	"IPSC/Page"
+	"ipsc/Page"
 	"flag"
 	"fmt"
 	"os"

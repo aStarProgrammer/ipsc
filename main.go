@@ -2,9 +2,9 @@
 package main
 
 import (
-	"IPSC/Page"
-	"IPSC/Site"
-	"IPSC/Utils"
+	"ipsc/Page"
+	"ipsc/Site"
+	"ipsc/Utils"
 	"errors"
 	"fmt"
 	"io/ioutil"

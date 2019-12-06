@@ -1,8 +1,8 @@
 package Configuration
 
 import (
-	"IPSC/Page"
-	"IPSC/Utils"
+	"ipsc/Page"
+	"ipsc/Utils"
 	"errors"
 	"io/ioutil"
 	"os"

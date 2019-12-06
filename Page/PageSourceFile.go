@@ -1,7 +1,7 @@
 package Page
 
 import (
-	"IPSC/Utils"
+	"ipsc/Utils"
 	"encoding/json"
 	"errors"
 	"reflect"

@@ -3,8 +3,8 @@
 package Site
 
 import (
-	"IPSC/Page"
-	"IPSC/Utils"
+	"ipsc/Page"
+	"ipsc/Utils"
 	"encoding/json"
 	"errors"
 	"io/ioutil"

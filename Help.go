@@ -1,7 +1,7 @@
 package main
 
 import (
-	"IPSC/Configuration"
+	"ipsc/Configuration"
 	//"fmt"
 	"io/ioutil"
 )

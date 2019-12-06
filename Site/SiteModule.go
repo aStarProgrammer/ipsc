@@ -1,9 +1,9 @@
 package Site
 
 import (
-	"IPSC/Configuration"
-	"IPSC/Page"
-	"IPSC/Utils"
+	"ipsc/Configuration"
+	"ipsc/Page"
+	"ipsc/Utils"
 	"errors"
 	"fmt"
 	"io/ioutil"
