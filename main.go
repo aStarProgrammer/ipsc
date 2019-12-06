@@ -356,7 +356,7 @@ func Run() {
 }
 
 func main() {
-	var softwareinfo = "IPSC 0.1.0.1"
+	var softwareinfo = "IPSC 0.1.0.2"
 	fmt.Println(softwareinfo)
 	Run()
 }

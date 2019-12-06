@@ -1,0 +1,5 @@
+0.1.0.1 2019/12/5
+*SiteFolder SiteOutputFolder SourcePagePath cannot contains space now, because ipsc will call cmd and bash to run some external commands, if these path have spaces in them, calling of external commands will fail.
+
+0.1.0.2 2019/12/6
+*Fix: when you delete source page file, will not delete the output file already complied.

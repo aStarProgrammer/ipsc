@@ -192,6 +192,14 @@ func (spp *SiteProject) RemovePageSourceFile(psf Page.PageSourceFile, restore bo
 				spp.SourceFiles[i].Status = Page.RECYCLED
 				return true, nil
 			}
+
+			if sf.OutputFile != -1 {
+				bDeleteOutput, errDeleteOutput := spp.RemovePageOutputFile(spp.OutputFiles[sf.OutputFile])
+				if errDeleteOutput != nil {
+					return bDeleteOutput, errDeleteOutput
+				}
+			}
+
 			spp.SourceFiles = append(spp.SourceFiles[:i], spp.SourceFiles[i+1:]...)
 			return true, nil
 		}
@@ -280,6 +288,11 @@ func (spp *SiteProject) RemovePageOutputFile(pof Page.PageOutputFile) (bool, err
 	for i, sf := range spp.OutputFiles {
 		if sf.ID == pof.ID {
 			spp.OutputFiles = append(spp.OutputFiles[:i], spp.OutputFiles[i+1:]...)
+			if sf.FilePath != "" {
+				if Utils.DeleteFile(sf.FilePath) == false {
+					return false, errors.New("Cannot delte output file of " + sf.FilePath)
+				}
+			}
 			return true, nil
 		}
 	}
