@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -66,19 +67,71 @@ func PathIsMarkdown(filePath string) bool {
 
 func MakeFolder(sPath string) (bool, error) {
 	if sPath == "" {
-		return false, errors.New("MakeFolder: sPath is empty")
+		var errMsg = "MakeFolder: sPath is empty"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	sFolderPath, errFolderPath := MakePath(sPath)
 
 	if errFolderPath != nil {
+		fmt.Println("MakeFolder: " + errFolderPath.Error())
 		return false, errFolderPath
 	}
 
 	errFolderPath = os.Mkdir(sFolderPath, os.ModePerm)
 
 	if errFolderPath != nil {
+		fmt.Println("MakeFolder: " + errFolderPath.Error())
 		return false, errFolderPath
+	}
+
+	return true, nil
+}
+
+func SaveBase64AsImage(imageContent, targetPath string) (bool, error) {
+	if imageContent == "" {
+		var errMsg = "SaveBase64AsImage : image content is empty"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+
+	if targetPath == "" {
+		var errMsg = "SaveBase64AsImage : target file path is empty"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+
+	if PathIsExist(targetPath) {
+		bDelete := DeleteFile(targetPath)
+		if bDelete == false {
+			var errMsg = "SaveBase64AsImage : target Path already exist and cannot delete"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		}
+	}
+
+	if strings.Contains(imageContent, "data:") == false || strings.Contains(imageContent, ";base64,") == false {
+		var errMsg = "SaveBase64AsImage : Image Content Format Error"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+
+	var base64Index = strings.Index(imageContent, ";base64,")
+	var base64Image = imageContent[base64Index+8:]
+
+	decodedImage, errDecode := base64.StdEncoding.DecodeString(base64Image)
+	if errDecode != nil {
+		var errMsg = "SaveBase64AsImage : Cannot Decode Base64 Image"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+	err2 := ioutil.WriteFile(targetPath, decodedImage, 0666)
+
+	if err2 != nil {
+		var errMsg = "SaveBase64AsImage : Cannot Save image"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	return true, nil
@@ -92,14 +145,18 @@ func ReadImageAsBase64(imagePath string) (string, error) {
 	image, errRead := ioutil.ReadFile(imagePath)
 
 	if errRead != nil {
-		return "", errors.New("ReadImageAsBase64: Read Fail")
+		var errMsg = "ReadImageAsBase64: Read Fail"
+		fmt.Println(errMsg)
+		return "", errors.New(errMsg)
 	}
 
 	imageBase64 := base64.StdEncoding.EncodeToString(image)
 
 	datatype, err2 := imgtype.Get(imagePath)
 	if err2 != nil {
-		return "", errors.New("ReadImageAsBase64: Cannot get image type")
+		var errMsg = "ReadImageAsBase64: Cannot get image type"
+		fmt.Println(errMsg)
+		return "", errors.New(errMsg)
 	} else {
 		retImage = "data:" + datatype + ";base64," + imageBase64
 	}
@@ -115,16 +172,52 @@ func PathIsImage(filePath string) bool {
 
 	_, err2 := imgtype.Get(filePath)
 	if err2 != nil {
+		fmt.Println("PathIsImage: " + err2.Error())
 		return false
 	}
 	return true
+}
+
+func GetImageType(base64Image string) (string, error) {
+	if base64Image == "" {
+		var errMsg = "Get Image Type: base64Image is empty"
+		fmt.Println(errMsg)
+		return "", errors.New(errMsg)
+	}
+
+	var datatypeParts = strings.Split(base64Image, ";") //Get data:image/png
+	if len(datatypeParts) > 1 {
+		var datatypePart = datatypeParts[0]
+		var datatypes = strings.Split(datatypePart, ":") //Get image/png
+		if len(datatypes) == 2 {
+			var datatype = datatypes[1]
+			var subTypes = strings.Split(datatype, "/") //Get png
+			if len(subTypes) == 2 {
+				return subTypes[1], nil
+			} else {
+				var errMsg = "Get Image Type : Cannot get image type"
+				fmt.Println(errMsg)
+				return "", errors.New(errMsg)
+			}
+		} else {
+			var errMsg = "Get Image Type : Cannot get image type"
+			fmt.Println(errMsg)
+			return "", errors.New(errMsg)
+		}
+	}
+
+	var errMsg = "Get Image Type : Cannot get image type"
+	fmt.Println(errMsg)
+	return "", errors.New(errMsg)
 }
 
 func MakePath(sPath string) (string, error) {
 	sfolder, sfile := filepath.Split(sPath)
 
 	if sfolder == "" || sfile == "" {
-		return "", errors.New("MakePath: folder or file name is empty folder " + sfolder + " file " + sfile)
+		var errMsg = "MakePath: folder or file name is empty folder " + sfolder + " file " + sfile
+		fmt.Println(errMsg)
+		return "", errors.New(errMsg)
 	}
 
 	sfolder = filepath.Clean(sfolder)
@@ -141,13 +234,17 @@ func MakeSoftLink4Folder(srcFolder, linkFolder string) (bool, error) {
 	srcExist := PathIsExist(srcFolder)
 
 	if !srcExist {
-		return false, errors.New("Make Soft Link 4 Folder: SrcFolder Not Exist " + srcFolder)
+		var errMsg = "Make Soft Link 4 Folder: SrcFolder Not Exist " + srcFolder
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	targetExist := PathIsExist(linkFolder)
 
 	if targetExist {
-		return false, errors.New("Make Soft Link 4 Folder:linkFolder Already Exist " + linkFolder)
+		var errMsg = "Make Soft Link 4 Folder:linkFolder Already Exist " + linkFolder
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	sysType := runtime.GOOS
@@ -165,6 +262,7 @@ func MakeSoftLink4Folder(srcFolder, linkFolder string) (bool, error) {
 	_, err := mkLinkCmd.Output()
 
 	if err != nil {
+		fmt.Println("MakeSoftLink: " + err.Error())
 		return false, err
 	}
 	return true, nil
@@ -173,22 +271,26 @@ func MakeSoftLink4Folder(srcFolder, linkFolder string) (bool, error) {
 func CopyFile(src, dst string) (int64, error) {
 	sourceFileStat, err := os.Stat(src)
 	if err != nil {
+		fmt.Println("CopyFile: " + err.Error())
 		return 0, err
 	}
 
 	if !sourceFileStat.Mode().IsRegular() {
 		var errMsg = "CopyFile " + src + "is not a regular file"
+		fmt.Println("CopyFile: " + errMsg)
 		return 0, errors.New(errMsg)
 	}
 
 	source, err := os.Open(src)
 	if err != nil {
+		fmt.Println("CopyFile: " + err.Error())
 		return 0, err
 	}
 	defer source.Close()
 
 	destination, err := os.Create(dst)
 	if err != nil {
+		fmt.Println("CopyFile: " + err.Error())
 		return 0, err
 	}
 	defer destination.Close()
@@ -200,12 +302,14 @@ func MoveFile(src, dst string) (int64, error) {
 	iCopy, errCopy := CopyFile(src, dst)
 
 	if errCopy != nil {
+		fmt.Println("MoveFile: " + errCopy.Error())
 		return 0, errCopy
 	}
 
 	errRemove := os.Remove(src)
 
 	if errRemove != nil {
+		fmt.Println("MoveFile: " + errRemove.Error())
 		return 0, errRemove
 	}
 
@@ -223,7 +327,9 @@ func DeleteFile(filePath string) bool {
 
 func Try2FindSpFile(siteFolderPath string) (string, error) {
 	if PathIsExist(siteFolderPath) == false {
-		return "", errors.New("Try2FindSpFile: Site Folder not exist")
+		var errMsg = "Try2FindSpFile: Site Folder not exist"
+		fmt.Println(errMsg)
+		return "", errors.New(errMsg)
 	}
 
 	var spCount int
@@ -237,7 +343,9 @@ func Try2FindSpFile(siteFolderPath string) (string, error) {
 			spFileName = f.Name()
 			spCount++
 			if spCount > 1 {
-				return "", errors.New("Try2FindSpFile: More than 1 .sp file")
+				var errMsg = "Try2FindSpFile: More than 1 .sp file"
+				fmt.Println(errMsg)
+				return "", errors.New(errMsg)
 			}
 		}
 	}

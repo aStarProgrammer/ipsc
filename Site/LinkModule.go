@@ -1,9 +1,10 @@
 package Site
 
 import (
+	"errors"
+	"fmt"
 	"ipsc/Page"
 	"ipsc/Utils"
-	"errors"
 	"os"
 )
 
@@ -42,13 +43,17 @@ func (lmp *LinkModule) AddLink(title, description, author, url, titleImagePath s
 		fileInfo, errFileInfo := os.Stat(titleImagePath)
 
 		if errFileInfo != nil {
-			return false, "", errors.New("Cannot get file size of titleImage")
+			var errMsg = "Cannot get file size of titleImage"
+			fmt.Println(errMsg)
+			return false, "", errors.New(errMsg)
 		}
 
 		imageSize := fileInfo.Size()
 
 		if imageSize > MAXTITLEIMAGESIZE {
-			return false, "", errors.New("Title Image bigger than 30KB")
+			var errMsg = "Title Image bigger than 30KB"
+			fmt.Println(errMsg)
+			return false, "", errors.New(errMsg)
 		}
 
 		psf.TitleImage, _ = Utils.ReadImageAsBase64(titleImagePath)
@@ -81,6 +86,7 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 	if iFind == -1 {
 		var errMsg string
 		errMsg = "Cannot find the source File with ID " + ID
+		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
@@ -89,12 +95,14 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 	if psf.SourceFilePath == "" {
 		var errMsg string
 		errMsg = "Page Source File Url is emtpy"
+		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
 	if psf.Status == Page.RECYCLED {
 		var errMsg string
 		errMsg = "Page Source File is in Recycled status, cannot Compile"
+		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
@@ -116,11 +124,13 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 	_pofID := lmp.spp.GetPageOutputFile(pof.ID)
 
 	if _pofID == -1 {
-		return _pofID, errors.New("Page Out File add Fail")
+		var errMsg = "Page Out File add Fail"
+		fmt.Println(errMsg)
+		return _pofID, errors.New(errMsg)
 	}
 
 	psf.OutputFile = _pofID
-	psf.LastComplied = Utils.CurrentTime()
+	psf.LastCompiled = Utils.CurrentTime()
 
 	lmp.spp.UpdatePageSourceFile(psf)
 

@@ -1,23 +1,23 @@
 IPSC(InterPlanet Site Creator) is a tool to create static html site with index pages from md,html and hyperlink
 
 *Get This Help
-		IPSC -Command "Help" -HelpType
+		ipsc -Command "Help" -HelpType
 
 	Get help
 		HelpType can be "QuickHelp" or "FullHelp"
 		QuickHelp will return this help, and FullHelp will return a help with more information
 
-	Note: IPSC -h will return all the parameters and their description
+	Note: ipsc -h will return all the parameters and their description
 
 
 
 *Create New Empty Site
-		IPSC -Command “NewSite” -SiteFolder  -SiteFolder -SiteTitle  -SiteAuthor  -SiteDescription  -OutputFolder
+		ipsc -Command “NewSite” -SiteFolder  -SiteFolder -SiteTitle  -SiteAuthor  -SiteDescription  -OutputFolder
 
 	Create a new empty site project
 
 	For Example:
-		IPSC -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC" -OutputFolder "F:\SiteOutputFolder"
+		ipsc -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for ipsc" -OutputFolder "F:\SiteOutputFolder"
 
 	This command will create an empty site folder at F:\TestSite, and it looks like
 		F:\TestSite
@@ -29,7 +29,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 				§ Pages
 
 	Following command will create a empty site folder, and has a sub folder named Output
-		IPSC -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC"
+		ipsc -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for ipsc"
 	Site Created looks like
 		F:\TestSite
 			○ Test Site.sp
@@ -40,12 +40,12 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 				§ Pages
 
 *Update Site Property
-		IPSC -Command "UpdateSite" -SiteFolder -SiteTitle -SiteAuthor -SiteDescription
+		ipsc -Command "UpdateSite" -SiteFolder -SiteTitle -SiteAuthor -SiteDescription
 
 	This command will update the properties stored in sp file and, will update the name of sp file as SiteTitle changed
 
 	Example:
-		IPSC -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site 1" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC"
+		ipsc -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site 1" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for ipsc"
 
 	Site Project folder changed to
 		F:\TestSite
@@ -56,29 +56,29 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 			○ Output(Soft Link->F:\SiteOutputFolder)
 				§ Pages
 	You can also just update 1 property, following command will only update SiteAuthor
-		IPSC -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteAuthor "Chao(sdxianchao@hotmail.com)"
+		ipsc -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteAuthor "Chao(sdxianchao@hotmail.com)"
 	If property not changed, the property will not be updated.Following command will update SiteAuthor only, as SiteTitle and SiteDescription not change
-		IPSC -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site " -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "Test Site for IPSC"
+		ipsc -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site " -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "Test Site for ipsc"
 
 *Get Site Properties
-		IPSC -Command "GetSiteProperty" -SiteFolder  -SiteTitle
+		ipsc -Command "GetSiteProperty" -SiteFolder  -SiteTitle
 
 	This command will display site properties of a site project
 
 	Example:
-		IPSC -Command "GetSiteProperty" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+		ipsc -Command "GetSiteProperty" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 	Note:
 		If you have only 1 .sp at the root folder of site project, you can ignore -SiteTitle, or -SiteTitle will be used to open the site project faster
 		You should not have more than 1 .sp file at the root folder of site project
 
 
 *List Source Pages
-		IPSC -Command "ListSourcePages" -SiteFolder -SiteTitle
+		ipsc -Command "ListSourcePages" -SiteFolder -SiteTitle
 
 	List all the source pages
 
 	Example
-		IPSC -Command "ListSourcePages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+		ipsc -Command "ListSourcePages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
 	This command will list all the source pages included in site project "Test Site":
 
@@ -92,7 +92,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 				Type: MARKDOWN
 				CreateTime: 2019-11-26 23:40:22
 				LastModified: 2019-11-27 23:27:47
-				LastComplied:
+				LastCompiled:
 				Status: ACTIVE
 				IsTop: true
 				SourceFilePath: F:\TestSite\Src\Markdown\A2.md
@@ -104,7 +104,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 				Type: HTML
 				CreateTime: 2019-11-26 23:43:19
 				LastModified: 2019-11-26 23:43:21
-				LastComplied:
+				LastCompiled:
 				Status: ACTIVE
 				IsTop: true
 				SourceFilePath: F:\TestSite\Src\Html\_A1.html
@@ -116,7 +116,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 				Type: LINK
 				CreateTime: 2019-11-26 23:59:10
 				LastModified: 2019-11-27 23:24:55
-				LastComplied:
+				LastCompiled:
 				Status: ACTIVE
 				IsTop: false
 				SourceFilePath: https://www.microsoft.com
@@ -125,39 +125,70 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 
 
 * List Output Pages
-		IPSC -Command "ListOutputPages" -SiteFolder -SiteTitle
+		ipsc -Command "ListOutputPages" -SiteFolder -SiteTitle
 
 	List all the output pages
 
 	Example
-		IPSC -Command "ListOutputPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+		ipsc -Command "ListOutputPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
 	This commands will list all the output pages
-	Note:output pages are the pages complied by IPSC, they are always html
+	Note:output pages are the pages Compiled by ipsc, they are always html
 
 * List Page
-		IPSC -Command "ListPage" -SiteFolder  -SiteTitle  -PageID
+		ipsc -Command "ListPage" -SiteFolder  -SiteTitle  -PageID
 
 	Display properties of page with specific ID
 
 	Example
-		IPSC -Command "ListPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "d0b75300ade9ea73cf45f29c7aac6ffa"
+		ipsc -Command "ListPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "d0b75300ade9ea73cf45f29c7aac6ffa"
 
 	This command will display page d0b75300ade9ea73cf45f29c7aac6ffa in site project "Test Site":
 
+* Export Source Pages
+		ipsc -Command "ExportSourcePages" -SiteFolder -SiteTitle -ExportFolder
+	
+	Export source files (Markdown,Html,Links and title images) into ExportFolder
+	
+	Example 
+		ipsc -Command "ExportSourcePages" -SiteFoler "F:\TestSite" -SiteTitle "Test Site" -ExportFolder "F:\WatchDogSpace"
 
+	This command will export files 2 F:\WatchDogSpace, if SiteFolder F:\TestSite looks like
+	
+		*SiteFolder
+			Test Site.sp (Several Links stored in Test Site.sp)
+			Markdown
+				A1.md (ID: a9d22eb2d49a07cb6b9430538802e18b)
+				A2.md (ID: d0b75300ade9ea73cf45f29c7aac6ffa)
+			Html
+				H1.html (ID: 15fc19f3766fd7edf1f129018faa29cc)
+				
+	
+	F:\WatchDogSpace should looks like:
+		*ExportFolder
+			Markdown
+				A1.md
+				A2.md
+				a9d22eb2d49a07cb6b9430538802e18b.png (Title Image for A1.md)
+				d0b75300ade9ea73cf45f29c7aac6ffa.png (Title Image for A2.md)
+			Html
+				H1.html
+				15fc19f3766fd7edf1f129018faa29cc.jpg (Title Image for H1.html)
+			Link
+				Link.txt
+				
 *Create Markdown File
-		IPSC -Command "CreateMarkdown" -SiteFolder -SiteTitle -PagePath -MarkdownType
+		ipsc -Command "CreateMarkdown" -SiteFolder -SiteTitle -PagePath -MarkdownType
 
 	Create Markdown file at PagePath with MarkdownType, copy needed md file from SiteFolder with SiteTitle
 
 	Example
-		IPSC -Command "CreateMarkdown" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.md" -MarkdownType "News"
+		ipsc -Command "CreateMarkdown" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.md" -MarkdownType "News"
 
 	This command will create  F:\MarkdownWorkspace\_A1.md, type is News, template file is F:\TestSite\Templates\News.md
 
 *Add Page
-		IPSC -Command "AddPage" -SiteFolder -SiteTitle -PagePath -LinkUrl -PageType -PageTitle -PageAuthor -TitleImage -IsTop
+		ipsc -Command "AddPage" -SiteFolder -SiteTitle -PagePath -LinkUrl -PageType -PageTitle -PageAuthor -TitleImage -IsTop
 
 	Add the Source Page file, with type PageType (MARKDOWN,HTML,LINK) to the SiteFolder\Src\Markdown or SiteFolder\Src\Html, and add metadata to site project file, including PageTitle PageAuthor PageTitleImage
 
@@ -165,29 +196,29 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 		*PageDescription not used now, so the index page created will only contains page title and page title image
 		*PageType
 			-Markdown
-				Add md file to the site project folder, when you Compile the site project, IPSC will call pandoc to convert md to html,output the html file to output folder
+				Add md file to the site project folder, when you Compile the site project, ipsc will call pandoc to convert md to html,output the html file to output folder
 			-Html
-				Add html file to the site proejct folder, when you Compile the site project, IPSC will copy html from src to output folder directly.
+				Add html file to the site proejct folder, when you Compile the site project, ipsc will copy html from src to output folder directly.
 			-Link
 				Add link information to site project file. Link used to add external resources
 
-		*When you Compile the site project, IPSC will use information stored in siteproject file to created index md file and Compile it to index.html. For more information, read description of Compile command .
+		*When you Compile the site project, ipsc will use information stored in siteproject file to created index md file and Compile it to index.html. For more information, read description of Compile command .
 
 	Example
-		IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop false
+		ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop false
 
 	This command will add A1.md to site proejct , and it will not be on top of index.html. And it will return the ID of page , which can be used to find the page when you want to update it or delete it.
 
-		IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.html" -PageType "Html" -PageTitle "Test Html Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop true
+		ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.html" -PageType "Html" -PageTitle "Test Html Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop true
 
 	This command will add _A1.html to site project, and it will on the top of index.html
 
-		IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop true
+		ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop true
 
 	This command will add https://www.google.com to site project as link, it will not add files, but the link will be added to the site project file, and index.html will include this link.
 
 *Update Page
-		IPSC -Command "UpdatePage" -SiteFolder -SiteTitle -PageID -PagePath -LinkUrl -PageTitle -PageAuthor -TitleImage -IsTop
+		ipsc -Command "UpdatePage" -SiteFolder -SiteTitle -PageID -PagePath -LinkUrl -PageTitle -PageAuthor -TitleImage -IsTop
 
 	Update the Source Page file, Update the file or properties if any of them are assigned.
 
@@ -196,33 +227,33 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 		*PageType  same as Add Page
 
 	Example
-		IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185" -PagePath "F:\MarkdownWorkspace\A1.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "F:\MarkdownWorkspace\CNUK.png" -IsTop true
+		ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185" -PagePath "F:\MarkdownWorkspace\A1.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "F:\MarkdownWorkspace\CNUK.png" -IsTop true
 
 	This command will update the page with ID fc0f8d635ebb04d1c9393a722e8fc185, update its source file "A1.md" has been changed, pdate its PageTitle, PageAuthor,PageTitleImage
 
-		IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"  -PageTitle "Test Page Title 2"
+		ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"  -PageTitle "Test Page Title 2"
 
 	This command will update page title of Page
 
-		IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "15fc19f3766fd7edf1f129018faa29cc" -LinkUrl "https://www.microsoft.com"
+		ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "15fc19f3766fd7edf1f129018faa29cc" -LinkUrl "https://www.microsoft.com"
 
 	This command will update Link Url from https://www.google.com to https://www.microsoft.com of Page 15fc19f3766fd7edf1f129018faa29cc
 
 *Delete Page
-		IPSC -Command "DeletePage" -SiteFolder -SiteTitle -PageID -RestorePage
+		ipsc -Command "DeletePage" -SiteFolder -SiteTitle -PageID -RestorePage
 
 	Delete the page with PageID from site project , if RestorePage is true, page will be moved to recycled bin. if RestorePage is false, page will be deleted directly. RestorePage defaultly true.
 
 	Example
-		IPSC -Command "DeletePage"  -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185" -RestorePage true
+		ipsc -Command "DeletePage"  -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185" -RestorePage true
 
 *List Recycled Pages
-		IPSC -Command "ListRecycledPages" -SiteFolder -SiteTitle
+		ipsc -Command "ListRecycledPages" -SiteFolder -SiteTitle
 
 	List all the pages in the recycled bin
 
 	Example
-		IPSC -Command "ListRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+		ipsc -Command "ListRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
 	Output:
 		There are 2 recycled pages
@@ -234,7 +265,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 			Type: MARKDOWN
 			CreateTime: 2019-11-26 23:40:22
 			LastModified: 2019-11-27 23:27:47
-			LastComplied:
+			LastCompiled:
 			Status: RECYCLED
 			IsTop: true
 			SourceFilePath: F:\TestSite\Src\Markdown\A2.md
@@ -246,38 +277,38 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 			Type: LINK
 			CreateTime: 2019-11-26 23:59:10
 			LastModified: 2019-11-27 23:24:55
-			LastComplied:
+			LastCompiled:
 			Status: RECYCLED
 			IsTop: false
 			SourceFilePath: https://www.microsoft.com
 			--------------
 
 *Restore Recycled Page
-		IPSC -Command "RestoreRecycledPage" -SiteFolder -SiteTitle -PageID
+		ipsc -Command "RestoreRecycledPage" -SiteFolder -SiteTitle -PageID
 
 	Restore page with PageID if page is recycled
 
 	Example
-		IPSC -Command "RestoreRecycledPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"
+		ipsc -Command "RestoreRecycledPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"
 
 *Clear Recycled Pages
-		IPSC -Command "ClearRecycledPages" -SiteFolder -SiteTitle
+		ipsc -Command "ClearRecycledPages" -SiteFolder -SiteTitle
 	Remove all the recycled pages
 
 	Example
-		IPSC -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+		ipsc -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
 * Compile the site
-		IPSC -Command "Compile" -SiteFolder -SiteTitle -IndexPageSize
+		ipsc -Command "Compile" -SiteFolder -SiteTitle -IndexPageSize
 
 	Compile the site, change md to html and save it to output, copy html to output, create index page and more pages, then covert them to html,and save to output
 
 	Example
-		IPSC -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
+		ipsc -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
 
 	This command will Compile site "Test Site", create index page and more Pages
 	Note:
-		IndexPage is the entry page of the site, will contain the site title, site description and a list of hyperlinks, which point to the pages complied from source page.
+		IndexPage is the entry page of the site, will contain the site title, site description and a list of hyperlinks, which point to the pages Compiled from source page.
 		IndexPageSize means how many items an index page or more page  will contains
 		If there are more than IndexPageSize pages in the site, they will be inserted to more pages, which mean more index pages.
 
@@ -297,4 +328,4 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 		Link: 6
 
 You can find other general information in ReadMe.txt
-You can run IPSC -h to get descriptions of each parameter
+You can run ipsc -h to get descriptions of each parameter
