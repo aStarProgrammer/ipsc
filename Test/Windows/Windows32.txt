@@ -2,42 +2,44 @@ A1.md 5744b81636e77a7278b25465ecbe0c47
 _A1.html 8c5c601caa9a288b8e8e9315caee93d7
 Link a5f163abf987087b54c67e25ee60d22d
 
-IPSC -Command "Help" -HelpType "QuickHelp"
+ipsc -Command "Help" -HelpType "QuickHelp"
 
-IPSC -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC" -OutputFolder "F:\SiteOutputFolder"
+ipsc -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "StarSite for IPSC" -OutputFolder "F:\SiteOutputFolder"
 
-IPSC -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site 1" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC"
+ipsc -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "StarSite 1" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "StarSite for IPSC"
 
-IPSC -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site " -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "Test Site for IPSC"
+ipsc -Command "UpdateSite" -SiteFolder "F:\TestSite" -SiteTitle "StarSite " -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "StarSite for IPSC"
 
-IPSC -Command "GetSiteProperty" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+ipsc -Command "GetSiteProperty" -SiteFolder "F:\TestSite" -SiteTitle "StarSite"
 
-IPSC -Command "ListSourcePages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+ipsc -Command "ListSourcePages" -SiteFolder "F:\TestSite" -SiteTitle "StarSite"
 
-IPSC -Command "ListOutputPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+ipsc -Command "ListOutputPages" -SiteFolder "F:\TestSite" -SiteTitle "StarSite"
 
-IPSC -Command "ListPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "8c5c601caa9a288b8e8e9315caee93d7"
+ipsc -Command "ListPage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PageID "8c5c601caa9a288b8e8e9315caee93d7"
 
-IPSC -Command "CreateMarkdown" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.md" -MarkdownType "News"
+ipsc -Command "ExportSourcePages" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -ExportFolder "F:\WatchDogSpace"
 
-IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" 
+ipsc -Command "CreateMarkdown" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PagePath "F:\MarkdownWorkspace\_A1.md" -MarkdownType "News"
 
-IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\_A1.html" -PageType "Html" -PageTitle "Test Html Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PagePath "F:\MarkdownWorkspace\A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" 
 
-IPSC -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PagePath "F:\MarkdownWorkspace\_A1.html" -PageType "Html" -PageTitle "Test Html Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop
 
-IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "5744b81636e77a7278b25465ecbe0c47" -PagePath "F:\MarkdownWorkspace\A1.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "F:\MarkdownWorkspace\CNUK.png" -IsTop
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\muxing.png" -IsTop
 
-IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "a5f163abf987087b54c67e25ee60d22d" -LinkUrl "https://www.microsoft.com"
+ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PageID "5744b81636e77a7278b25465ecbe0c47" -PagePath "F:\MarkdownWorkspace\A1.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "F:\MarkdownWorkspace\CNUK.png" -IsTop
 
-IPSC -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "5744b81636e77a7278b25465ecbe0c47"  -PageTitle "Test Page Title 2"
+ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PageID "a5f163abf987087b54c67e25ee60d22d" -LinkUrl "https://www.microsoft.com"
 
-IPSC -Command "DeletePage"  -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "5744b81636e77a7278b25465ecbe0c47" -RestorePage
+ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PageID "5744b81636e77a7278b25465ecbe0c47"  -PageTitle "Test Page Title 2"
 
-IPSC -Command "ListRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+ipsc -Command "DeletePage"  -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PageID "5744b81636e77a7278b25465ecbe0c47" -RestorePage
 
-IPSC -Command "RestoreRecycledPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "5744b81636e77a7278b25465ecbe0c47"
+ipsc -Command "ListRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "StarSite"
 
-IPSC -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
+ipsc -Command "RestoreRecycledPage" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -PageID "5744b81636e77a7278b25465ecbe0c47"
 
-IPSC -Command "Complie" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
+ipsc -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "StarSite"
+
+ipsc -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "StarSite" -IndexPageSize "Normal"

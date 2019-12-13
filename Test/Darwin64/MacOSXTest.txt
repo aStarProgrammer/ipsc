@@ -1,0 +1,38 @@
+./ipsc -Command "Help" -HelpType "QuickHelp"
+
+./ipsc -Command "NewSite" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "StarSite for IPSC" -OutputFolder "/Users/gongyali/Documents/IPSCTest/SiteOutputFolder"
+
+./ipsc -Command "UpdateSite" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite 1" -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "StarSite for ./IPSC123"
+
+./ipsc -Command "GetSiteProperty" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite"
+
+./ipsc -Command "ListSourcePages" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite"  -SiteTitle "StarSite"
+
+./ipsc -Command "ListOutputPages" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite"
+
+./ipsc -Command "ListPage" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PageID "838a73c6784b0d676233770156142c17"
+
+./ipsc -Command "ExportSourcePages" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -ExportFolder "/Users/gongyali/Documents/IPSCTest/WatchDogSpace"
+
+
+./ipsc -Command "CreateMarkdown" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PagePath "/Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/_A1.md" -MarkdownType "News"
+
+./ipsc -Command "AddPage" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PagePath "/Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "/Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/2.png"
+
+./ipsc -Command "AddPage" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PagePath "/Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/A2.html" -PageType "HTML" -PageTitle "Test HTML Page" -PageAuthor "Chao" -TitleImage "/Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/3.png" -IsTop 
+
+./ipsc -Command "AddPage" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "/Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/4.png" -IsTop 
+
+./ipsc -Command "UpdatePage" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PageID "838a73c6784b0d676233770156142c17" -PagePath "//Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/A2.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "/Users/gongyali/Documents/IPSCTest/MarkdownWorkspace/4.png" -IsTop
+
+./ipsc -Command "UpdatePage" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PageID "838a73c6784b0d676233770156142c17" -PageTitle "Test Markdown Page 2" -PageAuthor "Chao(sdxianchao@microsoft.com)"
+
+./ipsc -Command "DeletePage"  -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PageID "838a73c6784b0d676233770156142c17" -RestorePage
+
+./ipsc -Command "ListRecycledPages" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite"
+
+./ipsc -Command "RestoreRecycledPage" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -PageID "838a73c6784b0d676233770156142c17"
+
+./ipsc -Command "ClearRecycledPages" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite"
+
+./ipsc -Command "Compile" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "StarSite" -IndexPageSize "VerySmall"
