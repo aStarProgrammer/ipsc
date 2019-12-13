@@ -87,6 +87,35 @@ func (cpp *CommandParser) ParseCommand() bool {
 	cpp.PageType = strings.ToUpper(cpp.PageType)
 	cpp.HelpType = strings.ToUpper(cpp.HelpType)
 
+<<<<<<< HEAD
+=======
+	//Check Path, path cannot contains space
+	if strings.Contains(cpp.SiteFolderPath, " ") {
+		fmt.Println("CommandParse: Site Folder Path cannot contains space")
+		return false
+	}
+
+	if strings.Contains(cpp.ExportFolderPath, " ") {
+		fmt.Println("CommandParse: Export Folder Path cannot contains space")
+		return false
+	}
+
+	if strings.Contains(cpp.SiteOutputFolderPath, " ") {
+		fmt.Println("CommandParse: Site Output Folder Path cannot contains space")
+		return false
+	}
+
+	if strings.Contains(cpp.SiteTitle, " ") {
+		fmt.Println("CommandParse: Site Title cannot contains space")
+		return false
+	}
+
+	if strings.Contains(cpp.SourcePagePath, " ") {
+		fmt.Println("CommandParse: Source Page Path cannot contains space")
+		return false
+	}
+
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	//Check whether command is help, if it is help,jump other operations
 	if cpp.CurrentCommand == "" {
 		cpp.CurrentCommand = "HELP"

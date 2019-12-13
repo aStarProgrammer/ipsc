@@ -247,9 +247,27 @@ func MakeSoftLink4Folder(srcFolder, linkFolder string) (bool, error) {
 
 	errLink := os.Symlink(srcFolder, linkFolder)
 
+<<<<<<< HEAD
 	if errLink != nil {
 		fmt.Println("MakeSoftLink: " + errLink.Error())
 		return false, errLink
+=======
+	var mkLinkCmd *exec.Cmd
+
+	if "windows" == sysType {
+		mkLinkCmd = exec.Command("cmd", "/c", "mklink /j "+linkFolder+"  "+srcFolder)
+	} else if "linux" == sysType || "darwin" == sysType {
+		mkLinkCmd = exec.Command("bash", "-c", "ln -s "+srcFolder+" "+linkFolder)
+	} else { //Not support other platforms now
+		return false, nil
+	}
+
+	_, err := mkLinkCmd.Output()
+
+	if err != nil {
+		fmt.Println("MakeSoftLink: " + err.Error())
+		return false, err
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	}
 	return true, nil
 }

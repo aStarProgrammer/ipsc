@@ -52,7 +52,11 @@ func NewSiteModule_WithArgs(_projectFolderPath, _projectFileName string) *SiteMo
 	_, errOpen := smp.OpenSiteProject(_projectFolderPath, _projectFileName)
 	//fmt.Println("NewSMPointB")
 	if errOpen != nil {
+<<<<<<< HEAD
 		fmt.Println("SiteModule.NewSiteModule: Cannot create Site Module")
+=======
+		fmt.Println("NewSiteModule: Cannot create Site Module")
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		return nil
 	}
 
@@ -94,7 +98,11 @@ func (smp *SiteModule) GetTemplateFolderPath(projectFolderPath string) string {
 
 func (smp *SiteModule) GetSiteProjectFilePath(projectFolderPath string) (string, error) {
 	if nil != smp.spp && smp.spp.Title == "" {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.GetSiteProjectFilePath: SiteProject Title is empty"
+=======
+		var errMsg = "SiteProject Title is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
@@ -104,7 +112,11 @@ func (smp *SiteModule) GetSiteProjectFilePath(projectFolderPath string) (string,
 
 func (smp *SiteModule) PathIsSiteProject(projectPath, projectName string) (bool, error) {
 	if Utils.PathIsExist(projectPath) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.PathIsSiteProject: " + projectPath + " is not exist"
+=======
+		var errMsg = projectPath + " is not exist"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -117,7 +129,11 @@ func (smp *SiteModule) PathIsSiteProject(projectPath, projectName string) (bool,
 	}
 
 	if Utils.PathIsExist(projectFilePath) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.PathIsSiteProject: Cannot find sp file in project " + projectPath
+=======
+		var errMsg = "Cannot find sp file in project " + projectPath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -125,15 +141,25 @@ func (smp *SiteModule) PathIsSiteProject(projectPath, projectName string) (bool,
 	var sp SiteProject
 	_, loadError := sp.LoadFromFile(projectFilePath)
 	if loadError != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.PathIsSiteProject: Cannot load sp file in project " + projectPath
 		fmt.Println(errMsg)
 		return false, errors.New("SiteModuole.PathIsSiteProject: Cannot load sp file in project " + projectPath)
+=======
+		var errMsg = "Cannot load sp file in project " + projectPath
+		fmt.Println(errMsg)
+		return false, errors.New("Cannot load sp file in project " + projectPath)
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	}
 
 	var srcFolderPath = smp.GetSrcFolderPath(projectPath)
 
 	if Utils.PathIsExist(srcFolderPath) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.PathIsSiteProject: Cannot find src folder"
+=======
+		var errMsg = "Cannot find src folder"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -141,7 +167,11 @@ func (smp *SiteModule) PathIsSiteProject(projectPath, projectName string) (bool,
 	var markdownFolderPath = smp.GetSrcMarkdownFolderPath(projectPath)
 
 	if Utils.PathIsExist(markdownFolderPath) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.PathIsSiteProject: Cannot find markdown folder"
+=======
+		var errMsg = "Cannot find markdown folder"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -149,7 +179,11 @@ func (smp *SiteModule) PathIsSiteProject(projectPath, projectName string) (bool,
 	var htmlFolderPath = smp.GetSrcHtmlFolderPath(projectPath)
 
 	if Utils.PathIsExist(htmlFolderPath) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.PathIsSiteProject: Cannot find html folder"
+=======
+		var errMsg = "Cannot find html folder"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -157,7 +191,11 @@ func (smp *SiteModule) PathIsSiteProject(projectPath, projectName string) (bool,
 	var outputFolderPath = smp.GetOutputFolderPath(projectPath)
 
 	if Utils.PathIsExist(outputFolderPath) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.PathIsSiteProject: Cannot find output folder"
+=======
+		var errMsg = "Cannot find output folder"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -167,7 +205,11 @@ func (smp *SiteModule) PathIsSiteProject(projectPath, projectName string) (bool,
 
 func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDescription, _projectFolderPath, _outputFolderPath string) (bool, error) {
 	if _projectFolderPath == "" {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.InitializeSiteProjectFolder: Project Folder Path is empty"
+=======
+		var errMsg = "Project Folder Path is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -180,7 +222,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 		_, errProjectFolder = Utils.MakeFolder(_projectFolderPath)
 
 		if errProjectFolder != nil {
+<<<<<<< HEAD
 			fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errProjectFolder.Error())
+=======
+			fmt.Println(errProjectFolder.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			return false, errProjectFolder
 		}
 
@@ -193,7 +239,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 		_, errSrcFolderPath = Utils.MakeFolder(srcFolderPath)
 
 		if errSrcFolderPath != nil {
+<<<<<<< HEAD
 			fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errSrcFolderPath.Error())
+=======
+			fmt.Println(errSrcFolderPath.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			return false, errSrcFolderPath
 		}
 	}
@@ -205,7 +255,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 		_, errSrcMarkdownFoldrPath = Utils.MakeFolder(srcMarkdownFolderPath)
 
 		if errSrcMarkdownFoldrPath != nil {
+<<<<<<< HEAD
 			fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errSrcMarkdownFoldrPath.Error())
+=======
+			fmt.Println(errSrcMarkdownFoldrPath.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			return false, errSrcMarkdownFoldrPath
 		}
 	}
@@ -218,7 +272,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 		_, errSrcHtmlFolderPath = Utils.MakeFolder(srcHtmlFolderPath)
 
 		if errSrcHtmlFolderPath != nil {
+<<<<<<< HEAD
 			fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errSrcHtmlFolderPath.Error())
+=======
+			fmt.Println(errSrcHtmlFolderPath.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			return false, errSrcHtmlFolderPath
 		}
 	}
@@ -233,7 +291,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 			_, errOutputFolderPath = Utils.MakeFolder(outputFolderPath)
 
 			if errOutputFolderPath != nil {
+<<<<<<< HEAD
 				fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errOutputFolderPath.Error())
+=======
+				fmt.Println(errOutputFolderPath.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				return false, errOutputFolderPath
 			}
 
@@ -241,7 +303,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 			_, errOutputPagesFolder := Utils.MakeFolder(outputPagesSubFolder)
 
 			if errOutputPagesFolder != nil {
+<<<<<<< HEAD
 				fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errOutputPagesFolder.Error())
+=======
+				fmt.Println(errOutputPagesFolder.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				return false, errOutputPagesFolder
 			}
 
@@ -251,7 +317,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 			_, errOutputFolderPath = Utils.MakeSoftLink4Folder(_outputFolderPath, outputFolderPath)
 
 			if errOutputFolderPath != nil {
+<<<<<<< HEAD
 				fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errOutputFolderPath.Error())
+=======
+				fmt.Println(errOutputFolderPath.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				return false, errOutputFolderPath
 			}
 
@@ -261,7 +331,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 				_, errOutputPagesFolder := Utils.MakeFolder(outputPagesSubFolder)
 
 				if errOutputPagesFolder != nil {
+<<<<<<< HEAD
 					fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errOutputPagesFolder.Error())
+=======
+					fmt.Println(errOutputPagesFolder.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 					return false, errOutputPagesFolder
 				}
 			}
@@ -276,19 +350,31 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 		_, errTemplateFolder = Utils.MakeFolder(templateFolderPath)
 
 		if errTemplateFolder != nil {
+<<<<<<< HEAD
 			fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errTemplateFolder.Error())
+=======
+			fmt.Println(errTemplateFolder.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			return false, errTemplateFolder
 		}
 	}
 	//Copy temlates from Resources
 	srcTemplateFolder, errSrcTemplate := Configuration.GetTemplatesFolderPath()
 	if errSrcTemplate != nil {
+<<<<<<< HEAD
 		fmt.Println("SiteModuole.InitializeSiteProjectFolder: " + errSrcTemplate.Error())
+=======
+		fmt.Println(errSrcTemplate.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		return false, errSrcTemplate
 	}
 
 	if Utils.PathIsExist(srcTemplateFolder) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.InitializeSiteProjectFolder: Try to copy tempaltes, src tempalte folder not exist " + srcTemplateFolder
+=======
+		var errMsg = "Try to copy tempaltes, src tempalte folder not exist " + srcTemplateFolder
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -301,7 +387,11 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 
 			_, errCopy := Utils.CopyFile(srcTemplateFilePath, dstTemplateFilePath)
 			if errCopy != nil {
+<<<<<<< HEAD
 				var errMsg = "SiteModuole.InitializeSiteProjectFolder: Cannot copy template file " + srcTemplateFilePath + " to " + dstTemplateFilePath
+=======
+				var errMsg = "Cannot copy template file " + srcTemplateFilePath + " to " + dstTemplateFilePath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errMsg)
 				return false, errors.New(errMsg)
 			}
@@ -336,14 +426,23 @@ func (smp *SiteModule) InitializeSiteProjectFolder(siteTitle, siteAuthor, siteDe
 func (smp *SiteModule) OpenSiteProject(projectFolderPath, projectName string) (bool, error) {
 
 	if projectFolderPath == "" {
+<<<<<<< HEAD
 		fmt.Println("SiteModuole.OpenSiteProject: Project Folder path is empty")
 		return false, errors.New("SiteModuole.OpenSiteProject: Project Folder path is empty")
+=======
+		fmt.Println("Project Folder path is empty")
+		return false, errors.New("Project Folder path is empty")
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	}
 	//fmt.Println("OpenSPPointA")
 	bIsSP, errIsSP := smp.PathIsSiteProject(projectFolderPath, projectName)
 
 	if errIsSP != nil || false == bIsSP {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.OpenSiteProject: Path " + projectFolderPath + " doesn't contain a IPSC Site"
+=======
+		var errMsg = "Path " + projectFolderPath + " doesn't contain a IPSC Site"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -357,7 +456,11 @@ func (smp *SiteModule) OpenSiteProject(projectFolderPath, projectName string) (b
 	var sp SiteProject
 	_, loadError := sp.LoadFromFile(siteProjectFilePath)
 	if loadError != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.OpenSiteProject: Cannot load sp file in project " + siteProjectFilePath
+=======
+		var errMsg = "Cannot load sp file in project " + siteProjectFilePath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -379,13 +482,21 @@ func (smp *SiteModule) UpdateSiteProject(siteFolder, siteTitle, siteAuthor, site
 	var oldSiteProjectFilePath = filepath.Join(siteFolder, smp.spp.Title+".sp")
 	var siteProjectFilePath = oldSiteProjectFilePath
 	if Utils.PathIsExist(siteFolder) == false {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.UpdateSiteProject: siteFolder " + siteFolder + " doesn't exist"
+=======
+		var errMsg = "siteFolder " + siteFolder + " doesn't exist"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if smp.spp == nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.UpdateSiteProject: Site Project is nil"
+=======
+		var errMsg = "Site Project is nil"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -451,7 +562,11 @@ func (smp *SiteModule) GetAllRecycledPageSourceFiles() []string {
 
 func (smp *SiteModule) RestoreRecycledPageSourceFile(ID string) (bool, error) {
 	if ID == "" {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.RestoreRecycledPageSourceFile: RestoreRecycledPageSourceFile: " + "ID is empty"
+=======
+		var errMsg = "RestoreRecycledPageSourceFile: " + "ID is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -459,7 +574,11 @@ func (smp *SiteModule) RestoreRecycledPageSourceFile(ID string) (bool, error) {
 	index := smp.spp.GetPageSourceFile(ID)
 
 	if index == -1 {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.RestoreRecycledPageSourceFile: Cannot find Page Source File with ID " + ID
+=======
+		var errMsg = "Cannot find Page Source File with ID " + ID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -472,7 +591,11 @@ func (smp *SiteModule) RestoreRecycledPageSourceFile(ID string) (bool, error) {
 	siteProjectFilePath, errPath := smp.GetSiteProjectFilePath(smp.projectFolderPath)
 
 	if errPath != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.RestoreRecycledPageSourceFile: Cannot got site project file path "
+=======
+		var errMsg = "Cannot got site project file path "
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -509,7 +632,11 @@ func (smp *SiteModule) CleanRecycledPageSourceFiles() (bool, error) {
 	siteProjectFilePath, errPath := smp.GetSiteProjectFilePath(smp.projectFolderPath)
 
 	if errPath != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.RestoreRecycledPageSourceFile: Cannot got site project file path "
+=======
+		var errMsg = "Cannot got site project file path "
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -629,6 +756,11 @@ func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 	//Compile Index Page and More Pages
 	_, errCompileIndex := smp.mpp.Compile_Psf(smp.spp.IndexPageSourceFile)
 
+<<<<<<< HEAD
+=======
+	_, errCompileIndex := smp.mpp.Compile_Psf(smp.spp.IndexPageSourceFile)
+
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	if errCompileIndex != nil {
 		return false, errCompileIndex
 	}
@@ -654,14 +786,22 @@ func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 	siteProjectFilePath, errPath := smp.GetSiteProjectFilePath(smp.projectFolderPath)
 
 	if errPath != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.Compile: Cannot got site project file path "
+=======
+		var errMsg = "Cannot got site project file path "
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
 
 	if errSave != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.Compile: Cannot save site project file "
+=======
+		var errMsg = "Cannot save site project file "
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return bSave, errors.New(errMsg)
 	}
@@ -689,7 +829,11 @@ func (smp *SiteModule) AddPage(title, description, author, filePath, titleImageP
 	siteProjectFilePath, errPath := smp.GetSiteProjectFilePath(smp.projectFolderPath)
 
 	if errPath != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.AddPage: Cannot got site project file path "
+=======
+		var errMsg = "Cannot got site project file path "
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, "-1", errors.New(errMsg)
 	}
@@ -697,7 +841,11 @@ func (smp *SiteModule) AddPage(title, description, author, filePath, titleImageP
 	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
 
 	if errSave != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.AddPage: Cannot save site project file "
+=======
+		var errMsg = "Cannot save site project file "
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return bSave, "-1", errors.New(errMsg)
 	}
@@ -715,7 +863,11 @@ func (smp *SiteModule) UpdatePage(pageID, title, description, author, filePath, 
 	var index = smp.spp.GetPageSourceFile(pageID)
 
 	if index == -1 {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.UpdatePage: Cannot find page with ID " + pageID
+=======
+		var errMsg = "Cannot find page with ID " + pageID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -795,7 +947,11 @@ func (smp *SiteModule) DeletePage(pageID string, restore bool) (bool, error) {
 	var index = smp.spp.GetPageSourceFile(pageID)
 
 	if index == -1 {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.DeletePage: Cannot find page with ID " + pageID
+=======
+		var errMsg = "Cannot find page with ID " + pageID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -821,7 +977,11 @@ func (smp *SiteModule) DeletePage(pageID string, restore bool) (bool, error) {
 	siteProjectFilePath, errPath := smp.GetSiteProjectFilePath(smp.projectFolderPath)
 
 	if errPath != nil {
+<<<<<<< HEAD
 		var errMsg = "SiteModuole.DeletePage: Cannot got site project file path "
+=======
+		var errMsg = "Cannot got site project file path "
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -832,7 +992,11 @@ func (smp *SiteModule) ExportSourcePages(exportFolderPath string) (bool, error) 
 	if nil != smp.spp {
 		return smp.spp.ExportSourcePages(exportFolderPath)
 	}
+<<<<<<< HEAD
 	var errMsg = "SiteModuole.ExportSourcePages: Site Project is empty"
+=======
+	var errMsg = "Site Project is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	fmt.Println(errMsg)
 	return false, errors.New(errMsg)
 }

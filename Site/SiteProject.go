@@ -306,13 +306,21 @@ func (spp *SiteProject) UpdateIndexSourceFile(psf Page.PageSourceFile) (bool, er
 
 func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
+<<<<<<< HEAD
 		var errMsg = "SiteProject.UpdatePageSourceFile: Site Project is empty"
+=======
+		var errMsg = "Site Project is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
+<<<<<<< HEAD
 		var errMsg = "SiteProject.UpdatePageSourceFile: Source Page is empty"
+=======
+		var errMsg = "Source Page is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -332,7 +340,11 @@ func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, err
 			return true, nil
 		}
 	}
+<<<<<<< HEAD
 	var errMsg = "SiteProject.UpdatePageSourceFile: Source Page not found"
+=======
+	var errMsg = "Source Page not found"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	fmt.Println(errMsg)
 	return false, errors.New(errMsg)
 }

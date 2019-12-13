@@ -1,7 +1,10 @@
 package Site
 
 import (
+<<<<<<< HEAD
 	"bytes"
+=======
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -39,7 +42,11 @@ func NewMarkdownPageModule(_spp *SiteProject, _smp *SiteModule) MarkdownPageModu
 //Markdown extension .md .markdown .mmd .mdown
 func FileIsMarkdown(filePath string) (bool, error) {
 	if Utils.PathIsExist(filePath) == false {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.FileIsMarkdown: Markdown file not exist"
+=======
+		var errMsg = "Markdown file not exist"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -57,7 +64,11 @@ func (mpmp *MarkdownPageModule) AddMarkdown(title, description, author, filePath
 	var markdownSrc, markdownDst string
 
 	if Utils.PathIsExist(filePath) == false {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.AddMarkdown: Markdown file not exist"
+=======
+		var errMsg = "Markdown file not exist"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, "", errors.New(errMsg)
 	}
@@ -65,11 +76,19 @@ func (mpmp *MarkdownPageModule) AddMarkdown(title, description, author, filePath
 	bMarkdown, errMarkdown := FileIsMarkdown(filePath)
 
 	if errMarkdown != nil {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.AddMarkdown: Cannot confirm file type"
 		fmt.Println(errMsg)
 		return false, "", errors.New(errMsg)
 	} else if bMarkdown == false {
 		var errMsg = "MarkdownPageModule.AddMarkdown: File is not Markdown"
+=======
+		var errMsg = "Cannot confirm file type"
+		fmt.Println(errMsg)
+		return false, "", errors.New(errMsg)
+	} else if bMarkdown == false {
+		var errMsg = "File is not Markdown"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, "", errors.New(errMsg)
 	}
@@ -82,7 +101,11 @@ func (mpmp *MarkdownPageModule) AddMarkdown(title, description, author, filePath
 
 	if errCopy != nil {
 		var errMsg string
+<<<<<<< HEAD
 		errMsg = "MarkdownPageModule.AddMarkdown: Copy File from " + markdownSrc + " to " + markdownDst + " Failed"
+=======
+		errMsg = "Copy File from " + markdownSrc + " to " + markdownDst + " Failed"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, "", errors.New(errMsg)
 	}
@@ -102,7 +125,11 @@ func (mpmp *MarkdownPageModule) AddMarkdown(title, description, author, filePath
 		fileInfoTitleImage, errFileInfoTitleImage := os.Stat(titleImagePath)
 
 		if errFileInfoTitleImage != nil {
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.AddMarkdown: Cannot get file size of titleImage"
+=======
+			var errMsg = "Cannot get file size of titleImage"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, "", errors.New(errMsg)
 		}
@@ -110,7 +137,11 @@ func (mpmp *MarkdownPageModule) AddMarkdown(title, description, author, filePath
 		titleImageSize := fileInfoTitleImage.Size()
 
 		if titleImageSize > MAXTITLEIMAGESIZE {
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.AddMarkdown: Title Image bigger than 30KB"
+=======
+			var errMsg = "Title Image bigger than 30KB"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, "", errors.New(errMsg)
 		}
@@ -134,7 +165,11 @@ func (mpmp *MarkdownPageModule) AddMarkdown(title, description, author, filePath
 
 func (mpmp *MarkdownPageModule) GetPageSourceTemplateFile(pageType, templateFolderPath string) (string, error) {
 	if Utils.PathIsExist(templateFolderPath) == false {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.GetPageSourceTemplateFile: Template Folder Path not exist"
+=======
+		var errMsg = "Template Folder Path not exist"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
@@ -152,7 +187,11 @@ func (mpmp *MarkdownPageModule) CreateMarkdown(pageFilePath, markdownType, templ
 		return false, errTemplate
 	}
 	if Utils.PathIsExist(pageFilePath) {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.CreateMarkdown: " + pageFilePath + " already exist, cannot create again"
+=======
+		var errMsg = pageFilePath + " already exist, cannot create again"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -173,7 +212,11 @@ func (mpmp *MarkdownPageModule) RemoveMarkdown(psf Page.PageSourceFile, restore 
 			if pof.FilePath != "" {
 				bDeleteOutputFile := Utils.DeleteFile(pof.FilePath)
 				if bDeleteOutputFile == false {
+<<<<<<< HEAD
 					var errMsg = "MarkdownPageModule.RemoveMarkdown: Cannot delete output file " + pof.FilePath
+=======
+					var errMsg = "Cannot delete output file " + pof.FilePath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 					fmt.Println(errMsg)
 					return false, errors.New(errMsg)
 				}
@@ -195,7 +238,11 @@ func (mpmp *MarkdownPageModule) RemoveMarkdown(psf Page.PageSourceFile, restore 
 	if restore == false {
 		if Utils.DeleteFile(filePath) == false {
 			mpmp.spp.AddPageSourceFile(psf)
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.RemoveMarkdown: Delete File from Disk Fail"
+=======
+			var errMsg = "Delete File from Disk Fail"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -211,7 +258,11 @@ func (mpmp *MarkdownPageModule) RestoreMarkdown(ID string) (bool, error) {
 func (mpmp *MarkdownPageModule) UpdateMarkdown(psf Page.PageSourceFile, filePath string) (bool, error) {
 	_psfID := mpmp.spp.GetPageSourceFile(psf.ID)
 	if _psfID == -1 {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.UpdateMarkdown: File not found"
+=======
+		var errMsg = "File not found"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -223,7 +274,11 @@ func (mpmp *MarkdownPageModule) UpdateMarkdown(psf Page.PageSourceFile, filePath
 	}
 
 	if Utils.PathIsExist(filePath) == false {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.UpdateMarkdown: Markdown file not exist"
+=======
+		var errMsg = "Markdown file not exist"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -231,11 +286,19 @@ func (mpmp *MarkdownPageModule) UpdateMarkdown(psf Page.PageSourceFile, filePath
 	bMarkdown, errMarkdown := FileIsMarkdown(filePath)
 
 	if errMarkdown != nil {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.UpdateMarkdown: Cannot confirm file type"
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	} else if bMarkdown == false {
 		var errMsg = "MarkdownPageModule.UpdateMarkdown: File is not Markdown"
+=======
+		var errMsg = "Cannot confirm file type"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
+	} else if bMarkdown == false {
+		var errMsg = "File is not Markdown"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -307,7 +370,11 @@ func (mpmp *MarkdownPageModule) UpdateMarkdownInformation(title, description, au
 	bUpdate, errorUpdate := mpmp.spp.UpdatePageSourceFile(psf) //Update Source Pages
 
 	if bUpdate == false && errorUpdate != nil {
+<<<<<<< HEAD
 		fmt.Println("MarkdownPageModule.UpdateMarkdown: " + errorUpdate.Error())
+=======
+		fmt.Println("UpdateMarkdown:" + errorUpdate.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		return false, errorUpdate
 	}
 
@@ -318,7 +385,11 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	//fmt.Println("A")
 	if psf.SourceFilePath == "" {
 		var errMsg string
+<<<<<<< HEAD
 		errMsg = "MarkdownPageModule.Compile_Psf: Page Source File FilePath is emtpy"
+=======
+		errMsg = "Page Source File FilePath is emtpy"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
@@ -327,7 +398,11 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	markdownSrc = psf.SourceFilePath
 
 	if Utils.PathIsExist(markdownSrc) == false {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.Compile_Psf: Source Markdown File not found on the disk"
+=======
+		var errMsg = "Source Markdown File not found on the disk"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
@@ -335,11 +410,19 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	bMarkdown, errMarkdown := FileIsMarkdown(markdownSrc)
 	//fmt.Println("B")
 	if errMarkdown != nil {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.Compile_Psf: Cannot confirm file type"
 		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	} else if bMarkdown == false {
 		var errMsg = "MarkdownPageModule.Compile_Psf: File is not html"
+=======
+		var errMsg = "Cannot confirm file type"
+		fmt.Println(errMsg)
+		return -1, errors.New(errMsg)
+	} else if bMarkdown == false {
+		var errMsg = "File is not html"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
@@ -359,14 +442,22 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	cssFilePath, errCssFilePath = Configuration.GetCssFilePath()
 
 	if cssFilePath == "" || errCssFilePath != nil {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.Compile_Psf: Css File Path is empty"
+=======
+		var errMsg = "Css File Path is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
 	if Utils.PathIsExist(cssFilePath) == false {
 		var errMsg string
+<<<<<<< HEAD
 		errMsg = "MarkdownPageModule.Compile_Psf: Css File Path " + cssFilePath + " not exist"
+=======
+		errMsg = "Css File Path " + cssFilePath + " not exist"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
@@ -374,6 +465,7 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	//Call pandoc to convert md to html
 
 	var pandocCmd *exec.Cmd
+<<<<<<< HEAD
 	pandocCmd = exec.Command("pandoc")
 
 	pandocCmd.Args = append(pandocCmd.Args, "-s")
@@ -396,6 +488,18 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	if errPandocCmd != nil {
 		fmt.Println(fmt.Sprint(errPandocCmd) + " : " + stderr.String())
 		return -1, errPandocCmd
+=======
+
+	if "windows" == sysType {
+		pandocCmd = exec.Command("Powershell", strPandocCmd)
+	} else if "linux" == sysType || "darwin" == sysType {
+		pandocCmd = exec.Command("bash", "-c", strPandocCmd)
+	} else { //Not support other platforms now
+		var errMsg string
+		errMsg = "Compile Markdown, not supported platform " + sysType
+		fmt.Println(errMsg)
+		return -1, errors.New(errMsg)
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 	}
 	//fmt.Println(stdoutput.String())
 	//fmt.Println("D")
@@ -420,7 +524,11 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 
 	if _pofID == -1 {
 		Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.Compile_Psf: Page Output File add Fail"
+=======
+		var errMsg = "Page Output File add Fail"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return _pofID, errors.New(errMsg)
 	}
@@ -457,7 +565,11 @@ func (mpmp *MarkdownPageModule) Compile(ID string) (int, error) {
 	iFind := mpmp.spp.GetPageSourceFile(ID)
 	if iFind == -1 {
 		var errMsg string
+<<<<<<< HEAD
 		errMsg = "MarkdownPageModule.Compile: Cannot find the source File with ID " + ID
+=======
+		errMsg = "Cannot find the source File with ID " + ID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
@@ -472,7 +584,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 	if errIndexTemplateFilePath != nil {
 		var errMsg string
+<<<<<<< HEAD
 		errMsg = "MarkdownPageModule.CreateIndexPage: Cannot find index page template file for page size " + indexPageSize
+=======
+		errMsg = "Cannot find index page template file for page size " + indexPageSize
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -501,7 +617,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 		if errClean != nil {
 			var errCleanMsg string
+<<<<<<< HEAD
 			errCleanMsg = "MarkdownPageModule.CreateIndexPage: Clean Index Page properties failed, please check site project file"
+=======
+			errCleanMsg = "Clean Index Page properties failed, please check site project file"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errCleanMsg)
 			return bClean, errors.New(errCleanMsg)
 		}
@@ -522,7 +642,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 			if errClean != nil {
 				var errCleanMsg string
+<<<<<<< HEAD
 				errCleanMsg = "MarkdownPageModule.CreateIndexPage: Clean Index Page properties failed, please check site project file"
+=======
+				errCleanMsg = "Clean Index Page properties failed, please check site project file"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errCleanMsg)
 				return bClean, errors.New(errCleanMsg)
 			}
@@ -531,6 +655,7 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 			if bDelete == false {
 				var deleteMsg = "MarkdownPageModule.CreateIndexPgae: Delete md file failed,please delete it manully, path " + srcIndexPageSourceFilePath
+				fmt.Println(deleteMsg)
 				fmt.Println(deleteMsg)
 				fmt.Println(deleteMsg)
 			}
@@ -549,7 +674,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 			if errClean != nil {
 				var errCleanMsg string
+<<<<<<< HEAD
 				errCleanMsg = "MarkdownPageModule.CreateIndexPage: Clean Index Page properties failed, please check site project file"
+=======
+				errCleanMsg = "Clean Index Page properties failed, please check site project file"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errCleanMsg)
 				return bClean, errors.New(errCleanMsg)
 			}
@@ -558,6 +687,7 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 			if bDelete == false {
 				var deleteMsg = "MarkdownPageModule.CreateIndexPage: Delete md file failed,please delete it manully, path " + srcIndexPageSourceFilePath
+				fmt.Println(deleteMsg)
 				fmt.Println(deleteMsg)
 				fmt.Println(deleteMsg)
 			}
@@ -578,7 +708,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 		if errClean != nil {
 			var errCleanMsg string
+<<<<<<< HEAD
 			errCleanMsg = "MarkdownPageModule.CreateIndexPage: Clean Index Page properties failed, please check site project file"
+=======
+			errCleanMsg = "Clean Index Page properties failed, please check site project file"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errCleanMsg)
 			return bClean, errors.New(errCleanMsg)
 		}
@@ -609,7 +743,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 		if errClean != nil {
 			var errCleanMsg string
+<<<<<<< HEAD
 			errCleanMsg = "MarkdownPageModule.CreateIndexPage:  Read file fail,then Clean Index Page properties failed, please check site project file"
+=======
+			errCleanMsg = " Read file fail,then Clean Index Page properties failed, please check site project file"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errCleanMsg)
 			return bClean, errors.New(errCleanMsg)
 		}
@@ -639,7 +777,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 		if indexOutputPageFile.Title != "" {
 			indexFileContent = strings.Replace(indexFileContent, indexNewsTitleMark, indexOutputPageFile.Title, 1)
 		} else {
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.CreateIndexPage: Title of Item is empty: " + indexOutputPageFile.ID
+=======
+			var errMsg = "CreateIndexPage: Title of Item is empty: " + indexOutputPageFile.ID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -655,7 +797,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 				indexFileContent = strings.Replace(indexFileContent, indexNewsUrlMark, indexOutputPageFile.FilePath, 1)
 			}
 		} else {
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.CreateIndexPage: FilePath of Item is empty: " + indexOutputPageFile.ID
+=======
+			var errMsg = "CreateIndexPage: FilePath of Item is empty: " + indexOutputPageFile.ID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -667,7 +813,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 			emptyImageTemplate, errEmptyImage := Configuration.GetEmptyImageItemTemplate()
 			if errEmptyImage != nil {
+<<<<<<< HEAD
 				var errMsg = "MarkdownPageModule.CreateIndexPage: Cannot get empty image template"
+=======
+				var errMsg = "CreateIndexPage: Cannot get empty image template"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errMsg)
 				return false, errors.New(errMsg)
 			}
@@ -678,7 +828,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 		if indexOutputPageFile.CreateTime != "" {
 			indexFileContent = strings.Replace(indexFileContent, indexNewsTimeMark, indexOutputPageFile.CreateTime, 1)
 		} else {
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.CreateIndexPage: CreateTime of Item is empty " + indexOutputPageFile.ID
+=======
+			var errMsg = "CreateIndexPage: CreateTime of Item is empty " + indexOutputPageFile.ID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -704,7 +858,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 			if errClean != nil {
 				var errCleanMsg string
+<<<<<<< HEAD
 				errCleanMsg = "MarkdownPageModule.CreateIndexPage: Read file fail,then Clean Index Page properties failed, please check site project file"
+=======
+				errCleanMsg = " Read file fail,then Clean Index Page properties failed, please check site project file"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errCleanMsg)
 				return bClean, errors.New(errCleanMsg)
 			}
@@ -753,7 +911,11 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 
 		if errClean != nil {
 			var errCleanMsg string
+<<<<<<< HEAD
 			errCleanMsg = "MarkdownPageModule.CreateIndexPage: Read file fail,then Clean Index Page properties failed, please check site project file"
+=======
+			errCleanMsg = " Read file fail,then Clean Index Page properties failed, please check site project file"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errCleanMsg)
 			return bClean, errors.New(errCleanMsg)
 		}
@@ -775,7 +937,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 	if errMoreTemplateFilePath != nil {
 		var errMsg string
+<<<<<<< HEAD
 		errMsg = "MarkdownPageModule.CreateMorePage: Cannot find more page template file for page size " + indexPageSize
+=======
+		errMsg = "Cannot find more page template file for page size " + indexPageSize
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -805,7 +971,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 		if errRemove != nil {
 			var errRemoveMsg string
+<<<<<<< HEAD
 			errRemoveMsg = "MarkdownPageModule.CreateMorePage: Cannot delete it"
+=======
+			errRemoveMsg = "CreateMorePage: Cannot delete it"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errRemoveMsg)
 			return bRemove, errors.New(errRemoveMsg)
 		}
@@ -826,7 +996,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 		if errRemove != nil {
 			var errRemoveMsg string
+<<<<<<< HEAD
 			errRemoveMsg = "MarkdownPageModule.Create More Page: Cannot delete more page properties from site project"
+=======
+			errRemoveMsg = "Create More Page: Cannot delete more page properties from site project"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errRemoveMsg)
 			return bRemove, errors.New(errRemoveMsg)
 		}
@@ -847,7 +1021,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 			if errRemove != nil {
 				var errRemoveMsg string
+<<<<<<< HEAD
 				errRemoveMsg = "MarkdownPageModule.CreateMorePage: Cannot delete more page properties from site project"
+=======
+				errRemoveMsg = "Cannot delete more page properties from site project"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errRemoveMsg)
 				return bRemove, errors.New(errRemoveMsg)
 			}
@@ -871,7 +1049,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 			if errRemove != nil {
 				var errRemoveMsg string
+<<<<<<< HEAD
 				errRemoveMsg = "MarkdownPageModule.CreateMorePage: Cannot delete more page properties from site project"
+=======
+				errRemoveMsg = "Cannot delete more page properties from site project"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errRemoveMsg)
 				return bRemove, errors.New(errRemoveMsg)
 			}
@@ -898,7 +1080,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 		if errRemove != nil {
 			var errRemoveMsg string
+<<<<<<< HEAD
 			errRemoveMsg = "MarkdownPageModule.CreateMorePage: Cannot delete more page properties from site project"
+=======
+			errRemoveMsg = "Cannot delete more page properties from site project"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errRemoveMsg)
 			return bRemove, errors.New(errRemoveMsg)
 		}
@@ -931,7 +1117,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 		if errRemove != nil {
 			var errRemoveMsg string
+<<<<<<< HEAD
 			errRemoveMsg = "MarkdownPageModule.CreateMorePage: Cannot delete more page properties from site project"
+=======
+			errRemoveMsg = "Cannot delete more page properties from site project"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errRemoveMsg)
 			return bRemove, errors.New(errRemoveMsg)
 		}
@@ -975,7 +1165,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 				moreFileContent = strings.Replace(moreFileContent, moreNewsUrlMark, moreOutputPageFile.FilePath, 1)
 			}
 		} else {
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.CreateMorePage: FilePath of Item is empty: " + moreOutputPageFile.ID
+=======
+			var errMsg = "CreateMorePage: FilePath of Item is empty: " + moreOutputPageFile.ID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -987,7 +1181,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 			emptyImageTemplate, errEmptyImage := Configuration.GetEmptyImageItemTemplate()
 			if errEmptyImage != nil {
+<<<<<<< HEAD
 				var errMsg = "MarkdownPageModule.CreateMorePage: Cannot get empty image template"
+=======
+				var errMsg = "CreateMorePage: Cannot get empty image template"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errMsg)
 				return false, errors.New(errMsg)
 			}
@@ -998,7 +1196,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 		if moreOutputPageFile.CreateTime != "" {
 			moreFileContent = strings.Replace(moreFileContent, moreNewsTimeMark, moreOutputPageFile.CreateTime, 1)
 		} else {
+<<<<<<< HEAD
 			var errMsg = "MarkdownPageModule.CreateMorePage: CreateTime of Item is empty: " + moreOutputPageFile.ID
+=======
+			var errMsg = "CreateMorePage: CreateTime of Item is empty: " + moreOutputPageFile.ID
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -1017,7 +1219,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 			if errRemove != nil {
 				var errRemoveMsg string
+<<<<<<< HEAD
 				errRemoveMsg = "MarkdownPageModule.CreateMorePage: Cannot delete more page properties from site project"
+=======
+				errRemoveMsg = "Cannot delete more page properties from site project"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 				fmt.Println(errRemoveMsg)
 				return bRemove, errors.New(errRemoveMsg)
 			}
@@ -1066,7 +1272,11 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 
 		if errRemove != nil {
 			var errRemoveMsg string
+<<<<<<< HEAD
 			errRemoveMsg = "MarkdownPageModule.CreateMorePage: Cannot delete more page properties from site project"
+=======
+			errRemoveMsg = "Cannot delete more page properties from site project"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 			fmt.Println(errRemoveMsg)
 			return bRemove, errors.New(errRemoveMsg)
 		}
@@ -1086,7 +1296,11 @@ func (mpmp *MarkdownPageModule) CreateNavigationForIndexPage() (bool, error) {
 	//Get template file path for index page
 
 	if mpmp.spp.IndexPageSourceFile.SourceFilePath == "" {
+<<<<<<< HEAD
 		var errMsg = "MarkdownPageModule.CreateNavigationForIndexPage: Index Page file not created,please run CreateIndexPage firstly"
+=======
+		var errMsg = "Index Page file not created,please run CreateIndexPage firstly"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
