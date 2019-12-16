@@ -1,10 +1,9 @@
 package main
 
 import (
-	"ipsc/Page"
 	"flag"
 	"fmt"
-	"os"
+	"ipsc/Page"
 	"os/user"
 	"strings"
 )
@@ -14,12 +13,13 @@ type CommandParser struct {
 	SiteTitle            string
 	SiteDescription      string
 	SiteFolderPath       string
+	ExportFolderPath     string
 	SiteAuthor           string
 	SiteOutputFolderPath string
 	PropertyName         string
 	PropertyValue        string
 	IndexPageSize        string
-	StopComplieWithError bool
+	StopCompileWithError bool
 	VerboseLog           bool
 	HelpType             string
 	PageID               string
@@ -40,6 +40,7 @@ func (cpp *CommandParser) ParseCommand() bool {
 	flag.StringVar(&cpp.SiteTitle, "SiteTitle", "", GetFieldHelpMsg("SiteTitle"))
 	flag.StringVar(&cpp.SiteDescription, "SiteDescription", "", GetFieldHelpMsg("SiteDescription"))
 	flag.StringVar(&cpp.SiteFolderPath, "SiteFolder", "", GetFieldHelpMsg("SiteFolder"))
+	flag.StringVar(&cpp.ExportFolderPath, "ExportFolder", "", GetFieldHelpMsg("ExportFolderPath"))
 	flag.StringVar(&cpp.SiteAuthor, "SiteAuthor", "", GetFieldHelpMsg("SiteAuthor"))
 	flag.StringVar(&cpp.SiteOutputFolderPath, "OutputFolder", "", GetFieldHelpMsg("OutputFolder"))
 	flag.StringVar(&cpp.PropertyName, "PropertyName", "", GetFieldHelpMsg("PropertyName"))
@@ -73,6 +74,7 @@ func (cpp *CommandParser) ParseCommand() bool {
 	cpp.PropertyValue = strings.TrimSpace(cpp.PropertyValue)
 	cpp.SiteAuthor = strings.TrimSpace(cpp.SiteAuthor)
 	cpp.SiteFolderPath = strings.TrimSpace(cpp.SiteFolderPath)
+	cpp.ExportFolderPath = strings.TrimSpace(cpp.ExportFolderPath)
 	cpp.SiteDescription = strings.TrimSpace(cpp.SiteDescription)
 	cpp.SiteOutputFolderPath = strings.TrimSpace(cpp.SiteOutputFolderPath)
 	cpp.SiteTitle = strings.TrimSpace(cpp.SiteTitle)
@@ -85,22 +87,6 @@ func (cpp *CommandParser) ParseCommand() bool {
 	cpp.PageType = strings.ToUpper(cpp.PageType)
 	cpp.HelpType = strings.ToUpper(cpp.HelpType)
 
-	//Check Path, path cannot contains space
-	if strings.Contains(cpp.SiteFolderPath, " ") {
-		fmt.Fprintln(os.Stderr, "Site Folder Path cannot contains space")
-		return false
-	}
-
-	if strings.Contains(cpp.SiteOutputFolderPath, " ") {
-		fmt.Fprintln(os.Stderr, "Site Output Folder Path cannot contains space")
-		return false
-	}
-
-	if strings.Contains(cpp.SourcePagePath, " ") {
-		fmt.Fprintln(os.Stderr, "Source Page Path cannot contains space")
-		return false
-	}
-
 	//Check whether command is help, if it is help,jump other operations
 	if cpp.CurrentCommand == "" {
 		cpp.CurrentCommand = "HELP"
@@ -112,17 +98,17 @@ func (cpp *CommandParser) ParseCommand() bool {
 
 	//Check Above 3 parameters
 	if cpp.CheckMarkdownType(cpp.MarkdownType) == false {
-		fmt.Fprintln(os.Stderr, "MarkdownType parameter not current, must 'Blank' or 'News' or Empty")
+		fmt.Println("CommandParse: MarkdownType parameter not current, must 'Blank' or 'News' or Empty")
 		return false
 	}
 
 	if cpp.CheckHelpType(cpp.HelpType) == false {
-		fmt.Fprintln(os.Stderr, "HelpType parameter not current, must 'QuickHelp' or 'FullHelp' or Empty")
+		fmt.Println("CommandParse: HelpType parameter not current, must 'QuickHelp' or 'FullHelp' or Empty")
 		return false
 	}
 
 	if cpp.CheckPageType(cpp.PageType) == false {
-		fmt.Fprintln(os.Stderr, "PageType parameter not current, must 'Markdown' 'Html' or 'Link' or Empty")
+		fmt.Println("CommandParse: PageType parameter not current, must 'Markdown' 'Html' or 'Link' or Empty")
 		return false
 	}
 
@@ -130,7 +116,7 @@ func (cpp *CommandParser) ParseCommand() bool {
 	//Don't input Command
 
 	if cpp.SiteFolderPath == "" {
-		fmt.Fprintln(os.Stderr, "Site Folder is empty")
+		fmt.Println("CommandParse: Site Folder is empty")
 		return false
 	}
 
@@ -145,20 +131,20 @@ func (cpp *CommandParser) ParseCommand() bool {
 	switch cpp.CurrentCommand {
 	case COMMAND_NEWSITE:
 		if cpp.SiteTitle == "" {
-			fmt.Fprintln(os.Stderr, "SiteTitle is empty, cannot create site ")
+			fmt.Println("CommandParse: SiteTitle is empty, cannot create site ")
 			ret = false
 		}
 
 		if cpp.SiteDescription == "" {
-			fmt.Fprintln(os.Stderr, "Site description is empty")
+			fmt.Println("CommandParse: Site description is empty")
 			ret = false
 		}
 
 		if cpp.SiteAuthor == "" {
-			fmt.Fprintln(os.Stderr, "Site author is empty,will use current login user")
+			fmt.Println("CommandParse: Site author is empty,will use current login user")
 			currentUser, errUser := user.Current()
 			if errUser != nil {
-				fmt.Fprintln(os.Stderr, "User is empty, and cannot get user information from system")
+				fmt.Println("CommandParse: User is empty, and cannot get user information from system")
 				ret = false
 			}
 			cpp.SiteAuthor = currentUser.Username
@@ -170,7 +156,7 @@ func (cpp *CommandParser) ParseCommand() bool {
 
 	case COMMAND_UPDATESITE:
 		if cpp.SiteTitle == "" && cpp.SiteAuthor == "" && cpp.SiteDescription == "" {
-			fmt.Fprintln(os.Stderr, "Title Author and Description of site are all empty, will not udpate site property")
+			fmt.Println("CommandParse: Title Author and Description of site are all empty, will not udpate site property")
 			ret = false
 		}
 
@@ -179,35 +165,40 @@ func (cpp *CommandParser) ParseCommand() bool {
 	case COMMAND_LISTOUTPUTPAGES:
 	case COMMAND_LISTPAGE:
 		if cpp.PageID == "" {
-			fmt.Fprintln(os.Stderr, "Page ID is empty,don't know which page to restore")
+			fmt.Println("CommandParse: Page ID is empty,don't know which page to restore")
+			ret = false
+		}
+	case COMMAND_EXPORTSOURCEPAGES:
+		if cpp.ExportFolderPath == "" {
+			fmt.Println("CommandParse: Export Folder Path cannot be empty")
 			ret = false
 		}
 	case COMMAND_COMPILE:
 	case COMMAND_LISTRECYCLEDPAGES:
 	case COMMAND_RESTORERECYCLEDPAGE:
 		if cpp.PageID == "" {
-			fmt.Fprintln(os.Stderr, "Page ID is empty,don't know which page to restore")
+			fmt.Println("CommandParse: Page ID is empty,don't know which page to restore")
 			ret = false
 		}
 	case COMMAND_CLEARRECYCLEDPAGES:
 	case COMMAND_ADDPAGE:
 		if cpp.PageTitle == "" {
-			fmt.Fprintln(os.Stderr, "Page title is empty")
+			fmt.Println("CommandParse: Page title is empty")
 			ret = false
 		}
 
 		if (cpp.PageType == Page.MARKDOWN || cpp.PageType == Page.HTML) && cpp.SourcePagePath == "" {
-			fmt.Fprintln(os.Stderr, "Path of source page file is empty")
+			fmt.Println("CommandParse: Path of source page file is empty")
 			ret = false
 		}
 		if cpp.PageType == Page.LINK && cpp.LinkUrl == "" {
-			fmt.Fprintln(os.Stderr, "Url of link is empty")
+			fmt.Println("CommandParse: Url of link is empty")
 			ret = false
 		}
 		if cpp.PageAuthor == "" {
 			currentUser, errUser := user.Current()
 			if errUser != nil {
-				fmt.Fprintln(os.Stderr, "User is empty, and cannot get user information from system")
+				fmt.Println("CommandParse: User is empty, and cannot get user information from system")
 				ret = false
 			}
 			cpp.PageAuthor = currentUser.Username
@@ -217,18 +208,18 @@ func (cpp *CommandParser) ParseCommand() bool {
 		}
 	case COMMAND_CREATEMARKDOWN:
 		if cpp.SourcePagePath == "" {
-			fmt.Fprintln(os.Stderr, "Path of source page file is empty")
+			fmt.Println("CommandParse: Path of source page file is empty")
 			ret = false
 		}
 
 	case COMMAND_UPDATEPAGE:
 		if cpp.PageID == "" {
-			fmt.Fprintln(os.Stderr, "Page ID is empty,don't know which page to restore")
+			fmt.Println("CommandParse: Page ID is empty,don't know which page to restore")
 			ret = false
 		}
 	case COMMAND_DELETEPAGE:
 		if cpp.PageID == "" {
-			fmt.Fprintln(os.Stderr, "Page ID is empty,don't know which page to restore")
+			fmt.Println("CommandParse: Page ID is empty,don't know which page to restore")
 			ret = false
 		}
 	}

@@ -1,9 +1,10 @@
 package Site
 
 import (
+	"errors"
+	"fmt"
 	"ipsc/Page"
 	"ipsc/Utils"
-	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -31,7 +32,9 @@ func NewHtmlPageModule(_spp *SiteProject, _smp *SiteModule) HtmlPageModule {
 
 func FileIsHtml(filePath string) (bool, error) {
 	if Utils.PathIsExist(filePath) == false {
-		return false, errors.New("Html file not exist")
+		var errMsg = "Html file not exist"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	var extension = filepath.Ext(filePath)
@@ -47,26 +50,39 @@ func (hpmp *HtmlPageModule) AddHtml(title, description, author, filePath, titleI
 	var htmlSrc, htmlDst string
 
 	if Utils.PathIsExist(filePath) == false {
-		return false, "", errors.New("Html file not exist")
+		var errMsg = "Html file not exist"
+		fmt.Println(errMsg)
+		return false, "", errors.New(errMsg)
 	}
 
 	bHtml, errHtml := FileIsHtml(filePath)
 
 	if errHtml != nil {
-		return false, "", errors.New("Cannot confirm file type")
+		var errMsg = "Cannot confirm file type"
+		fmt.Println(errMsg)
+		return false, "", errors.New(errMsg)
 	} else if bHtml == false {
-		return false, "", errors.New("File is not html")
+		var errMsg = "File is not html"
+		fmt.Println(errMsg)
+		return false, "", errors.New(errMsg)
 	}
 
 	_, fileName := filepath.Split(filePath)
 	htmlSrc = filePath
 	htmlDst = filepath.Join(hpmp.smp.GetSrcHtmlFolderPath(hpmp.smp.GetProjectFolderPath()), fileName)
 
+	if Utils.PathIsExist(htmlDst) {
+		var errMsg = "HtmlPageModule.AddHtml: Target Html File Already Exist"
+		fmt.Println(errMsg)
+		return false, "", errors.New(errMsg)
+	}
+
 	_, errCopy := Utils.CopyFile(htmlSrc, htmlDst)
 
 	if errCopy != nil {
 		var errMsg string
 		errMsg = "Copy File from " + htmlSrc + " to " + htmlDst + " Failed"
+		fmt.Println(errMsg)
 		return false, "", errors.New(errMsg)
 	}
 
@@ -84,13 +100,17 @@ func (hpmp *HtmlPageModule) AddHtml(title, description, author, filePath, titleI
 		fileInfoTitleImage, errFileInfoTitleImage := os.Stat(titleImagePath)
 
 		if errFileInfoTitleImage != nil {
-			return false, "", errors.New("Cannot get file size of titleImage")
+			var errMsg = "Cannot get file size of titleImage"
+			fmt.Println(errMsg)
+			return false, "", errors.New(errMsg)
 		}
 
 		titleImageSize := fileInfoTitleImage.Size()
 
 		if titleImageSize > MAXTITLEIMAGESIZE {
-			return false, "", errors.New("Title Image bigger than 30KB")
+			var errMsg = "Title Image bigger than 30KB"
+			fmt.Println(errMsg)
+			return false, "", errors.New(errMsg)
 		}
 		psf.TitleImage, _ = Utils.ReadImageAsBase64(titleImagePath)
 	} else {
@@ -102,6 +122,7 @@ func (hpmp *HtmlPageModule) AddHtml(title, description, author, filePath, titleI
 	bAdd, errorAdd := hpmp.spp.AddPageSourceFile(psf) //Add to Source Pages
 
 	if bAdd == false && errorAdd != nil {
+		fmt.Println(errorAdd.Error())
 		return false, "", errorAdd
 	}
 
@@ -120,7 +141,9 @@ func (hpmp *HtmlPageModule) RemoveHtml(psf Page.PageSourceFile, restore bool) (b
 			if pof.FilePath != "" {
 				bDeleteOutputFile := Utils.DeleteFile(pof.FilePath)
 				if bDeleteOutputFile == false {
-					return false, errors.New("Cannot delete output file " + pof.FilePath)
+					var errMsg = "Cannot delete output file " + pof.FilePath
+					fmt.Println(errMsg)
+					return false, errors.New(errMsg)
 				}
 			}
 		}
@@ -140,7 +163,9 @@ func (hpmp *HtmlPageModule) RemoveHtml(psf Page.PageSourceFile, restore bool) (b
 	if restore == false {
 		if Utils.DeleteFile(filePath) == false {
 			hpmp.spp.AddPageSourceFile(psf)
-			return false, errors.New("Delete File from Disk Fail")
+			var errMsg = "Delete File from Disk Fail"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
 		}
 	}
 	return true, nil
@@ -153,7 +178,9 @@ func (hpmp *HtmlPageModule) RestoreHtml(ID string) (bool, error) {
 func (hpmp *HtmlPageModule) UpdateHtml(psf Page.PageSourceFile, filePath string) (bool, error) {
 	_psfID := hpmp.spp.GetPageSourceFile(psf.ID)
 	if _psfID == -1 {
-		return false, errors.New("File not found")
+		var errMsg = "File not found"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	psf_Backup := hpmp.spp.SourceFiles[_psfID]
@@ -163,15 +190,21 @@ func (hpmp *HtmlPageModule) UpdateHtml(psf Page.PageSourceFile, filePath string)
 	}
 
 	if Utils.PathIsExist(filePath) == false {
-		return false, errors.New("Html file not exist")
+		var errMsg = "Html file not exist"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	bHtml, errHtml := FileIsHtml(filePath)
 
 	if errHtml != nil {
-		return false, errors.New("Cannot confirm file type")
+		var errMsg = "Cannot confirm file type"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	} else if bHtml == false {
-		return false, errors.New("File is not html")
+		var errMsg = "File is not html"
+		fmt.Println(errMsg)
+		return false, errors.New(errMsg)
 	}
 
 	_, fileName := filepath.Split(filePath)
@@ -198,6 +231,7 @@ func (hpmp *HtmlPageModule) UpdateHtml(psf Page.PageSourceFile, filePath string)
 		errMsg = "Copy File from " + htmlSrc + " to " + htmlDst + " Failed"
 		//恢复被更新的内容
 		hpmp.spp.UpdatePageSourceFile(psf_Backup)
+		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 	return true, nil
@@ -240,6 +274,7 @@ func (hpmp *HtmlPageModule) UpdateHtmlInformation(title, description, author, fi
 	bUpdate, errorUpdate := hpmp.spp.UpdatePageSourceFile(psf) //Update Source Pages
 
 	if bUpdate == false && errorUpdate != nil {
+		fmt.Println(errorUpdate.Error())
 		return false, errorUpdate
 	}
 
@@ -252,6 +287,7 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 	if iFind == -1 {
 		var errMsg string
 		errMsg = "Cannot find the source File with ID " + ID
+		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
@@ -260,12 +296,14 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 	if psf.SourceFilePath == "" {
 		var errMsg string
 		errMsg = "Page Source File FilePath is emtpy"
+		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
 	if psf.Status == Page.RECYCLED {
 		var errMsg string
 		errMsg = "Page Source File is in Recycled status, cannot Compile"
+		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
@@ -273,15 +311,21 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 	htmlSrc = psf.SourceFilePath
 
 	if Utils.PathIsExist(htmlSrc) == false {
-		return -1, errors.New("Source Html File not found on the disk")
+		var errMsg = "Source Html File not found on the disk"
+		fmt.Println(errMsg)
+		return -1, errors.New(errMsg)
 	}
 
 	bHtml, errHtml := FileIsHtml(htmlSrc)
 
 	if errHtml != nil {
-		return -1, errors.New("Cannot confirm file type")
+		var errMsg = "Cannot confirm file type"
+		fmt.Println(errMsg)
+		return -1, errors.New(errMsg)
 	} else if bHtml == false {
-		return -1, errors.New("File is not html")
+		var errMsg = "File is not html"
+		fmt.Println(errMsg)
+		return -1, errors.New(errMsg)
 	}
 
 	_, fileName := filepath.Split(htmlSrc)
@@ -295,6 +339,7 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 	if errCopy != nil {
 		var errMsg string
 		errMsg = "Copy File from " + htmlSrc + " to " + htmlDst + " Failed"
+		fmt.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
@@ -318,11 +363,13 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 
 	if _pofID == -1 {
 		Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
-		return _pofID, errors.New("Page Out File add Fail")
+		var errMsg = "Page Out File add Fail"
+		fmt.Println(errMsg)
+		return _pofID, errors.New(errMsg)
 	}
 
 	psf.OutputFile = _pofID
-	psf.LastComplied = Utils.CurrentTime()
+	psf.LastCompiled = Utils.CurrentTime()
 
 	hpmp.spp.UpdatePageSourceFile(psf)
 

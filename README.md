@@ -122,6 +122,13 @@ IPSC -Command NewSite -SiteFolder  -SiteFolder -SiteTitle  -SiteAuthor  -SiteDes
 
 Create a new empty site project
 
+	
+Note: Run this method with super user or administrator permission
+	
+	* In Windows, start cmd with Administrator user, then run ipsc -Command "NewSite"
+	
+	* In Linux/Darwin run this cmd with sudo
+
 Example:
 
 ```bash

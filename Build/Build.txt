@@ -9,7 +9,7 @@
 4.Install Liteide (https://github.com/visualfc/liteide)
 	*Windows/Linux/MacOSX just download and install
 	*Raspbian
-		Download source (qt4 linux 64)code and complie as follows:
+		Download source (qt4 linux 64)code and Compile as follows:
 		1) sudo apt-get update
 		2) sudo apt-get upgrade
 		3) sudo apt-get install git
@@ -25,7 +25,7 @@
 		13) ./liteide
 5.Install pandoc
 	pandoc used to convert md to html 
-	If you just want to complie IPSC, pandoc is not needed 
+	If you just want to Compile IPSC, pandoc is not needed 
 	If you want to run IPSC, pandoc is needed.
 	https://www.pandoc.com
 6.Install go lib
@@ -35,4 +35,4 @@
 7.Open IPSC with liteide 
 8.Select the platform you needed, modify current environment according to step 1 and 3
 	Modify GOROOT and PATH
-9.Complie->Build
+9.Compile->Build
