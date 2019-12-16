@@ -1,0 +1,8 @@
+package Site
+
+const (
+	PAGESIZE_NORMAL    = "NORMAL"
+	PAGESIZE_SMALL     = "SMALL"
+	PAGESIZE_VERYSMALL = "VERYSMALL"
+	PAGESIZE_BIG       = "BIG"
+)

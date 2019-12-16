@@ -1,0 +1,48 @@
+PageAdded
+A1.md   47fe4ff4235745b2f061c5b2f84b5cb4
+A2.html 646825aca572eeaec9a356fef21d6c38
+LINK    8b320abdb9d60a4c0eea66dddd255515
+
+ipsc -Command "Help" -HelpType "QuickHelp"
+
+ipsc -Command "NewSite" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC" -OutputFolder "/home/pi/Documents/IPSCTest/SiteOutputFolder"
+
+ipsc -Command "UpdateSite" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site 1" -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "Test Site for ipsc 123"
+
+ipsc -Command "GetSiteProperty" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "ListSourcePages" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite"  -SiteTitle "Test Site"
+
+ipsc -Command "ListOutputPages" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "ListPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "47fe4ff4235745b2f061c5b2f84b5cb4"
+
+ipsc -Command "ExportSourcePages" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -ExportFolder "/home/pi/Documents/IPSCTest/WatchDogSpace"
+
+ipsc -Command "CreateMarkdown" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/pi/Documents/IPSCTest/MarkdownWorkspace/_A1.md" -MarkdownType "News"
+
+ipsc -Command "AddPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/pi/Documents/IPSCTest/MarkdownWorkspace/A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "/home/pi/Documents/IPSCTest/MarkdownWorkspace/2.png"
+
+ipsc -Command "AddPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/pi/Documents/IPSCTest/MarkdownWorkspace/H1.html" -PageType "HTML" -PageTitle "Test HTML Page" -PageAuthor "Chao" -TitleImage "/home/pi/Documents/IPSCTest/MarkdownWorkspace/3.png" -IsTop 
+
+ipsc -Command "AddPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "/home/pi/Documents/IPSCTest/MarkdownWorkspace/4.png" -IsTop 
+
+ipsc -Command "AddPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/pi/Documents/IPSCTest/MarkdownWorkspace/A2.md" -PageType "Markdown" -PageTitle "Another Markdown Page" -PageAuthor "Chao" -TitleImage "/home/pi/Documents/IPSCTest/MarkdownWorkspace/4.png"
+
+ipsc -Command "AddPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/pi/Documents/IPSCTest/MarkdownWorkspace/H2.html" -PageType "HTML" -PageTitle "Another HTML Page" -PageAuthor "Chao" -TitleImage "/home/pi/Documents/IPSCTest/MarkdownWorkspace/5.png"
+
+ipsc -Command "AddPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.microsoft.com" -PageType "Link" -PageTitle "Microsoft Link" -PageAuthor "Chao" -IsTop -TitleImage "/home/pi/Documents/IPSCTest/MarkdownWorkspace/6.png"
+
+ipsc -Command "UpdatePage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "47fe4ff4235745b2f061c5b2f84b5cb4" -PagePath "/home/pi/Documents/IPSCTest/MarkdownWorkspace/A2.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "/home/pi/Documents/IPSCTest/MarkdownWorkspace/4.png" -IsTop
+
+ipsc -Command "UpdatePage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "47fe4ff4235745b2f061c5b2f84b5cb4" -PageTitle "Test Markdown Page 2" -PageAuthor "Chao(sdxianchao@microsoft.com)"
+
+ipsc -Command "DeletePage"  -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "47fe4ff4235745b2f061c5b2f84b5cb4" -RestorePage
+
+ipsc -Command "ListRecycledPages" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "RestoreRecycledPage" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "47fe4ff4235745b2f061c5b2f84b5cb4"
+
+ipsc -Command "ClearRecycledPages" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "Compile" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -IndexPageSize "VerySmall"
