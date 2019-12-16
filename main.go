@@ -2,13 +2,12 @@
 package main
 
 import (
-	"ipsc/Page"
-	"ipsc/Site"
-	"ipsc/Utils"
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"os"
+	"ipsc/Page"
+	"ipsc/Site"
+	"ipsc/Utils"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -34,7 +33,7 @@ func IndexPageSizeConvert(strPageSize string) string {
 }
 
 func Dispatch(cp CommandParser) (bool, error) {
-
+	//fmt.Println("A")
 	if cp.CurrentCommand == COMMAND_NEWSITE {
 		//NewSiteProject no site project exist, cannot open and do operations
 		if Utils.PathIsExist(cp.SiteFolderPath) == true {
@@ -42,7 +41,8 @@ func Dispatch(cp CommandParser) (bool, error) {
 			for _, f := range files {
 				var ext = filepath.Ext(f.Name())
 				if ext == ".sp" {
-					var errMsg = "Cannot Create Site Project, there is a site project already exist at " + cp.SiteFolderPath
+					var errMsg = "Main.Dispatch: Cannot Create Site Project, there is a site project already exist at " + cp.SiteFolderPath
+					fmt.Println(errMsg)
 					return false, errors.New(errMsg)
 				}
 			}
@@ -53,6 +53,7 @@ func Dispatch(cp CommandParser) (bool, error) {
 		bCreate, errCreate := smp.InitializeSiteProjectFolder(cp.SiteTitle, cp.SiteAuthor, cp.SiteDescription, cp.SiteFolderPath, cp.SiteOutputFolderPath)
 
 		if errCreate != nil {
+			fmt.Println("Main.Dispatch: " + errCreate.Error())
 			return bCreate, errCreate
 		}
 
@@ -62,8 +63,8 @@ func Dispatch(cp CommandParser) (bool, error) {
 		//Open site project
 		if Utils.PathIsExist(cp.SiteFolderPath) == false {
 			var errMsg string
-			errMsg = "Cannot find folder " + cp.SiteFolderPath
-			fmt.Fprintln(os.Stderr, errMsg)
+			errMsg = "Main.Dispatch: Cannot find folder " + cp.SiteFolderPath
+			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
 
@@ -80,15 +81,17 @@ func Dispatch(cp CommandParser) (bool, error) {
 			}
 
 			if spCount > 1 {
-				fmt.Fprintln(os.Stderr, "More than 1 sp file")
-				return false, errors.New("More than 1 sp file")
+				fmt.Println("Main.More than 1 sp file")
+				return false, errors.New("Main.More than 1 sp file")
 			}
 		} else {
 			siteProjectFileName = cp.SiteTitle + ".sp"
 		}
 
 		if siteProjectFileName == "" {
-			return false, errors.New("SiteTitle is empty and cannot find .sp file in root folder of " + cp.SiteFolderPath)
+			var errMsg = "Main.Dispatch: SiteTitle is empty and cannot find .sp file in root folder of " + cp.SiteFolderPath
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
 		}
 
 		var smp *Site.SiteModule
@@ -99,16 +102,20 @@ func Dispatch(cp CommandParser) (bool, error) {
 			var errSPFPath error
 			siteProjectFileName, errSPFPath = Utils.Try2FindSpFile(cp.SiteFolderPath)
 			if errSPFPath != nil || siteProjectFileName == "" {
-				return false, errors.New("Cannot find site proejct file path at " + siteProjectFilePath)
+				var errMsg = "Main.Dispatch: Cannot find site proejct file path at " + siteProjectFilePath
+				fmt.Println(errMsg)
+				return false, errors.New(errMsg)
 			}
 		}
 
 		smp = Site.NewSiteModule_WithArgs(cp.SiteFolderPath, siteProjectFileName)
 
 		if smp == nil {
-			return false, errors.New("Cannot initialize Site Module")
+			var errMsg = "Main.Dispatch: Cannot initialize Site Module"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
 		}
-
+		//fmt.Println("B")
 		//Start dispatch message
 		switch cp.CurrentCommand {
 		case COMMAND_UPDATESITE:
@@ -126,17 +133,31 @@ func Dispatch(cp CommandParser) (bool, error) {
 		case COMMAND_LISTPAGE:
 			DisplayPage(smp, cp.PageID)
 
+		case COMMAND_EXPORTSOURCEPAGES:
+			bExport, errExport := ExportSourcePages(smp, cp.ExportFolderPath)
+			if errExport != nil {
+				fmt.Println(errExport.Error())
+				return bExport, errExport
+			}
 		case COMMAND_COMPILE:
 			var sitePageSize = IndexPageSizeConvert(cp.IndexPageSize)
-			bComplie, errComplie := smp.Compile(sitePageSize)
-			if errComplie == nil {
-				fmt.Println("COMPILE Summary:")
-				DisplayComplieSummary("    ", smp.GetSiteProject().LastComplieSummary)
+			bCompile, errCompile := smp.Compile(sitePageSize)
+			if errCompile == nil {
+				fmt.Println("Compile Summary:")
+				DisplayCompileSummary("    ", smp.GetSiteProject().LastCompileSummary)
+			} else {
+				fmt.Println("Main.Dispatch: Compile " + errCompile.Error())
 			}
-			return bComplie, errComplie
+			return bCompile, errCompile
 
 		case COMMAND_CREATEMARKDOWN:
-			return smp.CreateMarkdown(cp.SiteFolderPath, cp.SourcePagePath, cp.MarkdownType)
+			bCreate, errCreate := smp.CreateMarkdown(cp.SiteFolderPath, cp.SourcePagePath, cp.MarkdownType)
+			if errCreate == nil && bCreate {
+				fmt.Println("CreateMarkdown Success " + cp.SourcePagePath)
+			} else {
+				fmt.Println("Main.Dispatch: Create Markdown Page " + errCreate.Error())
+			}
+			return bCreate, errCreate
 
 		case COMMAND_ADDPAGE:
 			var bAdd bool
@@ -149,6 +170,8 @@ func Dispatch(cp CommandParser) (bool, error) {
 			}
 			if errAdd == nil {
 				fmt.Println("Add Success, ID generated for added page is " + pageID)
+			} else {
+				fmt.Println("Main.Dispatch: Add Page " + errAdd.Error())
 			}
 			return bAdd, errAdd
 
@@ -162,11 +185,19 @@ func Dispatch(cp CommandParser) (bool, error) {
 			}
 			if errUpdate == nil {
 				fmt.Println("Update Success")
+			} else {
+				fmt.Println("Main.Dispatch: Update Source Page " + errUpdate.Error())
 			}
 			return bUpdate, errUpdate
 
 		case COMMAND_DELETEPAGE:
-			return smp.DeletePage(cp.PageID, cp.RestorePage)
+			bDelete, errDelete := smp.DeletePage(cp.PageID, cp.RestorePage)
+			if errDelete == nil {
+				fmt.Println("Delete Success")
+			} else {
+				fmt.Println("Main.Dispatch: Delete Source Page " + errDelete.Error())
+			}
+			return bDelete, errDelete
 
 		case COMMAND_LISTRECYCLEDPAGES:
 			ListRecycledPages(smp)
@@ -177,6 +208,9 @@ func Dispatch(cp CommandParser) (bool, error) {
 
 		case COMMAND_CLEARRECYCLEDPAGES:
 			return smp.CleanRecycledPageSourceFiles()
+		default:
+			fmt.Println("Command not found " + cp.CurrentCommand)
+			return false, errors.New("Main.Command not found " + cp.CurrentCommand)
 		}
 	}
 	return true, nil
@@ -188,18 +222,22 @@ func DipslayHelp(helpType string) {
 	if helpType == FULLHELP {
 		helpContent, errHelp := GetFullHelpInformation()
 		if errHelp != nil {
-			fmt.Println("Cannot get full help information")
+			fmt.Println("Main.DisplayHelp: Cannot get full help information")
 		} else {
 			fmt.Println(helpContent)
 		}
 	} else {
 		helpContent, errHelp := GetQuickHelpInformation()
 		if errHelp != nil {
-			fmt.Println("Cannot get quick help information")
+			fmt.Println("Main.DisplayHelp: Cannot get quick help information")
 		} else {
 			fmt.Println(helpContent)
 		}
 	}
+}
+
+func ExportSourcePages(smp *Site.SiteModule, exportFolderPath string) (bool, error) {
+	return smp.ExportSourcePages(exportFolderPath)
 }
 
 /*
@@ -303,14 +341,14 @@ func DisplaySiteProperties(smp *Site.SiteModule) {
 	fmt.Println("    Author: " + sp.Author)
 	fmt.Println("    Create Time: " + sp.CreateTime)
 	fmt.Println("    Last Modified: " + sp.LastModified)
-	fmt.Println("    Last Compiled: " + sp.LastComplied)
+	fmt.Println("    Last Compiled: " + sp.LastCompiled)
 	fmt.Println("    Last Compile Summary: ")
-	DisplayComplieSummary("        ", sp.LastComplieSummary)
+	DisplayCompileSummary("        ", sp.LastCompileSummary)
 	fmt.Println("    Output Folder: " + sp.OutputFolderPath)
 	fmt.Println("-----------------")
 }
 
-func DisplayComplieSummary(prefix, summary string) {
+func DisplayCompileSummary(prefix, summary string) {
 	var items = strings.Split(summary, "_")
 
 	for _, item := range items {
@@ -344,19 +382,22 @@ func ListRecycledPages(smp *Site.SiteModule) {
 }
 
 func Run() {
+	//fmt.Println("RunA")
 	var cp CommandParser
 	bParse := cp.ParseCommand()
+	//fmt.Println("RunB")
 	if bParse == true {
+		//fmt.Println("RunC")
 		_, errRet := Dispatch(cp)
+		//fmt.Println("RunD")
 		if errRet != nil {
 			fmt.Println(errRet.Error())
 		}
-		fmt.Println("Done")
 	}
+	//fmt.Println("RunE")
+	fmt.Println("Done")
 }
 
 func main() {
-	var softwareinfo = "IPSC 0.1.0.1"
-	fmt.Println(softwareinfo)
 	Run()
 }

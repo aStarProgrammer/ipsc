@@ -2,6 +2,7 @@ package Page
 
 import (
 	"errors"
+	"fmt"
 )
 
 const (
@@ -33,5 +34,6 @@ func ConvertPageSize2Int(pageSize string) (int, error) {
 	} else if pageSize == INDEX_PAGE_SIZE_30 {
 		return 30, nil
 	}
+	fmt.Println("ConvertPageSize2Int: Wrong page size,should be 5 10 20 30 in string")
 	return -1, errors.New("Wrong page size,should be 5 10 20 30 in string")
 }

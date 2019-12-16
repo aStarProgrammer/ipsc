@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"ipsc/Configuration"
+
 	//"fmt"
 	"io/ioutil"
 )
@@ -14,11 +16,13 @@ const (
 func GetQuickHelpInformation() (string, error) {
 	quickHelpFilePath, errPath := Configuration.GetQuickHelpPath()
 	if errPath != nil {
+		fmt.Println("GetQuickHelp: " + errPath.Error())
 		return "", errPath
 	}
 	bHelpContent, errRead := ioutil.ReadFile(quickHelpFilePath)
 
 	if errRead != nil {
+		fmt.Println("GetQuickHelp: " + errRead.Error())
 		return "", errRead
 	}
 	var sHelpContent = string(bHelpContent)
@@ -29,12 +33,14 @@ func GetFullHelpInformation() (string, error) {
 	fullHelpFilePath, errPath := Configuration.GetFullHelpPath()
 
 	if errPath != nil {
+		fmt.Println("GetFullHelp: " + errPath.Error())
 		return "", errPath
 	}
 
 	bHelpContent, errRead := ioutil.ReadFile(fullHelpFilePath)
 
 	if errRead != nil {
+		fmt.Println("GetFullHelp: " + errRead.Error())
 		return "", errRead
 	}
 	var sHelpContent = string(bHelpContent)
@@ -44,7 +50,7 @@ func GetFullHelpInformation() (string, error) {
 func GetFieldHelpMsg(fieldName string) string {
 	switch fieldName {
 	case "Command":
-		return "Command you want to run,for example, Complie:Complie the whole site, run ipsc -h or -Help to get more information. (If empty, Help command)"
+		return "Command you want to run,for example, Compile:Compile the whole site, run ipsc -h or -Help to get more information. (If empty, Help command)"
 	case "SiteTitle":
 		return "Title of the site and site project,will show on the top of page of site, the shorter,the better"
 	case "SiteDescription":
@@ -53,16 +59,18 @@ func GetFieldHelpMsg(fieldName string) string {
 		return "Author of site, if empty, will use current login user"
 	case "SiteFolder":
 		return "Path of Site Project "
+	case "ExportFolderPath":
+		return "The folder you want to export site source pages"
 	case "OutputFolder":
-		return "Folder used to put complied html files, if empty, will created automatically as sub folder Output of site project folder, if specified, will use the folder you specified"
+		return "Folder used to put Compiled html files, if empty, will created automatically as sub folder Output of site project folder, if specified, will use the folder you specified"
 	case "PropertyName":
 		return "Name of property that you want to update,get or delete"
 	case "PropertyValue":
 		return "Value of property,enter it as string, IPSC will convert it to needed type"
 	case "IndexPageSize":
 		return "The size of index and more page, normal page contains 20 items,small page contains 10 items, very small page contains 5 items, big page contains 30 items (Default Normal)"
-	case "StopComplieWithError":
-		return "Whether stop complie when encounter error during compling (Default true)"
+	case "StopCompileWithError":
+		return "Whether stop Compile when encounter error during compling (Default true)"
 	case "VerboseLog":
 		return "Whether output verbose log of compling (Default false)"
 	case "HelpType":

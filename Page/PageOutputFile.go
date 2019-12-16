@@ -1,9 +1,10 @@
 package Page
 
 import (
-	"ipsc/Utils"
 	"encoding/json"
 	"errors"
+	"fmt"
+	"ipsc/Utils"
 	"strconv"
 )
 
@@ -52,11 +53,15 @@ func (po *PageOutputFile) ToJson() (string, error) {
 	var _jsonbyte []byte
 
 	if po == nil {
-		return "", errors.New("Pointer po is nil")
+		var errMsg = "PageOutputFile->ToJson: Pointer po is nil"
+		fmt.Println(errMsg)
+		return "", errors.New(errMsg)
 	}
 
 	if IsPageOutputFileEmpty(*po) {
-		return "", errors.New("Page Output File is empty")
+		var errMsg = "PageOutputFile->ToJson:Page Output File is empty"
+		fmt.Println(errMsg)
+		return "", errors.New(errMsg)
 	}
 
 	_jsonbyte, err := json.Marshal(*po)
