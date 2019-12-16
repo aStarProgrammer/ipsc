@@ -306,13 +306,29 @@ func (spp *SiteProject) UpdateIndexSourceFile(psf Page.PageSourceFile) (bool, er
 
 func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
+<<<<<<< HEAD
 		var errMsg = "SiteProject.UpdatePageSourceFile: Site Project is empty"
+=======
+<<<<<<< HEAD
+		var errMsg = "SiteProject.UpdatePageSourceFile: Site Project is empty"
+=======
+		var errMsg = "Site Project is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
+<<<<<<< HEAD
 		var errMsg = "SiteProject.UpdatePageSourceFile: Source Page is empty"
+=======
+<<<<<<< HEAD
+		var errMsg = "SiteProject.UpdatePageSourceFile: Source Page is empty"
+=======
+		var errMsg = "Source Page is empty"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
@@ -332,7 +348,15 @@ func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, err
 			return true, nil
 		}
 	}
+<<<<<<< HEAD
 	var errMsg = "SiteProject.UpdatePageSourceFile: Source Page not found"
+=======
+<<<<<<< HEAD
+	var errMsg = "SiteProject.UpdatePageSourceFile: Source Page not found"
+=======
+	var errMsg = "Source Page not found"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 	fmt.Println(errMsg)
 	return false, errors.New(errMsg)
 }
@@ -801,8 +825,12 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 			}
 
 		} else if psf.Type == Page.LINK {
+<<<<<<< HEAD
 
 			links = append(links, psf.SourceFilePath+"|"+psf.ID+"|"+psf.Title+"|"+strconv.FormatBool(psf.IsTop))
+=======
+			links = append(links, psf.SourceFilePath+"|"+psf.ID+"|"+psf.Title)
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 		}
 	}
 
@@ -833,12 +861,18 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 	//Export Title Image of source files to source folder
 	for _, psf := range spp.SourceFiles {
 		if psf.TitleImage != "" {
+<<<<<<< HEAD
+=======
+			var fileName = psf.ID
+
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			fileType, errFileType := Utils.GetImageType(psf.TitleImage)
 			if errFileType != nil {
 				var errMsg = "Export Source File: Title Image Content is not correct"
 				fmt.Println(errMsg)
 				return false, errors.New(errMsg)
 			}
+<<<<<<< HEAD
 			var fileName string
 
 			if psf.Type == Page.MARKDOWN || psf.Type == Page.HTML {
@@ -849,6 +883,10 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 			} else if psf.Type == Page.LINK {
 				fileName = psf.Title + "." + fileType
 			}
+=======
+
+			fileName = fileName + "." + fileType
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 
 			var targetFilePath string
 			targetFilePath = ""
@@ -909,7 +947,11 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 	}
 	fmt.Println("Link:" + strconv.Itoa(linkLength) + "`")
 	for _, psf := range outputLinkFiles {
+<<<<<<< HEAD
 		var str = psf.SourceFilePath + "|" + psf.ID + "|" + psf.Title + "|" + strconv.FormatBool(psf.IsTop) + "`"
+=======
+		var str = psf.SourceFilePath + "|" + psf.ID + "|" + psf.Title + "`"
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 		fmt.Println(str)
 	}
 	return true, nil

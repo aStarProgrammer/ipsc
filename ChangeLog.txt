@@ -2,12 +2,22 @@
 *SiteFolder SiteOutputFolder SourcePagePath cannot contains space now, because ipsc will call cmd and bash to run some external commands, if these path have spaces in them, calling of external commands will fail.
 
 0.1.1.0 2019/12/6
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 *Add Function  ExportSourcePages:Export source files (Markdown,Html,Links and title images) into ExportFolder
 
 0.1.2.0 2019/12/12
 *Add more comment to Error Message
 *Replace cmd mklink with Os.SymLink in MakeSoftLink
 *Change calling method of pandoc
+<<<<<<< HEAD
 
 0.1.2.1 2019/12/14
 *Not allow to add source page that already exist
+=======
+=======
+*Add Function  ExportSourcePages:Export source files (Markdown,Html,Links and title images) into ExportFolder
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6

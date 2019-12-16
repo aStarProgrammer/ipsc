@@ -41,7 +41,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 			for _, f := range files {
 				var ext = filepath.Ext(f.Name())
 				if ext == ".sp" {
+<<<<<<< HEAD
 					var errMsg = "Main.Dispatch: Cannot Create Site Project, there is a site project already exist at " + cp.SiteFolderPath
+=======
+<<<<<<< HEAD
+					var errMsg = "Main.Dispatch: Cannot Create Site Project, there is a site project already exist at " + cp.SiteFolderPath
+=======
+					var errMsg = "Dispatch: Cannot Create Site Project, there is a site project already exist at " + cp.SiteFolderPath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 					fmt.Println(errMsg)
 					return false, errors.New(errMsg)
 				}
@@ -53,7 +61,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 		bCreate, errCreate := smp.InitializeSiteProjectFolder(cp.SiteTitle, cp.SiteAuthor, cp.SiteDescription, cp.SiteFolderPath, cp.SiteOutputFolderPath)
 
 		if errCreate != nil {
+<<<<<<< HEAD
 			fmt.Println("Main.Dispatch: " + errCreate.Error())
+=======
+<<<<<<< HEAD
+			fmt.Println("Main.Dispatch: " + errCreate.Error())
+=======
+			fmt.Println("Dispatch: " + errCreate.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			return bCreate, errCreate
 		}
 
@@ -63,7 +79,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 		//Open site project
 		if Utils.PathIsExist(cp.SiteFolderPath) == false {
 			var errMsg string
+<<<<<<< HEAD
 			errMsg = "Main.Dispatch: Cannot find folder " + cp.SiteFolderPath
+=======
+<<<<<<< HEAD
+			errMsg = "Main.Dispatch: Cannot find folder " + cp.SiteFolderPath
+=======
+			errMsg = "Dispatch: Cannot find folder " + cp.SiteFolderPath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -81,15 +105,33 @@ func Dispatch(cp CommandParser) (bool, error) {
 			}
 
 			if spCount > 1 {
+<<<<<<< HEAD
 				fmt.Println("Main.More than 1 sp file")
 				return false, errors.New("Main.More than 1 sp file")
+=======
+<<<<<<< HEAD
+				fmt.Println("Main.More than 1 sp file")
+				return false, errors.New("Main.More than 1 sp file")
+=======
+				fmt.Println("More than 1 sp file")
+				return false, errors.New("More than 1 sp file")
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			}
 		} else {
 			siteProjectFileName = cp.SiteTitle + ".sp"
 		}
 
 		if siteProjectFileName == "" {
+<<<<<<< HEAD
 			var errMsg = "Main.Dispatch: SiteTitle is empty and cannot find .sp file in root folder of " + cp.SiteFolderPath
+=======
+<<<<<<< HEAD
+			var errMsg = "Main.Dispatch: SiteTitle is empty and cannot find .sp file in root folder of " + cp.SiteFolderPath
+=======
+			var errMsg = "Dispatch: SiteTitle is empty and cannot find .sp file in root folder of " + cp.SiteFolderPath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -102,7 +144,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 			var errSPFPath error
 			siteProjectFileName, errSPFPath = Utils.Try2FindSpFile(cp.SiteFolderPath)
 			if errSPFPath != nil || siteProjectFileName == "" {
+<<<<<<< HEAD
 				var errMsg = "Main.Dispatch: Cannot find site proejct file path at " + siteProjectFilePath
+=======
+<<<<<<< HEAD
+				var errMsg = "Main.Dispatch: Cannot find site proejct file path at " + siteProjectFilePath
+=======
+				var errMsg = "Dispatch: Cannot find site proejct file path at " + siteProjectFilePath
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 				fmt.Println(errMsg)
 				return false, errors.New(errMsg)
 			}
@@ -111,7 +161,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 		smp = Site.NewSiteModule_WithArgs(cp.SiteFolderPath, siteProjectFileName)
 
 		if smp == nil {
+<<<<<<< HEAD
 			var errMsg = "Main.Dispatch: Cannot initialize Site Module"
+=======
+<<<<<<< HEAD
+			var errMsg = "Main.Dispatch: Cannot initialize Site Module"
+=======
+			var errMsg = "Dispatch: Cannot initialize Site Module"
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			fmt.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
@@ -143,10 +201,21 @@ func Dispatch(cp CommandParser) (bool, error) {
 			var sitePageSize = IndexPageSizeConvert(cp.IndexPageSize)
 			bCompile, errCompile := smp.Compile(sitePageSize)
 			if errCompile == nil {
+<<<<<<< HEAD
 				fmt.Println("Compile Summary:")
 				DisplayCompileSummary("    ", smp.GetSiteProject().LastCompileSummary)
 			} else {
 				fmt.Println("Main.Dispatch: Compile " + errCompile.Error())
+=======
+				fmt.Println("COMPILE Summary:")
+				DisplayCompileSummary("    ", smp.GetSiteProject().LastCompileSummary)
+			} else {
+<<<<<<< HEAD
+				fmt.Println("Main.Dispatch: Compile " + errCompile.Error())
+=======
+				fmt.Println("Dispatch: Compile " + errCompile.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			}
 			return bCompile, errCompile
 
@@ -171,7 +240,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 			if errAdd == nil {
 				fmt.Println("Add Success, ID generated for added page is " + pageID)
 			} else {
+<<<<<<< HEAD
 				fmt.Println("Main.Dispatch: Add Page " + errAdd.Error())
+=======
+<<<<<<< HEAD
+				fmt.Println("Main.Dispatch: Add Page " + errAdd.Error())
+=======
+				fmt.Println("Dispatch: Add Page " + errAdd.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			}
 			return bAdd, errAdd
 
@@ -186,7 +263,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 			if errUpdate == nil {
 				fmt.Println("Update Success")
 			} else {
+<<<<<<< HEAD
 				fmt.Println("Main.Dispatch: Update Source Page " + errUpdate.Error())
+=======
+<<<<<<< HEAD
+				fmt.Println("Main.Dispatch: Update Source Page " + errUpdate.Error())
+=======
+				fmt.Println("Dispatch: Update Source Page " + errUpdate.Error())
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 			}
 			return bUpdate, errUpdate
 
@@ -210,7 +295,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 			return smp.CleanRecycledPageSourceFiles()
 		default:
 			fmt.Println("Command not found " + cp.CurrentCommand)
+<<<<<<< HEAD
 			return false, errors.New("Main.Command not found " + cp.CurrentCommand)
+=======
+<<<<<<< HEAD
+			return false, errors.New("Main.Command not found " + cp.CurrentCommand)
+=======
+			return false, errors.New("Command not found " + cp.CurrentCommand)
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 		}
 	}
 	return true, nil
@@ -222,14 +315,30 @@ func DipslayHelp(helpType string) {
 	if helpType == FULLHELP {
 		helpContent, errHelp := GetFullHelpInformation()
 		if errHelp != nil {
+<<<<<<< HEAD
 			fmt.Println("Main.DisplayHelp: Cannot get full help information")
+=======
+<<<<<<< HEAD
+			fmt.Println("Main.DisplayHelp: Cannot get full help information")
+=======
+			fmt.Println("DisplayHelp: Cannot get full help information")
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 		} else {
 			fmt.Println(helpContent)
 		}
 	} else {
 		helpContent, errHelp := GetQuickHelpInformation()
 		if errHelp != nil {
+<<<<<<< HEAD
 			fmt.Println("Main.DisplayHelp: Cannot get quick help information")
+=======
+<<<<<<< HEAD
+			fmt.Println("Main.DisplayHelp: Cannot get quick help information")
+=======
+			fmt.Println("DisplayHelp: Cannot get quick help information")
+>>>>>>> 71276fde19654e48a3fd9f74fefda5cbdd634d5a
+>>>>>>> a006a98be915ab73501f3eaea84732339c2d4ca6
 		} else {
 			fmt.Println(helpContent)
 		}
