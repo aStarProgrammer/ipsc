@@ -34,12 +34,12 @@ ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -Pag
 
 ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"  -PageTitle "Test Page Title 2"
 
-ipsc -Command "DeletePage"  -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "1cadbf25e1b192cb5ef0299d018af8de" -RestorePage
+ipsc -Command "DeletePage"  -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "e599acb442043edec4fa80749e37d974" -RestorePage "false"
 
 ipsc -Command "ListRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
-ipsc -Command "RestoreRecycledPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"
+ipsc -Command "RestoreRecycledPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "e2d121d2a1a6b315c52dfaae0f375d94"
 
 ipsc -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
-ipsc -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
+ipsc -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "VerySmall"

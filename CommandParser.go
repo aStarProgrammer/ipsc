@@ -25,12 +25,12 @@ type CommandParser struct {
 	PageID               string
 	PageTitle            string
 	PageAuthor           string
-	PageIsTop            bool
+	PageIsTop            string
 	PageType             string
 	SourcePagePath       string
 	LinkUrl              string
 	PageTitleImagePath   string
-	RestorePage          bool
+	RestorePage          string
 	MarkdownType         string
 }
 
@@ -50,12 +50,12 @@ func (cpp *CommandParser) ParseCommand() bool {
 	flag.StringVar(&cpp.PageID, "PageID", "", GetFieldHelpMsg("PageID"))
 	flag.StringVar(&cpp.PageTitle, "PageTitle", "", GetFieldHelpMsg("PageTitle"))
 	flag.StringVar(&cpp.PageAuthor, "PageAuthor", "", GetFieldHelpMsg("PageAuthor"))
-	flag.BoolVar(&cpp.PageIsTop, "IsTop", false, GetFieldHelpMsg("IsTop"))
+	flag.StringVar(&cpp.PageIsTop, "IsTop", "false", GetFieldHelpMsg("IsTop"))
 	flag.StringVar(&cpp.PageType, "PageType", "MARKDOWN", GetFieldHelpMsg("PageType"))
 	flag.StringVar(&cpp.SourcePagePath, "PagePath", "", GetFieldHelpMsg("PagePath"))
 	flag.StringVar(&cpp.LinkUrl, "LinkUrl", "", GetFieldHelpMsg("LinkUrl"))
 	flag.StringVar(&cpp.PageTitleImagePath, "TitleImage", "", GetFieldHelpMsg("TitleImage"))
-	flag.BoolVar(&cpp.RestorePage, "RestorePage", true, GetFieldHelpMsg("RestorePage"))
+	flag.StringVar(&cpp.RestorePage, "RestorePage", "true", GetFieldHelpMsg("RestorePage"))
 	flag.StringVar(&cpp.MarkdownType, "MarkdownType", "News", GetFieldHelpMsg("MarkdownType"))
 	//Parse
 	flag.Parse()
@@ -86,6 +86,9 @@ func (cpp *CommandParser) ParseCommand() bool {
 	cpp.MarkdownType = strings.ToUpper(cpp.MarkdownType)
 	cpp.PageType = strings.ToUpper(cpp.PageType)
 	cpp.HelpType = strings.ToUpper(cpp.HelpType)
+
+	cpp.RestorePage = strings.ToUpper(cpp.RestorePage)
+	cpp.PageIsTop = strings.ToUpper(cpp.PageIsTop)
 
 	//Check whether command is help, if it is help,jump other operations
 	if cpp.CurrentCommand == "" {
@@ -206,6 +209,12 @@ func (cpp *CommandParser) ParseCommand() bool {
 		if cpp.PageTitleImagePath == "" {
 			fmt.Println("Title image of page source file is empty,will not display image for this page in index page")
 		}
+
+		if cpp.PageIsTop != "TRUE" && cpp.PageIsTop != "FALSE" {
+			fmt.Println("IsTop should be true or false in string")
+			ret = false
+		}
+
 	case COMMAND_CREATEMARKDOWN:
 		if cpp.SourcePagePath == "" {
 			fmt.Println("CommandParse: Path of source page file is empty")
@@ -217,9 +226,18 @@ func (cpp *CommandParser) ParseCommand() bool {
 			fmt.Println("CommandParse: Page ID is empty,don't know which page to restore")
 			ret = false
 		}
+		if cpp.PageIsTop != "TRUE" && cpp.PageIsTop != "FALSE" {
+			fmt.Println("IsTop should be true or false in string")
+			ret = false
+		}
 	case COMMAND_DELETEPAGE:
 		if cpp.PageID == "" {
 			fmt.Println("CommandParse: Page ID is empty,don't know which page to restore")
+			ret = false
+		}
+
+		if cpp.RestorePage != "TRUE" && cpp.RestorePage != "FALSE" {
+			fmt.Println("RestorePage should be true or false in string")
 			ret = false
 		}
 	}

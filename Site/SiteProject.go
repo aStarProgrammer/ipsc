@@ -323,7 +323,7 @@ func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, err
 			spp.SourceFiles[i].CreateTime = psf.CreateTime
 			spp.SourceFiles[i].Description = psf.Description
 			spp.SourceFiles[i].LastCompiled = psf.LastCompiled
-			spp.SourceFiles[i].LastModified = Utils.CurrentTime()
+			spp.SourceFiles[i].LastModified = psf.LastModified
 			spp.SourceFiles[i].OutputFile = psf.OutputFile
 			spp.SourceFiles[i].SourceFilePath = psf.SourceFilePath
 			spp.SourceFiles[i].Title = psf.Title
@@ -389,6 +389,11 @@ func (spp *SiteProject) RemovePageOutputFile(pof Page.PageOutputFile) (bool, err
 
 	for i, sf := range spp.OutputFiles {
 		if sf.ID == pof.ID {
+			if pof.FilePath != "" && Utils.PathIsExist(pof.FilePath) {
+				if Utils.DeleteFile(pof.FilePath) == false {
+					fmt.Println("Delete file " + pof.FilePath + " Failed")
+				}
+			}
 			spp.OutputFiles = append(spp.OutputFiles[:i], spp.OutputFiles[i+1:]...)
 			return true, nil
 		}
@@ -629,7 +634,7 @@ func (spp *SiteProject) GetActivePageSources() []string {
 	var pages []string
 
 	for _, psf := range spp.SourceFiles {
-		if psf.Status == Page.ACTIVE {
+		if psf.Status == Page.ACTIVE && psf.Type != Page.INDEX {
 			psfStr := psf.ToString()
 			pages = append(pages, psfStr)
 		}
@@ -642,7 +647,7 @@ func (spp *SiteProject) GetRecycledPageSources() []string {
 	var pages []string
 
 	for _, psf := range spp.SourceFiles {
-		if psf.Status == Page.RECYCLED {
+		if psf.Status == Page.RECYCLED && psf.Type != Page.INDEX {
 			psfStr := psf.ToString()
 			pages = append(pages, psfStr)
 		}

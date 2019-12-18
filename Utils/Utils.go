@@ -303,11 +303,12 @@ func MoveFile(src, dst string) (int64, error) {
 }
 
 func DeleteFile(filePath string) bool {
-	errRemove := os.Remove(filePath)
+	os.Remove(filePath)
 
-	if errRemove != nil {
+	if PathIsExist(filePath) {
 		return false
 	}
+
 	return true
 }
 

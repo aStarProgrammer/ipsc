@@ -55,6 +55,8 @@ func Dispatch(cp CommandParser) (bool, error) {
 		if errCreate != nil {
 			fmt.Println("Main.Dispatch: " + errCreate.Error())
 			return bCreate, errCreate
+		} else {
+			fmt.Println("Create Site Success")
 		}
 
 	} else if cp.CurrentCommand == COMMAND_HELP {
@@ -142,7 +144,7 @@ func Dispatch(cp CommandParser) (bool, error) {
 		case COMMAND_COMPILE:
 			var sitePageSize = IndexPageSizeConvert(cp.IndexPageSize)
 			bCompile, errCompile := smp.Compile(sitePageSize)
-			if errCompile == nil {
+			if errCompile == nil && bCompile {
 				fmt.Println("Compile Summary:")
 				DisplayCompileSummary("    ", smp.GetSiteProject().LastCompileSummary)
 			} else {
@@ -163,12 +165,13 @@ func Dispatch(cp CommandParser) (bool, error) {
 			var bAdd bool
 			var pageID string
 			var errAdd error
+			isTop, _ := strconv.ParseBool(cp.PageIsTop)
 			if cp.PageType == Page.MARKDOWN || cp.PageType == Page.HTML {
-				bAdd, pageID, errAdd = smp.AddPage(cp.PageTitle, "", cp.PageAuthor, cp.SourcePagePath, cp.PageTitleImagePath, cp.PageType, cp.PageIsTop)
+				bAdd, pageID, errAdd = smp.AddPage(cp.PageTitle, "", cp.PageAuthor, cp.SourcePagePath, cp.PageTitleImagePath, cp.PageType, isTop)
 			} else if cp.PageType == Page.LINK {
-				bAdd, pageID, errAdd = smp.AddPage(cp.PageTitle, "", cp.PageAuthor, cp.LinkUrl, cp.PageTitleImagePath, cp.PageType, cp.PageIsTop)
+				bAdd, pageID, errAdd = smp.AddPage(cp.PageTitle, "", cp.PageAuthor, cp.LinkUrl, cp.PageTitleImagePath, cp.PageType, isTop)
 			}
-			if errAdd == nil {
+			if errAdd == nil && bAdd {
 				fmt.Println("Add Success, ID generated for added page is " + pageID)
 			} else {
 				fmt.Println("Main.Dispatch: Add Page " + errAdd.Error())
@@ -178,12 +181,15 @@ func Dispatch(cp CommandParser) (bool, error) {
 		case COMMAND_UPDATEPAGE:
 			var bUpdate bool
 			var errUpdate error
+			isTop, _ := strconv.ParseBool(cp.PageIsTop)
 			if cp.SourcePagePath != "" {
-				bUpdate, errUpdate = smp.UpdatePage(cp.PageID, cp.PageTitle, "", cp.PageAuthor, cp.SourcePagePath, cp.PageTitleImagePath, cp.PageIsTop)
+				bUpdate, errUpdate = smp.UpdatePage(cp.PageID, cp.PageTitle, "", cp.PageAuthor, cp.SourcePagePath, cp.PageTitleImagePath, isTop)
 			} else if cp.LinkUrl != "" {
-				bUpdate, errUpdate = smp.UpdatePage(cp.PageID, cp.PageTitle, "", cp.PageAuthor, cp.LinkUrl, cp.PageTitleImagePath, cp.PageIsTop)
+				bUpdate, errUpdate = smp.UpdatePage(cp.PageID, cp.PageTitle, "", cp.PageAuthor, cp.LinkUrl, cp.PageTitleImagePath, isTop)
+			} else if cp.SourcePagePath == "" && cp.LinkUrl == "" {
+				bUpdate, errUpdate = smp.UpdatePage(cp.PageID, cp.PageTitle, "", cp.PageAuthor, "", cp.PageTitleImagePath, isTop)
 			}
-			if errUpdate == nil {
+			if errUpdate == nil && bUpdate {
 				fmt.Println("Update Success")
 			} else {
 				fmt.Println("Main.Dispatch: Update Source Page " + errUpdate.Error())
@@ -191,8 +197,9 @@ func Dispatch(cp CommandParser) (bool, error) {
 			return bUpdate, errUpdate
 
 		case COMMAND_DELETEPAGE:
-			bDelete, errDelete := smp.DeletePage(cp.PageID, cp.RestorePage)
-			if errDelete == nil {
+			restorePage, _ := strconv.ParseBool(cp.RestorePage)
+			bDelete, errDelete := smp.DeletePage(cp.PageID, restorePage)
+			if errDelete == nil && bDelete {
 				fmt.Println("Delete Success")
 			} else {
 				fmt.Println("Main.Dispatch: Delete Source Page " + errDelete.Error())

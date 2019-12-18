@@ -122,30 +122,53 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 		return -1, errors.New(errMsg)
 	}
 
-	pof := Page.NewPageOutputFile()
-	pof.Author = psf.Author
-	pof.Description = psf.Description
-	pof.FilePath = psf.SourceFilePath
-	pof.IsTop = psf.IsTop
-	pof.Title = psf.Title
-	pof.TitleImage = psf.TitleImage
-	pof.Type = psf.Type
+	var _pofID int
 
-	_, errAdd := lmp.spp.AddPageOutputFile(pof)
+	if psf.OutputFile != -1 {
+		pof := lmp.spp.OutputFiles[psf.OutputFile]
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = psf.SourceFilePath
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
 
-	if errAdd != nil {
-		return -1, errAdd
+		_, errUpdatePof := lmp.spp.UpdatePageOutputFile(pof)
+
+		if errUpdatePof != nil {
+			var errMsg = "LinkModule: Page Out File update Fail"
+			fmt.Println(errMsg)
+			return -1, errUpdatePof
+		}
+	} else {
+		pof := Page.NewPageOutputFile()
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = psf.SourceFilePath
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
+
+		_, errAdd := lmp.spp.AddPageOutputFile(pof)
+
+		if errAdd != nil {
+			return -1, errAdd
+		}
+
+		_pofID = lmp.spp.GetPageOutputFile(pof.ID)
+
+		if _pofID == -1 {
+			var errMsg = "LinkModule: Page Out File add Fail"
+			fmt.Println(errMsg)
+			return _pofID, errors.New(errMsg)
+		}
+
+		psf.OutputFile = _pofID
 	}
-
-	_pofID := lmp.spp.GetPageOutputFile(pof.ID)
-
-	if _pofID == -1 {
-		var errMsg = "Page Out File add Fail"
-		fmt.Println(errMsg)
-		return _pofID, errors.New(errMsg)
-	}
-
-	psf.OutputFile = _pofID
 	psf.LastCompiled = Utils.CurrentTime()
 
 	lmp.spp.UpdatePageSourceFile(psf)

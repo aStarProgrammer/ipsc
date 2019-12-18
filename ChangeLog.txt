@@ -11,3 +11,6 @@
 
 0.1.2.1 2019/12/14
 *Not allow to add source page that already exist
+
+0.1.2.2 2019/12/17
+*Fix some bugs

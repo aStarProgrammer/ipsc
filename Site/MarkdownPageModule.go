@@ -224,54 +224,58 @@ func (mpmp *MarkdownPageModule) UpdateMarkdown(psf Page.PageSourceFile, filePath
 
 	psf_Backup := mpmp.spp.SourceFiles[_psfID]
 
-	if filePath == "" {
-		return true, nil
-	}
+	if filePath != psf.SourceFilePath {
 
-	if Utils.PathIsExist(filePath) == false {
-		var errMsg = "MarkdownPageModule.UpdateMarkdown: Markdown file not exist"
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
-	}
+		if Utils.PathIsExist(filePath) == false {
+			var errMsg = "MarkdownPageModule.UpdateMarkdown: Markdown file not exist"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		}
 
-	bMarkdown, errMarkdown := FileIsMarkdown(filePath)
+		bMarkdown, errMarkdown := FileIsMarkdown(filePath)
 
-	if errMarkdown != nil {
-		var errMsg = "MarkdownPageModule.UpdateMarkdown: Cannot confirm file type"
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
-	} else if bMarkdown == false {
-		var errMsg = "MarkdownPageModule.UpdateMarkdown: File is not Markdown"
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
-	}
+		if errMarkdown != nil {
+			var errMsg = "MarkdownPageModule.UpdateMarkdown: Cannot confirm file type"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		} else if bMarkdown == false {
+			var errMsg = "MarkdownPageModule.UpdateMarkdown: File is not Markdown"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		}
 
-	_, fileName := filepath.Split(filePath)
+		_, fileName := filepath.Split(filePath)
 
-	var markdownSrc, markdownDst string
-	markdownSrc = filePath
-	markdownDst = filepath.Join(mpmp.smp.GetSrcMarkdownFolderPath(mpmp.smp.GetProjectFolderPath()), fileName)
-	psf.SourceFilePath = markdownDst
+		var markdownSrc, markdownDst string
+		markdownSrc = filePath
+		markdownDst = filepath.Join(mpmp.smp.GetSrcMarkdownFolderPath(mpmp.smp.GetProjectFolderPath()), fileName)
+		psf.SourceFilePath = markdownDst
 
-	bUpdate, errUpdate := mpmp.spp.UpdatePageSourceFile(psf)
+		bUpdate, errUpdate := mpmp.spp.UpdatePageSourceFile(psf)
 
-	if errUpdate != nil {
-		return bUpdate, errUpdate
-	}
+		if errUpdate != nil {
+			return bUpdate, errUpdate
+		}
 
-	if psf.SourceFilePath != psf_Backup.SourceFilePath {
-		Utils.DeleteFile(psf_Backup.SourceFilePath)
-	}
+		if psf.SourceFilePath != psf_Backup.SourceFilePath {
+			Utils.DeleteFile(psf_Backup.SourceFilePath)
+		}
 
-	_, errCopy := Utils.CopyFile(markdownSrc, markdownDst)
+		_, errCopy := Utils.CopyFile(markdownSrc, markdownDst)
 
-	if errCopy != nil {
-		var errMsg string
-		errMsg = "MarkdownPageModule.UpdateMarkdown: Copy File from " + markdownSrc + " to " + markdownDst + " Failed"
-		//恢复被更新的内容
-		mpmp.spp.UpdatePageSourceFile(psf_Backup)
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
+		if errCopy != nil {
+			var errMsg string
+			errMsg = "MarkdownPageModule.UpdateMarkdown: Copy File from " + markdownSrc + " to " + markdownDst + " Failed"
+			//恢复被更新的内容
+			mpmp.spp.UpdatePageSourceFile(psf_Backup)
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		}
+	} else {
+		bUpdate, errUpdate := mpmp.spp.UpdatePageSourceFile(psf)
+		if errUpdate != nil {
+			return bUpdate, errUpdate
+		}
 	}
 	return true, nil
 }
@@ -353,12 +357,11 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	fileName := filepath.Base(markdownSrc)
 	ext := filepath.Ext(markdownSrc)
 	fileNameOnly := strings.TrimSuffix(fileName, ext)
+	newFileName := fileNameOnly + ".html"
 
 	if psf.Type == Page.INDEX {
-		newFileName := fileNameOnly + ".html"
 		markdownDst = filepath.Join(mpmp.smp.GetOutputFolderPath(mpmp.smp.GetProjectFolderPath()), newFileName)
 	} else {
-		newFileName := fileNameOnly + "_" + Utils.GUID() + ".html"
 		markdownDst = filepath.Join(mpmp.smp.GetOutputFolderPath(mpmp.smp.GetProjectFolderPath()), "Pages", newFileName)
 	}
 	var errCssFilePath error
@@ -403,35 +406,57 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 		fmt.Println(fmt.Sprint(errPandocCmd) + " : " + stderr.String())
 		return -1, errPandocCmd
 	}
-	//fmt.Println(stdoutput.String())
-	//fmt.Println("D")
-	//Add pof
-	pof := Page.NewPageOutputFile()
-	pof.Author = psf.Author
-	pof.Description = psf.Description
-	pof.FilePath = markdownDst
-	pof.IsTop = psf.IsTop
-	pof.Title = psf.Title
-	pof.TitleImage = psf.TitleImage
-	pof.Type = psf.Type
 
-	_, errAdd := mpmp.spp.AddPageOutputFile(pof)
+	var _pofID int
 
-	if errAdd != nil {
-		Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
-		return -1, errAdd
+	if psf.OutputFile != -1 {
+		pof := mpmp.spp.OutputFiles[psf.OutputFile]
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = markdownDst
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
+
+		_, errUpdatePof := mpmp.spp.UpdatePageOutputFile(pof)
+
+		if errUpdatePof != nil {
+			Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
+			return -1, errUpdatePof
+		}
+	} else {
+
+		pof := Page.NewPageOutputFile()
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = markdownDst
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
+
+		_, errAdd := mpmp.spp.AddPageOutputFile(pof)
+
+		if errAdd != nil {
+			Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
+			return -1, errAdd
+		}
+
+		_pofID := mpmp.spp.GetPageOutputFile(pof.ID)
+
+		if _pofID == -1 {
+			Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
+			var errMsg = "MarkdownPageModule.Compile_Psf: Page Output File add Fail"
+			fmt.Println(errMsg)
+			return _pofID, errors.New(errMsg)
+		}
+
+		psf.OutputFile = _pofID
+
 	}
-
-	_pofID := mpmp.spp.GetPageOutputFile(pof.ID)
-
-	if _pofID == -1 {
-		Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
-		var errMsg = "MarkdownPageModule.Compile_Psf: Page Output File add Fail"
-		fmt.Println(errMsg)
-		return _pofID, errors.New(errMsg)
-	}
-
-	psf.OutputFile = _pofID
 	psf.LastCompiled = Utils.CurrentTime()
 
 	if psf.Type == Page.INDEX {
@@ -494,6 +519,7 @@ func (mpmp *MarkdownPageModule) CreateIndexPage(indexPageSize string) (bool, err
 	mpmp.spp.IndexPageSourceFile.Title = mpmp.spp.Title
 	mpmp.spp.IndexPageSourceFile.TitleImage = ""
 	mpmp.spp.IndexPageSourceFile.SourceFilePath = filepath.Join(mpmp.smp.GetSrcMarkdownFolderPath(mpmp.smp.GetProjectFolderPath()), "index.md")
+	mpmp.spp.IndexPageSourceFile.OutputFile = -1
 
 	//Copy index template file to markdown folder
 	var srcIndexPageSourceFilePath = mpmp.spp.IndexPageSourceFile.SourceFilePath
@@ -799,7 +825,7 @@ func (mpmp *MarkdownPageModule) CreateMorePage(indexPageSize string, startIndex,
 	morePageSourceFile.TitleImage = ""
 	var morePageName = "more" + strconv.Itoa(pageNo) + ".md"
 	morePageSourceFile.SourceFilePath = filepath.Join(mpmp.smp.GetSrcMarkdownFolderPath(mpmp.smp.GetProjectFolderPath()), morePageName)
-
+	morePageSourceFile.OutputFile = -1
 	_, errAddMorePage := mpmp.spp.AddMorePageSourceFile(morePageSourceFile)
 
 	if errAddMorePage != nil {

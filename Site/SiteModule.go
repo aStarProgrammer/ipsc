@@ -417,7 +417,7 @@ func (smp *SiteModule) UpdateSiteProject(siteFolder, siteTitle, siteAuthor, site
 
 	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
 
-	if errSave != nil {
+	if bSave == false || errSave != nil {
 		fmt.Println(errSave.Error())
 		return bSave, errSave
 	}
@@ -476,7 +476,13 @@ func (smp *SiteModule) RestoreRecycledPageSourceFile(ID string) (bool, error) {
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
-	return smp.spp.SaveToFile(siteProjectFilePath)
+	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
+
+	if bSave == false || errSave != nil {
+		return false, errSave
+	}
+
+	return true, nil
 }
 
 func (smp *SiteModule) CleanRecycledPageSourceFiles() (bool, error) {
@@ -513,10 +519,32 @@ func (smp *SiteModule) CleanRecycledPageSourceFiles() (bool, error) {
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
-	return smp.spp.SaveToFile(siteProjectFilePath)
+	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
+
+	if bSave == false || errSave != nil {
+		return false, errSave
+	}
+
+	return true, nil
 }
 
 func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
+	//Remove old index and more output file from spp.outputFiles
+	var deletedOutputIndexs []Page.PageOutputFile
+	for _, oldIndexOutput := range smp.spp.OutputFiles {
+		if oldIndexOutput.Type == Page.INDEX {
+			deletedOutputIndexs = append(deletedOutputIndexs, oldIndexOutput)
+		}
+	}
+
+	for _, delPof := range deletedOutputIndexs {
+		bDelOldIndex, errDelOldIndex := smp.spp.RemovePageOutputFile(delPof)
+
+		if errDelOldIndex != nil {
+			return bDelOldIndex, errDelOldIndex
+		}
+	}
+
 	var mdCount, htmlCount, linkCount int
 	mdCount = 0
 	htmlCount = 0
@@ -610,21 +638,6 @@ func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 		return bNavigationMore, errNavigationMore
 	}
 
-	//Remove old index and more output file from spp.outputFiles
-	var deletedOutputIndexs []Page.PageOutputFile
-	for _, oldIndexOutput := range smp.spp.OutputFiles {
-		if oldIndexOutput.Type == Page.INDEX {
-			deletedOutputIndexs = append(deletedOutputIndexs, oldIndexOutput)
-		}
-	}
-
-	for _, delPof := range deletedOutputIndexs {
-		bDelOldIndex, errDelOldIndex := smp.spp.RemovePageOutputFile(delPof)
-
-		if errDelOldIndex != nil {
-			return bDelOldIndex, errDelOldIndex
-		}
-	}
 	//fmt.Println("D")
 	//Compile Index Page and More Pages
 	_, errCompileIndex := smp.mpp.Compile_Psf(smp.spp.IndexPageSourceFile)
@@ -660,7 +673,7 @@ func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 	}
 	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
 
-	if errSave != nil {
+	if bSave == false || errSave != nil {
 		var errMsg = "SiteModuole.Compile: Cannot save site project file "
 		fmt.Println(errMsg)
 		return bSave, errors.New(errMsg)
@@ -697,7 +710,7 @@ func (smp *SiteModule) AddPage(title, description, author, filePath, titleImageP
 
 	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
 
-	if errSave != nil {
+	if bSave == false || errSave != nil {
 		var errMsg = "SiteModuole.AddPage: Cannot save site project file "
 		fmt.Println(errMsg)
 		return bSave, "-1", errors.New(errMsg)
@@ -738,6 +751,8 @@ func (smp *SiteModule) UpdatePage(pageID, title, description, author, filePath, 
 		if errFile != nil {
 			return bFile, errFile
 		}
+	} else {
+		filePath = psf.SourceFilePath
 	}
 
 	if title != "" {
@@ -763,6 +778,8 @@ func (smp *SiteModule) UpdatePage(pageID, title, description, author, filePath, 
 		psf.IsTop = isTop
 	}
 
+	psf.LastModified = Utils.CurrentTime()
+
 	var bUpdate bool
 	var errUpdate error
 
@@ -787,8 +804,13 @@ func (smp *SiteModule) UpdatePage(pageID, title, description, author, filePath, 
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
-	return smp.spp.SaveToFile(siteProjectFilePath)
+	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
 
+	if bSave == false || errSave != nil {
+		return false, errSave
+	}
+
+	return true, nil
 }
 
 func (smp *SiteModule) DeletePage(pageID string, restore bool) (bool, error) {
@@ -826,7 +848,13 @@ func (smp *SiteModule) DeletePage(pageID string, restore bool) (bool, error) {
 		fmt.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
-	return smp.spp.SaveToFile(siteProjectFilePath)
+	bSave, errSave := smp.spp.SaveToFile(siteProjectFilePath)
+
+	if bSave == false || errSave != nil {
+		return false, errSave
+	}
+
+	return true, nil
 }
 
 func (smp *SiteModule) ExportSourcePages(exportFolderPath string) (bool, error) {

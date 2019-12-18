@@ -185,54 +185,58 @@ func (hpmp *HtmlPageModule) UpdateHtml(psf Page.PageSourceFile, filePath string)
 
 	psf_Backup := hpmp.spp.SourceFiles[_psfID]
 
-	if filePath == "" {
-		return true, nil
-	}
+	if filePath != psf.SourceFilePath {
 
-	if Utils.PathIsExist(filePath) == false {
-		var errMsg = "Html file not exist"
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
-	}
+		if Utils.PathIsExist(filePath) == false {
+			var errMsg = "Html file not exist"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		}
 
-	bHtml, errHtml := FileIsHtml(filePath)
+		bHtml, errHtml := FileIsHtml(filePath)
 
-	if errHtml != nil {
-		var errMsg = "Cannot confirm file type"
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
-	} else if bHtml == false {
-		var errMsg = "File is not html"
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
-	}
+		if errHtml != nil {
+			var errMsg = "Cannot confirm file type"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		} else if bHtml == false {
+			var errMsg = "File is not html"
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		}
 
-	_, fileName := filepath.Split(filePath)
+		_, fileName := filepath.Split(filePath)
 
-	var htmlSrc, htmlDst string
-	htmlSrc = filePath
-	htmlDst = filepath.Join(hpmp.smp.GetSrcHtmlFolderPath(hpmp.smp.GetProjectFolderPath()), fileName)
-	psf.SourceFilePath = htmlDst
+		var htmlSrc, htmlDst string
+		htmlSrc = filePath
+		htmlDst = filepath.Join(hpmp.smp.GetSrcHtmlFolderPath(hpmp.smp.GetProjectFolderPath()), fileName)
+		psf.SourceFilePath = htmlDst
 
-	bUpdate, errUpdate := hpmp.spp.UpdatePageSourceFile(psf)
+		bUpdate, errUpdate := hpmp.spp.UpdatePageSourceFile(psf)
 
-	if errUpdate != nil {
-		return bUpdate, errUpdate
-	}
+		if errUpdate != nil {
+			return bUpdate, errUpdate
+		}
 
-	if psf.SourceFilePath != psf_Backup.SourceFilePath {
-		Utils.DeleteFile(psf_Backup.SourceFilePath)
-	}
+		if psf.SourceFilePath != psf_Backup.SourceFilePath {
+			Utils.DeleteFile(psf_Backup.SourceFilePath)
+		}
 
-	_, errCopy := Utils.CopyFile(htmlSrc, htmlDst)
+		_, errCopy := Utils.CopyFile(htmlSrc, htmlDst)
 
-	if errCopy != nil {
-		var errMsg string
-		errMsg = "Copy File from " + htmlSrc + " to " + htmlDst + " Failed"
-		//恢复被更新的内容
-		hpmp.spp.UpdatePageSourceFile(psf_Backup)
-		fmt.Println(errMsg)
-		return false, errors.New(errMsg)
+		if errCopy != nil {
+			var errMsg string
+			errMsg = "Copy File from " + htmlSrc + " to " + htmlDst + " Failed"
+			//恢复被更新的内容
+			hpmp.spp.UpdatePageSourceFile(psf_Backup)
+			fmt.Println(errMsg)
+			return false, errors.New(errMsg)
+		}
+	} else {
+		bUpdate, errUpdate := hpmp.spp.UpdatePageSourceFile(psf)
+		if errUpdate != nil {
+			return bUpdate, errUpdate
+		}
 	}
 	return true, nil
 }
@@ -331,7 +335,7 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 	_, fileName := filepath.Split(htmlSrc)
 	ext := filepath.Ext(htmlSrc)
 	fileNameOnly := strings.TrimSuffix(fileName, ext)
-	newFileName := fileNameOnly + "_" + Utils.GUID() + ".html"
+	newFileName := fileNameOnly + ".html"
 	htmlDst = filepath.Join(hpmp.smp.GetOutputFolderPath(hpmp.smp.GetProjectFolderPath()), "Pages", newFileName)
 
 	_, errCopy := Utils.CopyFile(htmlSrc, htmlDst)
@@ -343,32 +347,56 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 		return -1, errors.New(errMsg)
 	}
 
-	pof := Page.NewPageOutputFile()
-	pof.Author = psf.Author
-	pof.Description = psf.Description
-	pof.FilePath = htmlDst
-	pof.IsTop = psf.IsTop
-	pof.Title = psf.Title
-	pof.TitleImage = psf.TitleImage
-	pof.Type = psf.Type
+	var _pofID int
 
-	_, errAdd := hpmp.spp.AddPageOutputFile(pof)
+	if psf.OutputFile != -1 {
+		pof := hpmp.spp.OutputFiles[psf.OutputFile]
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = htmlDst
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
 
-	if errAdd != nil {
-		Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
-		return -1, errAdd
+		_, errUpdatePof := hpmp.spp.UpdatePageOutputFile(pof)
+
+		if errUpdatePof != nil {
+			Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
+			var errMsg = "HtmlPageModule: Page Out File Update Fail"
+			fmt.Println(errMsg)
+			return -1, errUpdatePof
+		}
+	} else {
+		pof := Page.NewPageOutputFile()
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = htmlDst
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
+
+		_, errAdd := hpmp.spp.AddPageOutputFile(pof)
+
+		if errAdd != nil {
+			Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
+			return -1, errAdd
+		}
+
+		_pofID = hpmp.spp.GetPageOutputFile(pof.ID)
+
+		if _pofID == -1 {
+			Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
+			var errMsg = "HtmlPageModule: Page Out File add Fail"
+			fmt.Println(errMsg)
+			return _pofID, errors.New(errMsg)
+		}
+
+		psf.OutputFile = _pofID
 	}
-
-	_pofID := hpmp.spp.GetPageOutputFile(pof.ID)
-
-	if _pofID == -1 {
-		Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
-		var errMsg = "Page Out File add Fail"
-		fmt.Println(errMsg)
-		return _pofID, errors.New(errMsg)
-	}
-
-	psf.OutputFile = _pofID
 	psf.LastCompiled = Utils.CurrentTime()
 
 	hpmp.spp.UpdatePageSourceFile(psf)
