@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"ipsc/Configuration"
+	"ipsc/Utils"
 
 	//"fmt"
 	"io/ioutil"
@@ -16,13 +16,13 @@ const (
 func GetQuickHelpInformation() (string, error) {
 	quickHelpFilePath, errPath := Configuration.GetQuickHelpPath()
 	if errPath != nil {
-		fmt.Println("GetQuickHelp: " + errPath.Error())
+		Utils.Logger.Println("GetQuickHelp: " + errPath.Error())
 		return "", errPath
 	}
 	bHelpContent, errRead := ioutil.ReadFile(quickHelpFilePath)
 
 	if errRead != nil {
-		fmt.Println("GetQuickHelp: " + errRead.Error())
+		Utils.Logger.Println("GetQuickHelp: " + errRead.Error())
 		return "", errRead
 	}
 	var sHelpContent = string(bHelpContent)
@@ -33,14 +33,14 @@ func GetFullHelpInformation() (string, error) {
 	fullHelpFilePath, errPath := Configuration.GetFullHelpPath()
 
 	if errPath != nil {
-		fmt.Println("GetFullHelp: " + errPath.Error())
+		Utils.Logger.Println("GetFullHelp: " + errPath.Error())
 		return "", errPath
 	}
 
 	bHelpContent, errRead := ioutil.ReadFile(fullHelpFilePath)
 
 	if errRead != nil {
-		fmt.Println("GetFullHelp: " + errRead.Error())
+		Utils.Logger.Println("GetFullHelp: " + errRead.Error())
 		return "", errRead
 	}
 	var sHelpContent = string(bHelpContent)

@@ -2,7 +2,6 @@ package Site
 
 import (
 	"errors"
-	"fmt"
 	"ipsc/Page"
 	"ipsc/Utils"
 	"os"
@@ -29,7 +28,7 @@ func (lmp *LinkModule) AddLink(title, description, author, url, titleImagePath s
 
 	if lmp.LinkAlreadyExist(url, title) {
 		var errMsg = "LinkModule.AddLink: Target Link Already Exist"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, "", errors.New(errMsg)
 	}
 
@@ -43,7 +42,7 @@ func (lmp *LinkModule) AddLink(title, description, author, url, titleImagePath s
 	psf.LastModified = Utils.CurrentTime()
 	psf.Status = Page.ACTIVE
 	psf.Type = Page.LINK
-	psf.OutputFile = -1
+	psf.OutputFile = ""
 	psf.IsTop = isTop
 	if Utils.PathIsExist(titleImagePath) && Utils.PathIsImage(titleImagePath) {
 
@@ -51,7 +50,8 @@ func (lmp *LinkModule) AddLink(title, description, author, url, titleImagePath s
 
 		if errFileInfo != nil {
 			var errMsg = "Cannot get file size of titleImage"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
+			Utils.Logger.Println(errFileInfo.Error())
 			return false, "", errors.New(errMsg)
 		}
 
@@ -59,7 +59,7 @@ func (lmp *LinkModule) AddLink(title, description, author, url, titleImagePath s
 
 		if imageSize > MAXTITLEIMAGESIZE {
 			var errMsg = "Title Image bigger than 30KB"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
 			return false, "", errors.New(errMsg)
 		}
 
@@ -102,7 +102,7 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 	if iFind == -1 {
 		var errMsg string
 		errMsg = "Cannot find the source File with ID " + ID
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
@@ -111,21 +111,22 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 	if psf.SourceFilePath == "" {
 		var errMsg string
 		errMsg = "Page Source File Url is emtpy"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
 	if psf.Status == Page.RECYCLED {
 		var errMsg string
 		errMsg = "Page Source File is in Recycled status, cannot Compile"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return -1, errors.New(errMsg)
 	}
 
-	var _pofID int
+	var _pofIndex int
 
-	if psf.OutputFile != -1 {
-		pof := lmp.spp.OutputFiles[psf.OutputFile]
+	if psf.OutputFile != "" {
+		pofIndex := lmp.spp.GetPageOutputFile(psf.OutputFile)
+		pof := lmp.spp.OutputFiles[pofIndex]
 		pof.Author = psf.Author
 		pof.Description = psf.Description
 		pof.FilePath = psf.SourceFilePath
@@ -139,7 +140,7 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 
 		if errUpdatePof != nil {
 			var errMsg = "LinkModule: Page Out File update Fail"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
 			return -1, errUpdatePof
 		}
 	} else {
@@ -159,19 +160,19 @@ func (lmp *LinkModule) Compile(ID string) (int, error) {
 			return -1, errAdd
 		}
 
-		_pofID = lmp.spp.GetPageOutputFile(pof.ID)
+		_pofIndex = lmp.spp.GetPageOutputFile(pof.ID)
 
-		if _pofID == -1 {
+		if _pofIndex == -1 {
 			var errMsg = "LinkModule: Page Out File add Fail"
-			fmt.Println(errMsg)
-			return _pofID, errors.New(errMsg)
+			Utils.Logger.Println(errMsg)
+			return _pofIndex, errors.New(errMsg)
 		}
 
-		psf.OutputFile = _pofID
+		psf.OutputFile = pof.ID
 	}
 	psf.LastCompiled = Utils.CurrentTime()
 
 	lmp.spp.UpdatePageSourceFile(psf)
 
-	return _pofID, nil
+	return _pofIndex, nil
 }

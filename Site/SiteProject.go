@@ -73,12 +73,13 @@ func IsSiteProjectEmpty(sp SiteProject) bool {
 func (spp *SiteProject) FromJson(_jsonString string) (bool, error) {
 	if "" == _jsonString {
 		var errMsg = "Argument jsonString is null"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	errUnmarshal := json.Unmarshal([]byte(_jsonString), spp)
 	if errUnmarshal != nil {
+		Utils.Logger.Println("SiteProject.FromJson: " + errUnmarshal.Error())
 		return false, errUnmarshal
 	}
 	return true, nil
@@ -89,17 +90,21 @@ func (spp *SiteProject) ToJson() (string, error) {
 
 	if spp == nil {
 		var errMsg = "Pointer spp is nil"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 
 	_jsonbyte, err := json.Marshal(*spp)
+
+	if err != nil {
+		Utils.Logger.Println("SiteProject.ToJson: " + err.Error())
+	}
 
 	return string(_jsonbyte), err
 }
@@ -107,22 +112,23 @@ func (spp *SiteProject) ToJson() (string, error) {
 func (spp *SiteProject) LoadFromFile(filePath string) (bool, error) {
 	if "" == filePath {
 		var errMsg = "FilePath is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	bFileExist := Utils.PathIsExist(filePath)
 
 	if false == bFileExist {
-		fmt.Println("File not exist")
+		Utils.Logger.Println("File not exist")
 		return false, errors.New("File not exist")
 	}
 
 	_json, errRead := ioutil.ReadFile(filePath)
 
 	if errRead != nil {
-		fmt.Println(filePath)
-		fmt.Println("Read File Fail")
+		Utils.Logger.Println(filePath)
+		Utils.Logger.Println("Read File Fail")
+		Utils.Logger.Println(errRead.Error())
 		return false, errors.New("Read File Fail")
 	}
 
@@ -130,7 +136,7 @@ func (spp *SiteProject) LoadFromFile(filePath string) (bool, error) {
 
 	if "" == _jsonString {
 		var errMsg = "File is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -142,13 +148,13 @@ func (spp *SiteProject) LoadFromFile(filePath string) (bool, error) {
 func (spp *SiteProject) SaveToFile(filePath string) (bool, error) {
 	if "" == filePath {
 		var errMsg = "FilePath is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -163,7 +169,7 @@ func (spp *SiteProject) SaveToFile(filePath string) (bool, error) {
 		filePath, errFilePath = Utils.MakePath(filePath)
 		if errFilePath != nil {
 			var errMsg = "Path nor exist and create parent folder failed"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
 	}
@@ -171,6 +177,7 @@ func (spp *SiteProject) SaveToFile(filePath string) (bool, error) {
 	//create，文件存在则会覆盖原始内容（其实就相当于清空），不存在则创建
 	fp, error := os.Create(filePath)
 	if error != nil {
+		Utils.Logger.Println("SiteProject.SaveToFile: " + error.Error())
 		return false, error
 	}
 	//延迟调用，关闭文件
@@ -180,7 +187,8 @@ func (spp *SiteProject) SaveToFile(filePath string) (bool, error) {
 
 	if errWriteFile != nil {
 		var errMsg = "Write json to file failed"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
+		Utils.Logger.Println("SiteProject.SaveToFile: " + errWriteFile.Error())
 		return false, errors.New(errMsg)
 	}
 
@@ -190,13 +198,13 @@ func (spp *SiteProject) SaveToFile(filePath string) (bool, error) {
 func (spp *SiteProject) AddPageSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -208,13 +216,13 @@ func (spp *SiteProject) RemovePageSourceFile(psf Page.PageSourceFile, restore bo
 
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -230,7 +238,7 @@ func (spp *SiteProject) RemovePageSourceFile(psf Page.PageSourceFile, restore bo
 		}
 	}
 	var errMsg = "Source Page not found"
-	fmt.Println(errMsg)
+	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
@@ -238,7 +246,7 @@ func (spp *SiteProject) ResotrePageSourceFile(ID string) (bool, error) {
 	var index = spp.GetPageSourceFile(ID)
 	if index == -1 {
 		var errMsg = "Not find page source file with ID " + ID
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 	spp.SourceFiles[index].Status = Page.ACTIVE
@@ -248,13 +256,13 @@ func (spp *SiteProject) ResotrePageSourceFile(ID string) (bool, error) {
 func (spp *SiteProject) UpdateMoreSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "SiteProject.UpdateMoreSourceFile: Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "SiteProject.UpdateMoreSourceFile: Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -274,20 +282,20 @@ func (spp *SiteProject) UpdateMoreSourceFile(psf Page.PageSourceFile) (bool, err
 		}
 	}
 	var errMsg = "SiteProject.UpdateMoreSourceFile: Source Page not found"
-	fmt.Println(errMsg)
+	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
 func (spp *SiteProject) UpdateIndexSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "SiteProject.UpdateIndexSourceFile: Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "SiteProject.UpdateIndexSourceFile: Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -307,13 +315,13 @@ func (spp *SiteProject) UpdateIndexSourceFile(psf Page.PageSourceFile) (bool, er
 func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "SiteProject.UpdatePageSourceFile: Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "SiteProject.UpdatePageSourceFile: Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -333,7 +341,7 @@ func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, err
 		}
 	}
 	var errMsg = "SiteProject.UpdatePageSourceFile: Source Page not found"
-	fmt.Println(errMsg)
+	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
@@ -358,13 +366,13 @@ func (spp *SiteProject) GetPageSourceFile(ID string) int {
 func (spp *SiteProject) AddPageOutputFile(pof Page.PageOutputFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageOutputFileEmpty(pof) {
 		var errMsg = "Output Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -377,13 +385,13 @@ func (spp *SiteProject) RemovePageOutputFile(pof Page.PageOutputFile) (bool, err
 
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageOutputFileEmpty(pof) {
 		var errMsg = "Output Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -391,7 +399,7 @@ func (spp *SiteProject) RemovePageOutputFile(pof Page.PageOutputFile) (bool, err
 		if sf.ID == pof.ID {
 			if pof.FilePath != "" && Utils.PathIsExist(pof.FilePath) {
 				if Utils.DeleteFile(pof.FilePath) == false {
-					fmt.Println("Delete file " + pof.FilePath + " Failed")
+					Utils.Logger.Println("Delete file " + pof.FilePath + " Failed")
 				}
 			}
 			spp.OutputFiles = append(spp.OutputFiles[:i], spp.OutputFiles[i+1:]...)
@@ -399,20 +407,20 @@ func (spp *SiteProject) RemovePageOutputFile(pof Page.PageOutputFile) (bool, err
 		}
 	}
 	var errMsg = "Output Page not found"
-	fmt.Println(errMsg)
+	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
 func (spp *SiteProject) UpdatePageOutputFile(pof Page.PageOutputFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageOutputFileEmpty(pof) {
 		var errMsg = "Output Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -431,7 +439,7 @@ func (spp *SiteProject) UpdatePageOutputFile(pof Page.PageOutputFile) (bool, err
 	}
 
 	var errMsg = "Output Page not found"
-	fmt.Println(errMsg)
+	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
@@ -455,13 +463,13 @@ func (spp *SiteProject) GetPageOutputFile(ID string) int {
 func (spp *SiteProject) AddMorePageSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -473,13 +481,13 @@ func (spp *SiteProject) RemoveMorePageSourceFile(psf Page.PageSourceFile) (bool,
 
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -490,20 +498,20 @@ func (spp *SiteProject) RemoveMorePageSourceFile(psf Page.PageSourceFile) (bool,
 		}
 	}
 	var errMsg = "Source Page not found"
-	fmt.Println(errMsg)
+	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
 func (spp *SiteProject) UpdateMorePageSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -522,7 +530,7 @@ func (spp *SiteProject) UpdateMorePageSourceFile(psf Page.PageSourceFile) (bool,
 		}
 	}
 	var errMsg = "Source Page not found"
-	fmt.Println(errMsg)
+	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
@@ -547,13 +555,13 @@ func (spp *SiteProject) GetMorePageSourceFile(ID string) int {
 func (spp *SiteProject) SetIndexPageSourceFile(psf Page.PageSourceFile) (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Page.IsPageSourceFileEmpty(psf) {
 		var errMsg = "Source Page is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -564,7 +572,7 @@ func (spp *SiteProject) SetIndexPageSourceFile(psf Page.PageSourceFile) (bool, e
 func (spp *SiteProject) CleanIndexPageSourceFile() (bool, error) {
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -576,7 +584,7 @@ func (spp *SiteProject) PageStatistics() (string, error) {
 
 	if IsSiteProjectEmpty(*spp) {
 		var errMsg = "Site Project is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 
@@ -685,7 +693,7 @@ func (spp *SiteProject) RestoreSiteProjectFile(siteProjectFilePath string) (bool
 
 	if Utils.PathIsExist(siteProjectFileBackupPath) == false {
 		var errMsg = "Backup File is not exist"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -727,13 +735,13 @@ func (spp *SiteProject) GetSortedNormalOutputFiles() (Page.PageOutputFileSlice, 
 func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error) {
 	if exportFolderPath == "" {
 		var errMsg = "Export Source File: Export Folder Path is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
 	if Utils.PathIsExist(exportFolderPath) == false {
 		var errMsg = "Export Source File: Export Folder Path doesn't exist"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -747,7 +755,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 		_, errorMakeFolder := Utils.MakeFolder(targetMarkdownFolder)
 		if errorMakeFolder != nil {
 			var errMsg = "Export Source File : Cannot Make Markdown Folder"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
 	}
@@ -756,7 +764,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 		_, errorMakeFolder := Utils.MakeFolder(targetHtmlFolder)
 		if errorMakeFolder != nil {
 			var errMsg = "Export Source File : Cannot Make Html Folder"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
 	}
@@ -765,7 +773,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 		_, errorMakeFolder := Utils.MakeFolder(targetLinkFolder)
 		if errorMakeFolder != nil {
 			var errMsg = "Export Source File : Cannot Make Link Folder"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
 	}
@@ -779,7 +787,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 				var fileName = filepath.Base(psf.SourceFilePath)
 				if strings.Contains(fileName, ".") == false {
 					var errMsg = "Export Source File: File Name error " + fileName
-					fmt.Println(errMsg)
+					Utils.Logger.Println(errMsg)
 					return false, errors.New(errMsg)
 				}
 				var targetFilePath = filepath.Join(targetMarkdownFolder, fileName)
@@ -794,7 +802,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 				var fileName = filepath.Base(psf.SourceFilePath)
 				if strings.Contains(fileName, ".") == false {
 					var errMsg = "Export Source File: File Name error " + fileName
-					fmt.Println(errMsg)
+					Utils.Logger.Println(errMsg)
 					return false, errors.New(errMsg)
 				}
 				var targetFilePath = filepath.Join(targetHtmlFolder, fileName)
@@ -816,12 +824,14 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 	json, errMarshal := json.Marshal(links)
 
 	if errMarshal != nil {
+		Utils.Logger.Println("SiteProject.ExportSite: " + errMarshal.Error())
 		return false, errMarshal
 	}
 
 	//create，文件存在则会覆盖原始内容（其实就相当于清空），不存在则创建
 	fp, error := os.Create(targetLinkFile)
 	if error != nil {
+		Utils.Logger.Println("SiteProject.ExportSite: " + error.Error())
 		return false, error
 	}
 	//延迟调用，关闭文件
@@ -831,7 +841,8 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 
 	if errWriteFile != nil {
 		var errMsg = "Export Source File: Write Links to Link.txt failed"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
+		Utils.Logger.Println("SiteProject.ExportSite: " + errWriteFile.Error())
 		return false, errors.New(errMsg)
 	}
 
@@ -841,7 +852,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 			fileType, errFileType := Utils.GetImageType(psf.TitleImage)
 			if errFileType != nil {
 				var errMsg = "Export Source File: Title Image Content is not correct"
-				fmt.Println(errMsg)
+				Utils.Logger.Println(errMsg)
 				return false, errors.New(errMsg)
 			}
 			var fileName string
@@ -867,7 +878,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 
 			if targetFilePath == "" {
 				var errMsg = "Export Source File: Source File should be MARKDOWN,HTML or LINK"
-				fmt.Println(errMsg)
+				Utils.Logger.Println(errMsg)
 				return false, errors.New(errMsg)
 			}
 

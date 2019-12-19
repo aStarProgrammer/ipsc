@@ -3,7 +3,6 @@ package Page
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"ipsc/Utils"
 	"reflect"
 	"strconv"
@@ -23,7 +22,7 @@ type PageSourceFile struct {
 	SourceFilePath string
 	Status         string
 	IsTop          bool
-	OutputFile     int
+	OutputFile     string
 }
 
 func NewPageSourceFileP() *PageSourceFile {
@@ -35,6 +34,7 @@ func NewPageSourceFileP() *PageSourceFile {
 	psp.CreateTime = Utils.CurrentTime()
 	psp.LastModified = Utils.CurrentTime()
 	psp.IsTop = false
+	psp.OutputFile = ""
 
 	return psp
 }
@@ -46,6 +46,7 @@ func NewPageSourceFile() PageSourceFile {
 	ps.CreateTime = Utils.CurrentTime()
 	ps.LastModified = Utils.CurrentTime()
 	ps.IsTop = false
+	ps.OutputFile = ""
 
 	return ps
 }
@@ -66,13 +67,13 @@ func (ps *PageSourceFile) ToJson() (string, error) {
 
 	if ps == nil {
 		var errMsg = "PageSourceFile->ToJson: Pointer ps is nil"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 
 	if IsPageSourceFileEmpty(*ps) {
 		var errMsg = "PageSourceFile->ToJson: Page Source File is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 
@@ -102,7 +103,7 @@ func (ps *PageSourceFile) GetProperty(propertyName string) (string, error) {
 
 	if bFind == false {
 		var errMsg = "PageSourceFile->GetProperty: Cannot find field " + propertyName
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 	immutable := reflect.ValueOf(*ps)
@@ -116,7 +117,7 @@ func (ps *PageSourceFile) SetProperty(propertyName, propertyValue string) (bool,
 
 	if bFind == false {
 		var errMsg = "PageSourceFile->GetProperty: Cannot find field " + propertyName
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 
@@ -130,7 +131,8 @@ func (ps *PageSourceFile) SetProperty(propertyName, propertyValue string) (bool,
 		val, errVal := strconv.ParseBool(propertyValue)
 		if errVal != nil {
 			var errMsg = "PageSourceFile->GetProperty: Cannot parse property value " + propertyValue + " property " + propertyName + " to Bool"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
+			Utils.Logger.Println(errVal.Error())
 			return false, errors.New(errMsg)
 		}
 		mutable.FieldByName(propertyName).SetBool(val)
@@ -138,13 +140,14 @@ func (ps *PageSourceFile) SetProperty(propertyName, propertyValue string) (bool,
 		val, errVal := strconv.ParseInt(propertyValue, 10, 64)
 		if errVal != nil {
 			var errMsg = "PageSourceFile->GetProperty: Cannot parse property value " + propertyValue + " property " + propertyName + " to Int"
-			fmt.Println(errMsg)
+			Utils.Logger.Println(errMsg)
+			Utils.Logger.Println(errVal.Error())
 			return false, errors.New(errMsg)
 		}
 		mutable.FieldByName(propertyName).SetInt(val)
 	} else {
 		var errMsg = "PropertyType set error"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return false, errors.New(errMsg)
 	}
 	return true, nil

@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"ipsc/Page"
+	"ipsc/Utils"
 	"os/user"
 	"strings"
 )
@@ -147,7 +148,8 @@ func (cpp *CommandParser) ParseCommand() bool {
 			fmt.Println("CommandParse: Site author is empty,will use current login user")
 			currentUser, errUser := user.Current()
 			if errUser != nil {
-				fmt.Println("CommandParse: User is empty, and cannot get user information from system")
+				Utils.Logger.Println("CommandParse: User is empty, and cannot get user information from system")
+				Utils.Logger.Println(errUser.Error())
 				ret = false
 			}
 			cpp.SiteAuthor = currentUser.Username
@@ -201,7 +203,8 @@ func (cpp *CommandParser) ParseCommand() bool {
 		if cpp.PageAuthor == "" {
 			currentUser, errUser := user.Current()
 			if errUser != nil {
-				fmt.Println("CommandParse: User is empty, and cannot get user information from system")
+				Utils.Logger.Println("CommandParse: User is empty, and cannot get user information from system")
+				Utils.Logger.Println(errUser.Error())
 				ret = false
 			}
 			cpp.PageAuthor = currentUser.Username

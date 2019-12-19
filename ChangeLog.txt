@@ -14,3 +14,8 @@
 
 0.1.2.2 2019/12/17
 *Fix some bugs
+
+0.1.2.3 2019/12/18
+*Fix bug: Delete more than 1 source page one time may cause app crash, and make sp file unreadable
+*Add output of all system error
+*Change error output from console to log file, normal message will output to console

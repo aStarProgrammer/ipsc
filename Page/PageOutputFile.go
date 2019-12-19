@@ -3,7 +3,6 @@ package Page
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"ipsc/Utils"
 	"strconv"
 )
@@ -54,13 +53,13 @@ func (po *PageOutputFile) ToJson() (string, error) {
 
 	if po == nil {
 		var errMsg = "PageOutputFile->ToJson: Pointer po is nil"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 
 	if IsPageOutputFileEmpty(*po) {
 		var errMsg = "PageOutputFile->ToJson:Page Output File is empty"
-		fmt.Println(errMsg)
+		Utils.Logger.Println(errMsg)
 		return "", errors.New(errMsg)
 	}
 
