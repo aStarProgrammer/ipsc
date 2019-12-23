@@ -33,6 +33,8 @@ type CommandParser struct {
 	PageTitleImagePath   string
 	RestorePage          string
 	MarkdownType         string
+	FilePath             string
+	AddFileForce         string
 }
 
 func (cpp *CommandParser) ParseCommand() bool {
@@ -58,6 +60,9 @@ func (cpp *CommandParser) ParseCommand() bool {
 	flag.StringVar(&cpp.PageTitleImagePath, "TitleImage", "", GetFieldHelpMsg("TitleImage"))
 	flag.StringVar(&cpp.RestorePage, "RestorePage", "true", GetFieldHelpMsg("RestorePage"))
 	flag.StringVar(&cpp.MarkdownType, "MarkdownType", "News", GetFieldHelpMsg("MarkdownType"))
+	flag.StringVar(&cpp.FilePath, "FilePath", "", GetFieldHelpMsg("FilePath"))
+	flag.StringVar(&cpp.AddFileForce, "Force", "true", GetFieldHelpMsg("AddFileForce"))
+
 	//Parse
 	flag.Parse()
 
@@ -81,6 +86,8 @@ func (cpp *CommandParser) ParseCommand() bool {
 	cpp.SiteTitle = strings.TrimSpace(cpp.SiteTitle)
 	cpp.SourcePagePath = strings.TrimSpace(cpp.SourcePagePath)
 	cpp.IndexPageSize = strings.TrimSpace(cpp.IndexPageSize)
+	cpp.FilePath = strings.TrimSpace(cpp.FilePath)
+	cpp.AddFileForce = strings.TrimSpace(cpp.AddFileForce)
 
 	//To Upper
 	cpp.CurrentCommand = strings.ToUpper(cpp.CurrentCommand)
@@ -243,7 +250,19 @@ func (cpp *CommandParser) ParseCommand() bool {
 			fmt.Println("RestorePage should be true or false in string")
 			ret = false
 		}
+	case COMMAND_ADDFILE:
+		if cpp.FilePath == "" {
+			fmt.Println("CommandParse: FilePath is empty")
+			ret = false
+		}
+	case COMMAND_DELETEFILE:
+		if cpp.FilePath == "" {
+			fmt.Println("CommandParse: FilePath is empty")
+			ret = false
+		}
+
 	}
+
 	return ret
 }
 

@@ -749,6 +749,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 	var targetMarkdownFolder = filepath.Join(exportFolderPath, "Markdown")
 	var targetHtmlFolder = filepath.Join(exportFolderPath, "Html")
 	var targetLinkFolder = filepath.Join(exportFolderPath, "Link")
+
 	var targetLinkFile = filepath.Join(targetLinkFolder, "Link.txt")
 
 	if Utils.PathIsExist(targetMarkdownFolder) == false {

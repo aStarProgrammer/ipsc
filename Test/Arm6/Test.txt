@@ -46,3 +46,9 @@ ipsc -Command "RestoreRecycledPage" -SiteFolder "/home/pi/Documents/IPSCTest/Tes
 ipsc -Command "ClearRecycledPages" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
 
 ipsc -Command "Compile" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -IndexPageSize "VerySmall"
+
+ipsc -Command "AddFile" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -FilePath "" -Force "true"
+
+ipsc -Command "DeleteFile" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -FilePath "./Files/go.msi"
+
+ipsc -Command "ListFile" -SiteFolder "/home/pi/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" 

@@ -36,3 +36,9 @@
 ./ipsc -Command "ClearRecycledPages" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
 
 ./ipsc -Command "Compile" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -IndexPageSize "VerySmall"
+
+./ipsc -Command "AddFile" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -FilePath "" -Force "true"
+
+./ipsc -Command "DeleteFile" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -FilePath "./Files/go.msi"
+
+./ipsc -Command "ListFile" -SiteFolder "/Users/gongyali/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" 

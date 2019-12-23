@@ -1,0 +1,18 @@
+ipsc -Command "NewSite" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC" -OutputFolder "F:\SiteOutputFolder"
+
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\1.png" -IsTop "true"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\H1.html" -PageType "HTML" -PageTitle "Test HTML Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\2.png"  -IsTop "true"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Google Link" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\3.png"  -IsTop "true"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\A2.md" -PageType "Markdown" -PageTitle "Another Markdown Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\4.png"  -IsTop "false"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PagePath "F:\MarkdownWorkspace\H2.html" -PageType "HTML" -PageTitle "Another HTML Page" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\5.png"  -IsTop "false"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.microsoft.com" -PageType "Link" -PageTitle "Microsoft Link" -PageAuthor "Chao"  -TitleImage "F:\MarkdownWorkspace\6.png"  -IsTop "false"
+
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.office.com" -PageType "Link" -PageTitle "Office.com" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\6.png"  -IsTop "false"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "http://www.baidu.com" -PageType "Link" -PageTitle "Baidu.com" -PageAuthor "Chao"  -TitleImage "F:\MarkdownWorkspace\6.png"  -IsTop "true"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "http://www.github.com" -PageType "Link" -PageTitle "Github.com" -PageAuthor "Chao"  -TitleImage "F:\MarkdownWorkspace\6.png"  -IsTop "false"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.163.com" -PageType "Link" -PageTitle "163.com" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\6.png"  -IsTop "true"
+ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.tianya.cn" -PageType "Link" -PageTitle "Tianya.cn" -PageAuthor "Chao" -TitleImage "F:\MarkdownWorkspace\6.png"  -IsTop "true"
+
+ipsc -Command "AddFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath "D:\softwares" -Force "true"
+
+ipsc -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "VerySmall"

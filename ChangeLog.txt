@@ -19,3 +19,8 @@
 *Fix bug: Delete more than 1 source page one time may cause app crash, and make sp file unreadable
 *Add output of all system error
 *Change error output from console to log file, normal message will output to console
+
+0.2.0.0 2019/12/22
+*Add Feature: 3  new commands, AddFile,DeleteFile and ListFile, now you can add normal file or folder to the site project
+              and add reference of them in your markdown file.
+              For more information, read the FullHelp.txt 

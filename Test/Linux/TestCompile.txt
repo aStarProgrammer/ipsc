@@ -1,0 +1,15 @@
+ipsc -Command "NewSite" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC" -OutputFolder "/home/chao/Documents/IPSCTest/OutputFolder"
+
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/chao/Documents/IPSCTest/Src/A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "/home/chao/Documents/IPSCTest/Src/1.png"
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/chao/Documents/IPSCTest/Src/A2.html" -PageType "HTML" -PageTitle "Test HTML Page" -PageAuthor "Chao"  -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/2.png"
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Google Link" -PageAuthor "Chao" -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/3.jpeg"
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.microsoft.com" -PageType "Link" -PageTitle "Microsoft Link" -PageAuthor "Chao" -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/4.png"
+
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.office.com" -PageType "Link" -PageTitle "Office.com" -PageAuthor "Chao" -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/4.png"
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "http://www.baidu.com" -PageType "Link" -PageTitle "Baidu.com" -PageAuthor "Chao" -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/4.png"
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "http://www.github.com" -PageType "Link" -PageTitle "Github.com" -PageAuthor "Chao" -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/4.png"
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.163.com" -PageType "Link" -PageTitle "163.com" -PageAuthor "Chao" -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/4.png"
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.tianya.cn" -PageType "Link" -PageTitle "Tianya.cn" -PageAuthor "Chao" -IsTop -TitleImage "/home/chao/Documents/IPSCTest/Src/4.png"
+
+
+ipsc -Command "Compile" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -IndexPageSize "VerySmall"

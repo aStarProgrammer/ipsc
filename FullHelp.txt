@@ -302,6 +302,47 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 	Example
 		ipsc -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
+* Add File
+		ipsc -Command "AddFile" -SiteFolder  -SiteTitle  -FilePath  -Force 
+
+	Add the file with FilePath, the FilePath can be file or folder, if it is a folder, the folder will be added to the site project. 
+	If you set Force to "true", ipsc will replace the existing file during adding
+	
+	Example
+		ipsc -Command "AddFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath "D:\softwares" -Force "true"
+		
+* Delete File
+		ipsc -Command "DeleteFile" -SiteFolder  -SiteTitle -FilePath 
+
+	Delete the file with FilePath, the FilePath can be file or folder, if FilePath is a folder, the folder will be deleted from site project
+
+	Example
+		ipsc -Command "DeleteFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath ".\Files\go.msi"
+
+	Use FilePath ".\Files" or "./Files" to clear the Files Folder 
+		
+	Example 
+		ipsc -Command "DeleteFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath ".\Files"
+
+* List File
+		ipsc -Command "ListFile" -SiteFolder  -SiteTitle 
+	
+	List all the files added by AddFile, return name and its relative Url, the url can be used as src/href in your md or html file, or used to delete the file
+	
+	Example:
+		ipsc -Command "ListFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" 	
+		
+	The results looks like:
+		Files in Src/Files folder, will list file name and relative path, you can use this relative path as src/href in you md file 
+		File	| Relative Path 
+		-----------------------
+		Files	| .\Files
+		barcode-1.0.0.zip	| .\Files\barcode-1.0.0.zip
+		docfetcher-1.1.22-portable.zip	| .\Files\docfetcher-1.1.22-portable.zip
+		go-ipfs_v0.4.22_windows-amd64.zip	| .\Files\go-ipfs_v0.4.22_windows-amd64.zip
+		mingw-get-setup.exe	| .\Files\mingw-get-setup.exe
+		npp.7.7.1.Installer.exe	| .\Files\npp.7.7.1.Installer.exe
+		
 * Compile the site
 		ipsc -Command "Compile" -SiteFolder -SiteTitle -IndexPageSize
 
@@ -321,6 +362,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 			*Small 10
 			*VerySmall 5
 			*Big 30
+			
 	You can find index.html more1.html more2.html at root folder of output folder, and other htmls in outputfolder/Pages/
 	Compile will return Compile summary as follows:
 	---
@@ -330,6 +372,7 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 		Markdown: 2
 		Html: 2
 		Link: 6
+		File: 5
 
 You can find other general information in ReadMe.txt
 You can run ipsc -h to get descriptions of each parameter

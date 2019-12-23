@@ -1,0 +1,48 @@
+PageAdded
+A1.md   c01cb096d76719685bcc46db388a65b5
+A2.html 646825aca572eeaec9a356fef21d6c38
+LINK    8b320abdb9d60a4c0eea66dddd255515
+
+ipsc -Command "Help" -HelpType "QuickHelp"
+
+ipsc -Command "NewSite" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -SiteAuthor "Chao(sdxianchao@gmail.com)" -SiteDescription "Test Site for IPSC" -OutputFolder "/home/chao/Documents/IPSCTest/OutputFolder"
+
+ipsc -Command "UpdateSite" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site 1" -SiteAuthor "Chao(sdxianchao@hotmail.com)" -SiteDescription "Test Site for ipsc 123"
+
+ipsc -Command "GetSiteProperty" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "ListSourcePages" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite"  -SiteTitle "Test Site"
+
+ipsc -Command "ListOutputPages" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "ListPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "c01cb096d76719685bcc46db388a65b5"
+
+ipsc -Command "ExportSourcePages" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -ExportFolder "/home/chao/Documents/IPSCTest/WatchDogSpace"
+
+ipsc -Command "CreateMarkdown" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/chao/Documents/IPSCTest/Src/_A1.md" -MarkdownType "News"
+
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/chao/Documents/IPSCTest/Src/A1.md" -PageType "Markdown" -PageTitle "Test Markdown Page" -PageAuthor "Chao" -TitleImage "/home/chao/Documents/IPSCTest/Src/2.png"
+
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PagePath "/home/chao/Documents/IPSCTest/Src/A2.html" -PageType "HTML" -PageTitle "Test HTML Page" -PageAuthor "Chao" -TitleImage "/home/chao/Documents/IPSCTest/Src/3.jpeg" -IsTop 
+
+ipsc -Command "AddPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -LinkUrl "https://www.google.com" -PageType "Link" -PageTitle "Test Link Page" -PageAuthor "Chao" -TitleImage "/home/chao/Documents/IPSCTest/Src/4.png" -IsTop 
+
+ipsc -Command "UpdatePage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "c01cb096d76719685bcc46db388a65b5" -PagePath "/home/chao/Documents/IPSCTest/Src/A2.md" -PageTitle "Test Markdown Page 1" -PageAuthor "Chao(sdxianchao@gmail.com)" -TitleImage "F:\MarkdownWorkspace\4.png" -IsTop
+
+ipsc -Command "UpdatePage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "c01cb096d76719685bcc46db388a65b5" -PageTitle "Test Markdown Page 2" -PageAuthor "Chao(sdxianchao@microsoft.com)"
+
+ipsc -Command "DeletePage"  -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "c01cb096d76719685bcc46db388a65b5" -RestorePage
+
+ipsc -Command "ListRecycledPages" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "RestoreRecycledPage" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -PageID "c01cb096d76719685bcc46db388a65b5"
+
+ipsc -Command "ClearRecycledPages" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site"
+
+ipsc -Command "Compile" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"
+
+ipsc -Command "AddFile" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -FilePath "" -Force "true"
+
+ipsc -Command "DeleteFile" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" -FilePath "./Files/go.msi"
+
+ipsc -Command "ListFile" -SiteFolder "/home/chao/Documents/IPSCTest/TestSite" -SiteTitle "Test Site" 

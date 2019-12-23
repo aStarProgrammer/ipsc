@@ -95,6 +95,10 @@ func GetFieldHelpMsg(fieldName string) string {
 		return "Whether move page source file to recycled bin when you delete it (Default true)"
 	case "MarkdownType":
 		return "The type of markdown page source file you want to create, now supports Blank,News (Default News)"
+	case "FilePath":
+		return "The file you want to add, can be folder or file. Absolute File Path when you add file, relative path when you delelete file. You can get relative path of files by COMMAAND ListFile"
+	case "AddFileForce":
+		return "Whether replace file without confirm, if false, will confirm before replace a file that already exist"
 	default:
 		return ""
 	}

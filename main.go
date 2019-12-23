@@ -230,6 +230,35 @@ func Dispatch(cp CommandParser) (bool, error) {
 
 		case COMMAND_CLEARRECYCLEDPAGES:
 			return smp.CleanRecycledPageSourceFiles()
+		case COMMAND_ADDFILE:
+			var addForce bool
+			if cp.AddFileForce == "FALSE" {
+				addForce = false
+			} else {
+				addForce = true
+			}
+
+			bAdd, errAdd := smp.AddFile(cp.FilePath, addForce)
+			if errAdd == nil && bAdd {
+				fmt.Println("Add File Success")
+			} else {
+				Utils.Logger.Println("Add File Failed " + errAdd.Error())
+			}
+
+			return bAdd, errAdd
+		case COMMAND_DELETEFILE:
+			bDelete, errDelete := smp.DeleteFile(cp.FilePath)
+
+			if errDelete == nil && bDelete {
+				fmt.Println("Delete Success " + cp.FilePath)
+			} else {
+				Utils.Logger.Println("Delete Fail " + errDelete.Error())
+			}
+
+			return bDelete, errDelete
+		case COMMAND_LISTFILE:
+			smp.ListFile()
+			return true, nil
 		default:
 			Utils.Logger.Println("Command not found " + cp.CurrentCommand)
 			return false, errors.New("Main.Command not found " + cp.CurrentCommand)
@@ -419,4 +448,5 @@ func Run() {
 
 func main() {
 	Run()
+	//test()
 }

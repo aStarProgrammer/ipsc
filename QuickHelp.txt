@@ -136,10 +136,40 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 	Example
 		ipsc -Command "ClearRecycledPages" -SiteFolder "F:\TestSite" -SiteTitle "Test Site"
 
+* Add File
+		ipsc -Command "AddFile" -SiteFolder  -SiteTitle  -FilePath  -Force 
+
+	Add the file with FilePath, the FilePath can be file or folder, if it is a folder, the folder will be added to the site project. 
+	If you set Force to "true", ipsc will replace the existing file during adding
+	
+	Example
+		ipsc -Command "AddFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath "D:\softwares" -Force "true"
+		
+* Delete File
+		ipsc -Command "DeleteFile" -SiteFolder  -SiteTitle -FilePath 
+
+	Delete the file with FilePath, the FilePath can be file or folder, if FilePath is a folder, the folder will be deleted from site project
+
+	Example
+		ipsc -Command "DeleteFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath ".\Files\go.msi"
+
+	Use FilePath ".\Files" or "./Files" to clear the Files Folder 
+		
+	Example 
+		ipsc -Command "DeleteFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath ".\Files"
+	
+* List File
+		ipsc -Command "ListFile" -SiteFolder  -SiteTitle 
+	
+	List all the files added by AddFile, return name and its relative Url, the url can be used as src/href in your md or html file, or used to delete the file
+	
+	Example:
+		ipsc -Command "ListFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" 	
+
 * Compile the site
 		ipsc -Command "Compile" -SiteFolder -SiteTitle -IndexPageSize
 
-	Compile the site, change md to html and save it to output, copy html to output, create index page and more pages, then covert them to html,and save to output
+	Compile the site, change md to html and save it to output, copy html to output, copy files to output, create index page and more pages, then covert them to html,and save to output
 
 	Example
 		ipsc -Command "Compile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -IndexPageSize "Normal"

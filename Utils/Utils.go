@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -280,6 +281,10 @@ func CopyFile(src, dst string) (int64, error) {
 	}
 	defer source.Close()
 
+	if PathIsExist(dst) == false {
+		MakePath(dst)
+	}
+
 	destination, err := os.Create(dst)
 	if err != nil {
 		Logger.Println("CopyFile: " + err.Error())
@@ -288,6 +293,71 @@ func CopyFile(src, dst string) (int64, error) {
 	defer destination.Close()
 	nBytes, err := io.Copy(destination, source)
 	return nBytes, err
+}
+
+func CopyFileWithConfirm(src, dst string) (bool, error) {
+	var msg = dst + " already exist, replace it?"
+	var confirm = UserConfirm(msg)
+
+	if confirm {
+		_, errCopy := CopyFile(src, dst)
+		if errCopy != nil {
+			var errMsg = "SiteModule.AddFile fail " + errCopy.Error()
+			Logger.Println(errMsg)
+			return false, errCopy
+		}
+		return true, nil
+	}
+	return false, errors.New("User Ingore it")
+
+}
+
+func CopyFolder(src, dst string, addForce bool) (bool, error) {
+	if src == "" {
+		var errMsg = "Utils.CopyFolder: Src is empty"
+		Logger.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+
+	if dst == "" {
+		var errMsg = "Utils.CopyFolder: Dst is empty"
+		Logger.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+
+	if PathIsExist(src) == false {
+		var errMsg = "Utils.CopyFolder: " + src + " not exist"
+		Logger.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+
+	if PathIsDir(src) == false {
+		var errMsg = "Utils.CopyFolder: " + src + " is not folder"
+		Logger.Println(errMsg)
+		return false, errors.New(errMsg)
+	}
+
+	files, _ := ioutil.ReadDir(src)
+
+	for _, f := range files {
+		if f.IsDir() {
+			var srcFolderPath = filepath.Join(src, f.Name())
+			var dstFolderPath = filepath.Join(dst, f.Name())
+
+			CopyFolder(srcFolderPath, dstFolderPath, addForce)
+		} else {
+			var srcFilePath = filepath.Join(src, f.Name())
+			var dstFilePath = filepath.Join(dst, f.Name())
+
+			if addForce {
+				CopyFile(srcFilePath, dstFilePath)
+			} else {
+				CopyFileWithConfirm(srcFilePath, dstFilePath)
+			}
+		}
+	}
+
+	return true, nil
 }
 
 func MoveFile(src, dst string) (int64, error) {
@@ -317,6 +387,63 @@ func DeleteFile(filePath string) bool {
 
 	if PathIsExist(filePath) {
 		return false
+	}
+
+	return true
+}
+
+func DeleteFolder(folderPath string) bool {
+	if folderPath == "" {
+		var errMsg = "Utils.DeleteFolder: folderPath is empty"
+		Logger.Println(errMsg)
+		return false
+	}
+
+	if PathIsExist(folderPath) == false {
+		var errMsg = "Utils.DeleteFolder: " + folderPath + " not exist"
+		Logger.Println(errMsg)
+		return false
+	}
+
+	if PathIsDir(folderPath) == false {
+		var errMsg = "Utils.DeleteFolder: " + folderPath + " is not folder"
+		Logger.Println(errMsg)
+		return false
+	}
+
+	bError := os.RemoveAll(folderPath)
+
+	if bError != nil {
+		return false
+	}
+
+	return true
+}
+
+func ClearFolder(folderPath string) bool {
+	if folderPath == "" {
+		var errMsg = "Utils.DeleteFolder: folderPath is empty"
+		Logger.Println(errMsg)
+		return false
+	}
+
+	if PathIsExist(folderPath) == false {
+		var errMsg = "Utils.DeleteFolder: " + folderPath + " not exist"
+		Logger.Println(errMsg)
+		return false
+	}
+
+	if PathIsDir(folderPath) == false {
+		var errMsg = "Utils.DeleteFolder: " + folderPath + " is not folder"
+		Logger.Println(errMsg)
+		return false
+	}
+
+	files, _ := ioutil.ReadDir(folderPath)
+
+	for _, f := range files {
+		var fPath = filepath.Join(folderPath, f.Name())
+		os.RemoveAll(fPath)
 	}
 
 	return true
@@ -363,4 +490,51 @@ func InitLogger() {
 	}
 
 	Logger = log.New(file, "", log.Llongfile)
+}
+
+func PathIsFile(filePath string) bool {
+	f, err := os.Stat(filePath)
+
+	if err != nil {
+		Logger.Println(err.Error())
+		return false
+	}
+
+	if f.IsDir() == false {
+		return true
+	}
+
+	return false
+}
+
+func PathIsDir(filePath string) bool {
+	f, err := os.Stat(filePath)
+
+	if err != nil {
+		Logger.Println(err.Error())
+		return false
+	}
+
+	return f.IsDir()
+}
+
+func UserConfirm(msg string) bool {
+	fmt.Println(msg)
+	fmt.Println("Enter Y/N (Default Y): ")
+
+	var str string
+	str = ""
+	fmt.Scanf("%s", &str)
+
+	if str == "" {
+		return true
+	}
+
+	str = strings.ToUpper(str)
+
+	if str == "Y" {
+		return true
+	}
+
+	return false
 }
