@@ -730,15 +730,7 @@ func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 	}
 	//fmt.Println("E")
 
-	//Compile Files
-	//Just Copy Files to Output/Pages/Files folder
-	var srcFilesFolder = smp.GetSrcFilesFolderPath(smp.projectFolderPath)
-	var dstFilesFolder = smp.GetOutputFilesFolderPath(smp.projectFolderPath)
-
-	Utils.ClearFolder(dstFilesFolder)
-	Utils.CopyFolder(srcFilesFolder, dstFilesFolder, true)
-
-	fileCount := smp.FilesStatics()
+	fileCount := smp.CompileNormalFile()
 
 	//Get Summary and write to spp
 	var CompileSummary string
@@ -767,6 +759,169 @@ func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 		return bSave, errors.New(errMsg)
 	}
 	return true, nil
+}
+
+func (smp *SiteModule) CompileNormalFile() int {
+	var fileCount int
+	fileCount = 0
+	srcFileList := smp.GetSrcNormalFileList()
+	outputFileList := smp.GetOutputNormalFileList()
+
+	if len(srcFileList) == 0 {
+		return 0
+	}
+
+	//Add or Update File
+	for _, srcFile := range srcFileList {
+		var iFind = Page.GetNormalFile(outputFileList, srcFile.FilePath)
+		if iFind == -1 {
+			//New File,add
+			var srcFolderPath = smp.GetSrcFolderPath(smp.projectFolderPath)
+			var srcFullPath = srcFolderPath + srcFile.FilePath
+
+			var dstFolderPath = smp.GetOutputPagesFolderPath(smp.projectFolderPath)
+			var dstFullPath = dstFolderPath + srcFile.FilePath
+
+			if Utils.PathIsDir(srcFullPath) {
+				if Utils.PathIsExist(dstFullPath) == false {
+					Utils.MakeFolder(dstFullPath)
+				}
+			} else if Utils.PathIsFile(srcFullPath) {
+
+				Utils.CopyFile(srcFullPath, dstFullPath)
+			}
+
+			fileCount = fileCount + 1
+		} else {
+			var dstFile = outputFileList[iFind]
+
+			if srcFile.LastModified > dstFile.LastModified {
+				var srcFolderPath = smp.GetSrcFolderPath(smp.projectFolderPath)
+				var srcFullPath = srcFolderPath + srcFile.FilePath
+
+				var dstFolderPath = smp.GetOutputPagesFolderPath(smp.projectFolderPath)
+				var dstFullPath = dstFolderPath + srcFile.FilePath
+
+				if Utils.PathIsDir(srcFullPath) {
+					if Utils.PathIsExist(dstFullPath) == false {
+						Utils.MakeFolder(dstFullPath)
+					}
+				} else if Utils.PathIsFile(srcFullPath) {
+
+					Utils.CopyFile(srcFullPath, dstFullPath)
+				}
+
+				fileCount = fileCount + 1
+			}
+		}
+	}
+
+	//Delete
+
+	for _, dstFile := range outputFileList {
+		var iFind = Page.GetNormalFile(srcFileList, dstFile.FilePath)
+		if iFind == -1 {
+			var dstFolderPath = smp.GetOutputPagesFolderPath(smp.projectFolderPath)
+			var dstFullPath = dstFolderPath + dstFile.FilePath
+
+			if Utils.PathIsFile(dstFullPath) {
+				Utils.DeleteFile(dstFullPath)
+			}
+
+			fileCount = fileCount + 1
+		}
+	}
+
+	//Clearup empty sub folder of output/Pages/Files
+	smp.clearUpEmptyFolderUnderOutputFiles()
+	return fileCount
+}
+
+func (smp *SiteModule) clearUpEmptyFolderUnderOutputFiles() {
+	var outputFilesFolder = smp.GetOutputFilesFolderPath(smp.projectFolderPath)
+
+	files, _ := ioutil.ReadDir(outputFilesFolder)
+
+	for _, f := range files {
+		if f.IsDir() {
+			var subFolderPath = filepath.Join(outputFilesFolder, f.Name())
+			subFiles, _ := ioutil.ReadDir(subFolderPath)
+			if len(subFiles) == 0 {
+				Utils.DeleteFile(subFolderPath)
+			} else {
+				smp.clearUpEmptyFolder(subFolderPath)
+			}
+		}
+	}
+
+}
+
+func (smp *SiteModule) clearUpEmptyFolder(folderPath string) {
+	files, _ := ioutil.ReadDir(folderPath)
+
+	for _, f := range files {
+		if f.IsDir() {
+			var subFolderPath = filepath.Join(folderPath, f.Name())
+			subFiles, _ := ioutil.ReadDir(subFolderPath)
+			if len(subFiles) == 0 {
+				Utils.DeleteFile(subFolderPath)
+			} else {
+				smp.clearUpEmptyFolder(subFolderPath)
+			}
+		}
+	}
+}
+
+func (smp *SiteModule) GetSrcNormalFileList() []Page.NormalFile {
+	var srcFolderPath = smp.GetSrcFolderPath(smp.projectFolderPath)
+	var srcFilesFolder = smp.GetSrcFilesFolderPath(smp.projectFolderPath)
+
+	var filesList []Page.NormalFile
+
+	filepath.Walk(srcFilesFolder, func(path string, info os.FileInfo, err error) error {
+		var fileName = info.Name()
+		var relativePath = path[len(srcFolderPath):]
+		var lastModified = info.ModTime().Format("2006-01-02 15:04:05")
+
+		if fileName != "Files" {
+			var normalFile Page.NormalFile
+			normalFile.FileName = fileName
+			normalFile.FilePath = relativePath
+			normalFile.LastModified = lastModified
+
+			filesList = append(filesList, normalFile)
+		}
+
+		return nil
+	})
+
+	return filesList
+}
+
+func (smp *SiteModule) GetOutputNormalFileList() []Page.NormalFile {
+	var outputFolderPath = smp.GetOutputPagesFolderPath(smp.projectFolderPath)
+	var outputFilesFolder = smp.GetOutputFilesFolderPath(smp.projectFolderPath)
+
+	var filesList []Page.NormalFile
+
+	filepath.Walk(outputFilesFolder, func(path string, info os.FileInfo, err error) error {
+		var fileName = info.Name()
+		var relativePath = path[len(outputFolderPath):]
+		var lastModified = info.ModTime().Format("2006-01-02 15:04:05")
+
+		if fileName != "Files" {
+
+			var normalFile Page.NormalFile
+			normalFile.FileName = fileName
+			normalFile.FilePath = relativePath
+			normalFile.LastModified = lastModified
+
+			filesList = append(filesList, normalFile)
+		}
+		return nil
+	})
+
+	return filesList
 }
 
 func (smp *SiteModule) AddPage(title, description, author, filePath, titleImagePath, pageType string, isTop bool) (bool, string, error) {
@@ -980,36 +1135,37 @@ func (smp *SiteModule) AddFile(filePath string, addForce bool) (bool, error) {
 
 		if Utils.PathIsExist(targetFilePath) {
 			if addForce {
-				Utils.CopyFileWithConfirm(filePath, targetFilePath)
-			} else {
 				Utils.CopyFile(filePath, targetFilePath)
+			} else {
+				Utils.CopyFileWithConfirm(filePath, targetFilePath)
 			}
+		} else {
+			Utils.CopyFile(filePath, targetFilePath)
 		}
+		return true, nil
 	} else if Utils.PathIsDir(filePath) {
 		var srcFolder = filepath.Base(filePath)
 		var targetFolderPath = filepath.Join(targetFolderPath, srcFolder)
 		return Utils.CopyFolder(filePath, targetFolderPath, addForce)
 	}
 
-	var errMsg = "SiteModule.AddFile: " + filePath + "is no file or folder, add file fail"
+	var errMsg = "SiteModule.AddFile: " + filePath + " is no file or folder, add file fail"
 	Utils.Logger.Println(errMsg)
 	return false, errors.New(errMsg)
 }
 
 func (smp *SiteModule) DeleteFile(filePath string) (bool, error) {
-
-	if strings.HasPrefix(filePath, ".\\Files\\") {
-		filePath = filePath[8:]
-	}
-
-	if strings.HasPrefix(filePath, "./Files/") {
-		filePath = filePath[8:]
-	}
-
 	if filePath == ".\\Files" || filePath == "./Files" {
 		filePath = smp.GetSrcFilesFolderPath(smp.projectFolderPath)
 		Utils.ClearFolder(filePath)
 	} else {
+		if strings.HasPrefix(filePath, ".\\Files\\") {
+			filePath = filePath[8:]
+		}
+
+		if strings.HasPrefix(filePath, "./Files/") {
+			filePath = filePath[8:]
+		}
 		var srcFilesFolder = smp.GetSrcFilesFolderPath(smp.projectFolderPath)
 		filePath = filepath.Join(srcFilesFolder, filePath)
 
@@ -1018,14 +1174,12 @@ func (smp *SiteModule) DeleteFile(filePath string) (bool, error) {
 			Utils.Logger.Println(errMsg)
 			return false, errors.New(errMsg)
 		}
-
 		var bDelete bool
 		if Utils.PathIsFile(filePath) {
 			bDelete = Utils.DeleteFile(filePath)
 		} else if Utils.PathIsDir(filePath) {
 			bDelete = Utils.DeleteFolder(filePath)
 		}
-
 		if bDelete == false {
 
 			var errMsg = "SiteModule.Delete: " + filePath + " Delete file fail"
@@ -1039,15 +1193,52 @@ func (smp *SiteModule) DeleteFile(filePath string) (bool, error) {
 func (smp *SiteModule) ListFile() {
 	var srcFolderPath = smp.GetSrcFolderPath(smp.projectFolderPath)
 	var srcFilesFolder = smp.GetSrcFilesFolderPath(smp.projectFolderPath)
+
+	var nameLength int
+	nameLength = 0
+	var relativePathLength int
+	relativePathLength = 0
+
+	filepath.Walk(srcFilesFolder, func(path string, info os.FileInfo, err error) error {
+		var fileName = info.Name()
+		if len(fileName) > nameLength {
+			nameLength = len(fileName)
+		}
+		var relativePath = path[len(srcFolderPath):]
+		if len(relativePath) > relativePathLength {
+			relativePathLength = len(relativePath)
+		}
+		return nil
+	})
+
+	var formatFileName string
+	formatFileName = "%-" + strconv.Itoa(nameLength) + "s"
+	var formatFileRelativePath string
+	formatFileRelativePath = "%-" + strconv.Itoa(relativePathLength+3) + "s"
+
 	fmt.Println("Files in Src/Files folder, will list file name and relative path, you can use this relative path as src/href in you md file ")
-	fmt.Println("File	| Relative Path ")
-	fmt.Println("-----------------------")
+	fmt.Printf(formatFileName, "Name")
+	fmt.Printf(formatFileRelativePath, "|  Relative Path ")
+	fmt.Println("| Last Modified")
+
+	var seperatorLength = nameLength + relativePathLength + 24
+	var seperator string
+
+	for index := 0; index < seperatorLength; index = index + 1 {
+		seperator = seperator + "-"
+	}
+	fmt.Println(seperator)
 	filepath.Walk(srcFilesFolder, func(path string, info os.FileInfo, err error) error {
 		var fileName = info.Name()
 		var relativePath = path[len(srcFolderPath):]
-		fmt.Println(fileName + "	| ." + relativePath)
+		var lastModified = info.ModTime().Format("2006-01-02 15:04:05")
+
+		fmt.Printf(formatFileName, fileName)
+		fmt.Printf(formatFileRelativePath, "| ."+relativePath)
+		fmt.Println("| " + lastModified)
 		return nil
 	})
+	fmt.Println(seperator)
 }
 
 func (smp *SiteModule) FilesStatics() int {

@@ -23,4 +23,7 @@
 0.2.0.0 2019/12/22
 *Add Feature: 3  new commands, AddFile,DeleteFile and ListFile, now you can add normal file or folder to the site project
               and add reference of them in your markdown file.
-              For more information, read the FullHelp.txt 
+              For more information, read the FullHelp.txt
+
+0.2.0.1 2019/12/23
+*Fix Bug: UpdatePage but file will not compile again 

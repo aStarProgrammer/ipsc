@@ -336,12 +336,12 @@ IPSC(InterPlanet Site Creator) is a tool to create static html site with index p
 		Files in Src/Files folder, will list file name and relative path, you can use this relative path as src/href in you md file 
 		File	| Relative Path 
 		-----------------------
-		Files	| .\Files
-		barcode-1.0.0.zip	| .\Files\barcode-1.0.0.zip
-		docfetcher-1.1.22-portable.zip	| .\Files\docfetcher-1.1.22-portable.zip
-		go-ipfs_v0.4.22_windows-amd64.zip	| .\Files\go-ipfs_v0.4.22_windows-amd64.zip
-		mingw-get-setup.exe	| .\Files\mingw-get-setup.exe
-		npp.7.7.1.Installer.exe	| .\Files\npp.7.7.1.Installer.exe
+		Files	| Files
+		barcode-1.0.0.zip	| Files\barcode-1.0.0.zip
+		docfetcher-1.1.22-portable.zip	| Files\docfetcher-1.1.22-portable.zip
+		go-ipfs_v0.4.22_windows-amd64.zip	| Files\go-ipfs_v0.4.22_windows-amd64.zip
+		mingw-get-setup.exe	| Files\mingw-get-setup.exe
+		npp.7.7.1.Installer.exe	| Files\npp.7.7.1.Installer.exe
 		
 * Compile the site
 		ipsc -Command "Compile" -SiteFolder -SiteTitle -IndexPageSize

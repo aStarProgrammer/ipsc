@@ -151,7 +151,7 @@ func Dispatch(cp CommandParser) (bool, error) {
 			var sitePageSize = IndexPageSizeConvert(cp.IndexPageSize)
 			bCompile, errCompile := smp.Compile(sitePageSize)
 			if errCompile == nil && bCompile {
-				fmt.Println("Compile Summary:")
+				fmt.Println("Compile Summary (No. Processed(Added/Deleted/Updated)):")
 				DisplayCompileSummary("    ", smp.GetSiteProject().LastCompileSummary)
 			} else {
 				Utils.Logger.Println("Main.Dispatch: Compile " + errCompile.Error())
@@ -442,8 +442,6 @@ func Run() {
 			Utils.Logger.Println(errRet.Error())
 		}
 	}
-	//fmt.Println("RunE")
-	fmt.Println("Done")
 }
 
 func main() {
