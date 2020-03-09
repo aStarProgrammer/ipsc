@@ -750,7 +750,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 	var targetHtmlFolder = filepath.Join(exportFolderPath, "Html")
 	var targetLinkFolder = filepath.Join(exportFolderPath, "Link")
 
-	var targetLinkFile = filepath.Join(targetLinkFolder, "Link.txt")
+	var targetLinkFile = filepath.Join(targetLinkFolder, "Link.liks")
 
 	if Utils.PathIsExist(targetMarkdownFolder) == false {
 		_, errorMakeFolder := Utils.MakeFolder(targetMarkdownFolder)
@@ -820,7 +820,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 		}
 	}
 
-	//Write Links to Link.txt
+	//Write Links to Link.liks
 
 	json, errMarshal := json.Marshal(links)
 
@@ -841,7 +841,7 @@ func (spp *SiteProject) ExportSourcePages(exportFolderPath string) (bool, error)
 	_, errWriteFile := fp.WriteString(string(json))
 
 	if errWriteFile != nil {
-		var errMsg = "Export Source File: Write Links to Link.txt failed"
+		var errMsg = "Export Source File: Write Links to Link.liks failed"
 		Utils.Logger.Println(errMsg)
 		Utils.Logger.Println("SiteProject.ExportSite: " + errWriteFile.Error())
 		return false, errors.New(errMsg)

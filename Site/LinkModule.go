@@ -73,6 +73,21 @@ func (lmp *LinkModule) AddLink(title, description, author, url, titleImagePath s
 }
 
 func (lmp *LinkModule) RemoveLink(psf Page.PageSourceFile, restore bool) (bool, error) {
+	var outputFileID = psf.OutputFile
+	if outputFileID != "" {
+		var pofIndex = lmp.spp.GetPageOutputFile(outputFileID)
+		var pof Page.PageOutputFile
+		if pofIndex != -1 {
+			pof = lmp.spp.OutputFiles[pofIndex]
+			bDelete, errDelete := lmp.spp.RemovePageOutputFile(pof)
+			if errDelete != nil {
+				var errMsg = "LinkModule.RemoveLink: Cannot remove Page output File"
+				Utils.Logger.Println(errMsg)
+				return bDelete, errors.New(errMsg)
+			}
+		}
+	}
+
 	return lmp.spp.RemovePageSourceFile(psf, restore)
 }
 

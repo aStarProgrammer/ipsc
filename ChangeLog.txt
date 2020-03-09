@@ -27,3 +27,7 @@
 
 0.2.0.1 2019/12/23
 *Fix Bug: UpdatePage but file will not compile again 
+
+0.2.0.2 2020/3/8
+*Fix Bug: cannot delete link output file when delete source link
+* change Link.txt to Link.liks
