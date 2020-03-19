@@ -664,25 +664,26 @@ func (smp *SiteModule) Compile(indexPageSize string) (bool, error) {
 	var nIndexPageSize, _ = Page.ConvertPageSize2Int(indexPageSize)
 	var nOutputFileLength = len(smp.spp.OutputFiles)
 
+	//Delete More Pages created last Compile
+	var deletedSourceIndexs []Page.PageSourceFile
+	for _, oldIndexSource := range smp.spp.MorePageSourceFiles {
+		if oldIndexSource.Type == Page.INDEX {
+			deletedSourceIndexs = append(deletedSourceIndexs, oldIndexSource)
+		}
+	}
+
+	for _, delPsf := range deletedSourceIndexs {
+		bDelOldIndex, errDelOldIndex := smp.spp.RemoveMorePageSourceFile(delPsf)
+
+		if errDelOldIndex != nil {
+			return bDelOldIndex, errDelOldIndex
+		}
+	}
+
 	var moreCount int
 	moreCount = 0
 	//Create more pages when the count of output files is bigger than index page size
 	if nIndexPageSize < nOutputFileLength {
-		//Delete More Pages created last Compile
-		var deletedSourceIndexs []Page.PageSourceFile
-		for _, oldIndexSource := range smp.spp.MorePageSourceFiles {
-			if oldIndexSource.Type == Page.INDEX {
-				deletedSourceIndexs = append(deletedSourceIndexs, oldIndexSource)
-			}
-		}
-
-		for _, delPsf := range deletedSourceIndexs {
-			bDelOldIndex, errDelOldIndex := smp.spp.RemoveMorePageSourceFile(delPsf)
-
-			if errDelOldIndex != nil {
-				return bDelOldIndex, errDelOldIndex
-			}
-		}
 
 		//Create More Pages
 		var moreOutputFileLength = nOutputFileLength - nIndexPageSize

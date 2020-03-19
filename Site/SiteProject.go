@@ -327,16 +327,17 @@ func (spp *SiteProject) UpdatePageSourceFile(psf Page.PageSourceFile) (bool, err
 
 	for i, sf := range spp.SourceFiles {
 		if sf.ID == psf.ID {
-			spp.SourceFiles[i].Author = psf.Author
-			spp.SourceFiles[i].CreateTime = psf.CreateTime
-			spp.SourceFiles[i].Description = psf.Description
-			spp.SourceFiles[i].LastCompiled = psf.LastCompiled
-			spp.SourceFiles[i].LastModified = psf.LastModified
-			spp.SourceFiles[i].OutputFile = psf.OutputFile
-			spp.SourceFiles[i].SourceFilePath = psf.SourceFilePath
-			spp.SourceFiles[i].Title = psf.Title
-			spp.SourceFiles[i].Type = psf.Type
+			spp.SourceFiles[i].Author = psf.Author                 //
+			spp.SourceFiles[i].CreateTime = psf.CreateTime         //
+			spp.SourceFiles[i].Description = psf.Description       //
+			spp.SourceFiles[i].LastCompiled = psf.LastCompiled     //
+			spp.SourceFiles[i].LastModified = psf.LastModified     //
+			spp.SourceFiles[i].OutputFile = psf.OutputFile         //
+			spp.SourceFiles[i].SourceFilePath = psf.SourceFilePath //
+			spp.SourceFiles[i].Title = psf.Title                   //
+			spp.SourceFiles[i].Type = psf.Type                     //
 			spp.SourceFiles[i].IsTop = psf.IsTop
+			spp.SourceFiles[i].TitleImage = psf.TitleImage //
 			return true, nil
 		}
 	}
@@ -433,6 +434,7 @@ func (spp *SiteProject) UpdatePageOutputFile(pof Page.PageOutputFile) (bool, err
 			spp.OutputFiles[i].IsTop = pof.IsTop
 			spp.OutputFiles[i].Title = pof.Title
 			spp.OutputFiles[i].Type = pof.Type
+			spp.OutputFiles[i].TitleImage = pof.TitleImage
 
 			return true, nil
 		}

@@ -31,3 +31,9 @@
 0.2.0.2 2020/3/8
 *Fix Bug: cannot delete link output file when delete source link
 * change Link.txt to Link.liks
+
+0.2.0.3 2020/3/18
+*Fix Bug: Cannot delete old more source pages when previous compile created a more page but current compile cannot create more page.
+          For example, previous 6 source pages, will create a more page.
+          Now the site only have 5 source pages, will not create a more page. But more page created in previous compile will not be deleted.
+*Fix Bug: Cannot update title image
