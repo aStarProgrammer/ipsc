@@ -37,3 +37,12 @@
           For example, previous 6 source pages, will create a more page.
           Now the site only have 5 source pages, will not create a more page. But more page created in previous compile will not be deleted.
 *Fix Bug: Cannot update title image
+
+0.2.0.4 2020/3/19
+*Add Feature: Now you can clear following properties by UpdatePage
+	PageTitle
+	PageAuthor
+	TitleImage
+	
+	For example, if you call UpdatePage with -PageTitle "", the PageTitle property will be set to ""
+	If you don't want to update PageTitle property, don't add this property to the argument list.

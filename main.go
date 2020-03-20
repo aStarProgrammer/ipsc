@@ -194,6 +194,10 @@ func Dispatch(cp CommandParser) (bool, error) {
 			if errParseBool != nil {
 				Utils.Logger.Println("Dispatch.COMMAND_ADDPAGE: " + errParseBool.Error())
 			}
+
+			updateArgList := GetUpdateCommandArgs()
+			cp.ParseUpdateCommandArgs(updateArgList)
+
 			if cp.SourcePagePath != "" {
 				bUpdate, errUpdate = smp.UpdatePage(cp.PageID, cp.PageTitle, "", cp.PageAuthor, cp.SourcePagePath, cp.PageTitleImagePath, isTop)
 			} else if cp.LinkUrl != "" {

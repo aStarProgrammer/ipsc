@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"ipsc/Page"
 	"ipsc/Utils"
+	"os"
 	"os/user"
 	"strings"
 )
@@ -284,5 +285,58 @@ func (cpp *CommandParser) CheckMarkdownType(markdown string) bool {
 	if markdown == Page.MARKDOWN_BLANK || markdown == Page.MARKDOWN_NEWS || markdown == "" {
 		return true
 	}
+	return false
+}
+
+func GetUpdateCommandArgs() []string {
+	var argList []string
+	for _, arg := range os.Args {
+		if strings.HasPrefix(arg, "-") {
+			sArg := arg[1:]
+			sArgUpper := strings.ToUpper(sArg)
+			if sArgUpper != "COMMAND" && sArgUpper != "SITEFOLDER" && sArgUpper != "SITETITLE" && sArgUpper != "PAGEID" && sArgUpper != "PAGETYPE" && sArgUpper != "ISTOP" && sArg != "PAGEPATH" && sArg != "LINKURL" {
+				argList = append(argList, sArgUpper)
+			}
+		}
+	}
+	return argList
+}
+
+func (cpp *CommandParser) ParseUpdateCommandArgs(passedArgs []string) {
+
+	if cpp.PageTitle == "" && true == FindUpdateArgs("PageTitle", passedArgs) {
+		cpp.PageTitle = "null"
+	}
+
+	if cpp.PageAuthor == "" && true == FindUpdateArgs("PageAuthor", passedArgs) {
+		cpp.PageAuthor = "null"
+	}
+
+	if cpp.PageTitleImagePath == "" && true == FindUpdateArgs("TitleImage", passedArgs) {
+		cpp.PageTitleImagePath = "null"
+	}
+
+}
+
+func FindUpdateArgs(arg string, argList []string) bool {
+	if arg == "" {
+		return false
+	}
+
+	if nil == argList {
+		return false
+	}
+
+	if len(argList) == 0 {
+		return false
+	}
+
+	arg = strings.ToUpper(arg)
+	for _, sArg := range argList {
+		if arg == sArg {
+			return true
+		}
+	}
+
 	return false
 }
