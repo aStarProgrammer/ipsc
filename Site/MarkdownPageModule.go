@@ -409,27 +409,8 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 	}
 
 	var _pofIndex int
-
-	if psf.OutputFile != "" {
-		pofIndex := mpmp.spp.GetPageOutputFile(psf.OutputFile)
-		pof := mpmp.spp.OutputFiles[pofIndex]
-		pof.Author = psf.Author
-		pof.Description = psf.Description
-		pof.FilePath = markdownDst
-		pof.IsTop = psf.IsTop
-		pof.Title = psf.Title
-		pof.TitleImage = psf.TitleImage
-		pof.Type = psf.Type
-		pof.CreateTime = Utils.CurrentTime()
-
-		_, errUpdatePof := mpmp.spp.UpdatePageOutputFile(pof)
-
-		if errUpdatePof != nil {
-			Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
-			return -1, errUpdatePof
-		}
-	} else {
-
+	pofIndex := mpmp.spp.GetPageOutputFile(psf.OutputFile)
+	if psf.OutputFile == "" || pofIndex == -1 {
 		pof := Page.NewPageOutputFile()
 		pof.Author = psf.Author
 		pof.Description = psf.Description
@@ -457,6 +438,25 @@ func (mpmp *MarkdownPageModule) Compile_Psf(psf Page.PageSourceFile) (int, error
 		}
 
 		psf.OutputFile = pof.ID
+
+	} else {
+
+		pof := mpmp.spp.OutputFiles[pofIndex]
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = markdownDst
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
+
+		_, errUpdatePof := mpmp.spp.UpdatePageOutputFile(pof)
+
+		if errUpdatePof != nil {
+			Utils.DeleteFile(markdownDst) //Add fail,delete the file already copied
+			return -1, errUpdatePof
+		}
 
 	}
 	psf.LastCompiled = Utils.CurrentTime()

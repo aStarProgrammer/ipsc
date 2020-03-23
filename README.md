@@ -103,6 +103,12 @@ If you can not find a release for your platform, build it from source code as fo
 
 IPSC(InterPlanet Site Creator) is a tool to create static html site with index pages from md,html and hyperlink
 
+
+
+#####  NOTE: Run this tool with Administrator Permission
+
+
+
 * Get This Help
 		    
 
@@ -122,7 +128,7 @@ ipsc -Command NewSite -SiteFolder  -SiteFolder -SiteTitle  -SiteAuthor  -SiteDes
 
 Create a new empty site project
 
-	
+
 Note: Run this method with super user or administrator permission
 	
 	* In Windows, start cmd with Administrator user, then run ipsc -Command "NewSite"
@@ -267,7 +273,7 @@ ipsc -Command "AddPage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -LinkUr
 ipsc -Command "UpdatePage" -SiteFolder -SiteTitle -PageID -PagePath -LinkUrl -PageTitle -PageAuthor -TitleImage -IsTop
 ```
 
-Update the Source Page file, Update the file or properties if any of them are assigned.
+Update the Source Page file, Update the file or properties if any of them are assigned. The properties not assigned will not been updated.
 ​Example
 
 ```bash
@@ -276,6 +282,16 @@ ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -Pag
 ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"  -PageTitle "Test Page Title 2"
 
 ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "15fc19f3766fd7edf1f129018faa29cc" -LinkUrl "https://www.microsoft.com"
+```
+
+For PageTitle PageAuthor and TitleImage, if you set the value as "", ipsc will clear the property. If you also set it as "null" to clear its value.
+
+Example
+
+Following command will clear title of the page.
+
+```bash
+ipsc -Command "UpdatePage" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -PageID "fc0f8d635ebb04d1c9393a722e8fc185"  -PageTitle ""
 ```
 
 * Delete Page
@@ -351,7 +367,7 @@ Example
 ```bash
 ipsc -Command "AddFile" -SiteFolder "F:\TestSite" -SiteTitle "Test Site" -FilePath "D:\softwares" -Force "true"
 ```
-	
+
 * Delete File
 
 ```bash
@@ -420,3 +436,19 @@ Send email to sdxianchao@gmail.com
 ## License
 
 [MIT](LICENSE)
+
+
+
+## HomePage
+
+* Github
+
+  https://github.com/astarprogrammer/ipsc
+
+* IPFS
+
+  http://localhost:8080/ipns/QmYY127PK6pczLrEB1p1mijTFr8RsvRqKFX5q4XepxS1fd/
+
+​	Visit the following page for how to connect ipfs network and visit the above web site
+
+​		https://ipfs.io

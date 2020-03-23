@@ -352,30 +352,8 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 	}
 
 	var _pofIndex int
-
-	if psf.OutputFile != "" {
-		pofIndex := hpmp.spp.GetPageOutputFile(psf.OutputFile)
-
-		pof := hpmp.spp.OutputFiles[pofIndex]
-
-		pof.Author = psf.Author
-		pof.Description = psf.Description
-		pof.FilePath = htmlDst
-		pof.IsTop = psf.IsTop
-		pof.Title = psf.Title
-		pof.TitleImage = psf.TitleImage
-		pof.Type = psf.Type
-		pof.CreateTime = Utils.CurrentTime()
-
-		_, errUpdatePof := hpmp.spp.UpdatePageOutputFile(pof)
-
-		if errUpdatePof != nil {
-			Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
-			var errMsg = "HtmlPageModule: Page Out File Update Fail"
-			Utils.Logger.Println(errMsg)
-			return -1, errUpdatePof
-		}
-	} else {
+	pofIndex := hpmp.spp.GetPageOutputFile(psf.OutputFile)
+	if psf.OutputFile == "" || pofIndex == -1 {
 		pof := Page.NewPageOutputFile()
 		pof.Author = psf.Author
 		pof.Description = psf.Description
@@ -403,6 +381,29 @@ func (hpmp *HtmlPageModule) Compile(ID string) (int, error) {
 		}
 
 		psf.OutputFile = pof.ID
+
+	} else {
+
+		pof := hpmp.spp.OutputFiles[pofIndex]
+
+		pof.Author = psf.Author
+		pof.Description = psf.Description
+		pof.FilePath = htmlDst
+		pof.IsTop = psf.IsTop
+		pof.Title = psf.Title
+		pof.TitleImage = psf.TitleImage
+		pof.Type = psf.Type
+		pof.CreateTime = Utils.CurrentTime()
+
+		_, errUpdatePof := hpmp.spp.UpdatePageOutputFile(pof)
+
+		if errUpdatePof != nil {
+			Utils.DeleteFile(htmlDst) //Add fail,delete the file already copied
+			var errMsg = "HtmlPageModule: Page Out File Update Fail"
+			Utils.Logger.Println(errMsg)
+			return -1, errUpdatePof
+		}
+
 	}
 	psf.LastCompiled = Utils.CurrentTime()
 
